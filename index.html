@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-<title>لعگاب — Laagab</title>
+<title>لعگاب — الحرس الوطني</title>
 <meta name="theme-color" content="#121517">
 <meta name="description" content="Laagab — cartes hors ligne, points, traces, UTM/MGRS">
 <link rel="manifest" href="manifest.webmanifest">
@@ -831,6 +831,97 @@ textarea{min-height:64px;resize:vertical}
 .rdleg{display:inline-flex;align-items:center;gap:5px;margin-inline-end:12px}
 .rdleg i{display:inline-block;width:22px;height:0}
 
+/* ===== Laagab 2.0 visual refresh ===== */
+:root{--radius:16px;--glass:rgba(22,27,30,.9)}
+.chip{background:var(--glass);box-shadow:0 4px 18px rgba(0,0,0,.35)}
+.fb{border-radius:14px;background:var(--glass);box-shadow:0 4px 14px rgba(0,0,0,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.fb:active,.btn:active,.lcard:active,.tbtn:active{transform:scale(.96)}
+#tabs{background:rgba(22,27,30,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+#tabs button{position:relative}
+#tabs button.act::before{content:"";position:absolute;top:0;left:28%;right:28%;height:3px;border-radius:0 0 3px 3px;background:var(--amber)}
+.tabico{position:relative;display:inline-grid}
+.tbadge{position:absolute;top:-5px;inset-inline-end:-10px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--red);color:#fff;font-size:10px;font-weight:700;display:grid;place-items:center;font-family:var(--mono)}
+#sheet{border-radius:22px 22px 0 0}
+#sheet::before{content:"";display:block;width:38px;height:4px;border-radius:2px;background:var(--line);margin:8px auto 0}
+#sheet.tall{max-height:88vh;height:88vh}
+#sheet.tall #sheetBody{display:flex;flex-direction:column;overflow:hidden;padding-bottom:10px;flex:1}
+.sech{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.06em;margin:18px 0 8px;text-transform:uppercase}
+.sech:first-child{margin-top:4px}
+.lgrp{font-size:12px;color:var(--sand);margin:10px 0 6px}
+.lcards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.lcard{border:2px solid transparent;background:var(--panel2);border-radius:12px;padding:0;overflow:hidden;display:flex;flex-direction:column;text-align:center;color:var(--text)}
+.lcard img{width:100%;aspect-ratio:1.25;object-fit:cover;display:block;background:#2a2f31}
+.lcard span{font-size:11px;padding:5px 4px 6px;line-height:1.3;min-height:30px;display:flex;align-items:center;justify-content:center}
+.lcard.act{border-color:var(--amber)}
+.lcard.act span{color:var(--amber);font-weight:600}
+.ovlist{display:flex;flex-direction:column;gap:6px}
+.ovrow{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.ovrow.on{border-color:rgba(240,164,58,.45)}
+.ovmain{display:flex;align-items:center;gap:10px;cursor:pointer}
+.ovtxt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.ovtxt b{font-weight:500}
+.ovtxt small{font-size:11.5px;color:var(--muted);line-height:1.5}
+.ovrow .note{margin-top:6px}
+.ovop{width:100%;margin-top:8px;accent-color:var(--amber)}
+input.tgl{-webkit-appearance:none;appearance:none;width:44px!important;height:26px!important;border-radius:13px;background:#3a4448;position:relative;flex:none;transition:background .15s;margin:0}
+input.tgl::after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .15s}
+input.tgl:checked{background:var(--amber)}
+input.tgl:checked::after{transform:translateX(18px)}
+[dir=rtl] input.tgl:checked::after{transform:translateX(-18px)}
+.rdleg{display:inline-flex;align-items:center;gap:5px;margin-inline-end:12px}
+.rdleg i{display:inline-block;width:22px;height:0}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px}
+.tbtn{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:5px;font-size:12.5px;color:var(--text)}
+.tbtn span{font-size:24px;line-height:1}
+.badge-int{background:linear-gradient(90deg,rgba(67,181,165,.18),rgba(240,164,58,.14));border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13px;font-weight:600;text-align:center}
+.sq{font-size:16px!important;padding:12px 14px!important;border-radius:14px!important}
+.syms{display:flex;flex-wrap:wrap;gap:6px}
+.syms button{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--ink);font-size:18px;display:grid;place-items:center;padding:0}
+.syms button.act{border-color:var(--amber);background:rgba(240,164,58,.18)}
+.wp .wsym{position:absolute;left:0;top:5px;width:26px;text-align:center;font-size:11px;font-style:normal;line-height:15px}
+.ppt{width:20px;height:20px;border-radius:50%;background:#5b8def;border:2px solid #fff;color:#fff;font:700 10px/16px var(--mono);text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.5)}
+.utmlbl span{position:absolute;transform:translate(-50%,-50%);font:600 11px var(--mono);color:#22d3ee;text-shadow:0 0 3px #000,0 0 3px #000;white-space:nowrap}
+.unitmk{position:relative}
+.unitmk span{position:absolute;top:22px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:11px;font-weight:600;color:#fff;background:rgba(37,99,235,.85);padding:1px 6px;border-radius:6px}
+.unitmk.stale{opacity:.55}
+.elevcv{width:100%;height:130px;display:block;touch-action:none}
+.profbox .elevinfo,#planProf .elevinfo{margin-top:4px}
+.wnow{display:flex;align-items:center;gap:14px}
+.wico{font-size:46px;line-height:1}
+.wt{font-size:30px;font-weight:600}
+/* chat */
+.chead{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.cstat{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.cstat i{width:8px;height:8px;border-radius:50%;background:var(--red)}
+.cstat.on i{background:var(--teal)}
+.citem{border:0;text-align:start;width:100%}
+.cico{width:38px;height:38px;border-radius:50%;background:var(--ink);display:grid;place-items:center;font-size:18px;flex:none}
+.citem .main{display:flex;flex-direction:column}
+.cmeta{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.cmeta small{font-size:10.5px;color:var(--muted)}
+.cbadge{background:var(--red);color:#fff;border-radius:10px;font-size:11px;padding:1px 7px;font-family:var(--mono)}
+.cbar{display:flex;align-items:center;gap:10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.msgs{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:10px 2px;display:flex;flex-direction:column;gap:8px;min-height:120px}
+.msg{max-width:84%;padding:8px 11px;border-radius:16px;background:var(--panel2);border:1px solid var(--line);align-self:flex-start;word-wrap:break-word}
+.msg.mine{align-self:flex-end;background:#3a2d17;border-color:#5b4420}
+.msg.alert{background:#4a1618;border-color:var(--red)}
+.mh{font-size:11.5px;color:var(--sand);font-weight:600;margin-bottom:2px}
+.mtitle{font-weight:700;color:#ffb4b4;margin-bottom:3px}
+.mt{white-space:pre-wrap;line-height:1.55}
+.mloc{display:flex;flex-direction:column;gap:3px;margin-top:4px;font-size:13px}
+.mloc .num{font-size:12px;color:var(--muted);text-align:start}
+.mbtns{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
+.mbtns .btn svg{width:14px;height:14px}
+.mf{font-size:10px;color:var(--muted);margin-top:3px;text-align:end}
+.composer{border-top:1px solid var(--line);padding-top:8px;display:flex;flex-direction:column;gap:6px}
+.cacts{display:flex;gap:6px;overflow-x:auto}
+.cacts .btn{white-space:nowrap;flex:none}
+.cin{display:flex;gap:8px;align-items:flex-end}
+.cin textarea{flex:1;min-height:42px;max-height:120px;resize:none;border-radius:14px;font-size:16px;padding:10px 12px}
+.cin .btn{width:46px;height:44px;padding:0;border-radius:14px}
+.cin .btn svg{width:20px;height:20px}
+[dir=rtl] .cin .btn svg{transform:scaleX(-1)}
+
 /* compass view */
 #bigCompass{width:230px;height:230px;margin:6px auto;display:block}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
@@ -848,10 +939,12 @@ textarea{min-height:64px;resize:vertical}
   <div id="stats" class="chip">
     <span data-i="acc"></span><b class="num" id="accV">—</b>
     <span data-i="alt"></span><b class="num" id="altV">—</b>
+    <span data-i="elevS"></span><b class="num" id="demV">—</b>
   </div>
 </div>
 
 <div id="fab">
+  <button id="searchBtn" class="fb" type="button" data-t="searchTitle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
   <button class="fb" id="locBtn" type="button" data-t="locate"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button>
   <button class="fb" id="layerBtn" type="button" data-t="layers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3 2 8l10 5 10-5-10-5z"/><path d="m2 13 10 5 10-5"/></svg></button>
   <button class="fb" id="addWpBtn" type="button" data-t="addPoint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><path d="M12 7v5M9.5 9.5h5"/></svg></button>
@@ -884,7 +977,7 @@ textarea{min-height:64px;resize:vertical}
 <nav id="tabs">
   <button type="button" data-tab="points"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span data-i="points"></span></button>
   <button type="button" data-tab="tracks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19c3 0 3-6 7-6s3 4 6 4 3-9 3-9"/><circle cx="4" cy="19" r="1.5"/></svg><span data-i="tracks"></span></button>
-  <button type="button" data-tab="goto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/></svg><span data-i="coords"></span></button>
+  <button type="button" data-tab="chat"><span class="tabico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg><b id="chatBadge" class="tbadge" hidden>0</b></span><span data-i="chat"></span></button>
   <button type="button" data-tab="tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg><span data-i="tools"></span></button>
   <button type="button" data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span data-i="settings"></span></button>
 </nav>
@@ -1142,7 +1235,7 @@ textarea{min-height:64px;resize:vertical}
 'use strict';
 
 /* ================= CONFIG ================= */
-var APP = { name: 'لعگاب — Laagab', version: '1.2.0', author: 'Abderrahmane Haballa' };
+var APP = { name: 'لعگاب — Laagab', version: '2.0.0', author: 'Abderrahmane Haballa' };
 function LAYERS() {
   var k = S.maptilerKey && S.maptilerKey.trim();
   var L1 = [
@@ -1447,7 +1540,7 @@ function renderWaypoints() {
 }
 function editPoint(w) {
   var isNew = !w.id;
-  var d = { id: w.id || uid(), name: w.name || (t('point') + ' ' + (WP.length + 1)), lat: w.lat, lon: w.lon, alt: w.alt == null ? null : w.alt, note: w.note || '', color: w.color || COLORS[0], created: w.created || Date.now() };
+  var d = { id: w.id || uid(), name: w.name || (t('point') + ' ' + (WP.length + 1)), lat: w.lat, lon: w.lon, alt: w.alt == null ? null : w.alt, note: w.note || '', color: w.color || COLORS[0], sym: w.sym || '', created: w.created || Date.now() };
   var html = '<h3>' + (isNew ? t('newPoint') : t('editPoint')) + '</h3>' +
     '<label class="f">' + t('name') + '<input type="text" id="wpName" value="' + esc(d.name) + '"></label>' +
     '<label class="f">' + t('coords') + '<input type="text" id="wpCoord" class="num" value="' + esc(Geo.format(d.lat, d.lon, 'dd')) + '"></label>' +
@@ -1455,12 +1548,14 @@ function editPoint(w) {
     '<label class="f">' + t('note') + '<textarea id="wpNote">' + esc(d.note) + '</textarea></label>' +
     '<div class="f" style="font-size:12px;color:var(--muted)">' + t('color') + '<div class="swatches" id="wpCol">' +
     COLORS.map(function (c) { return '<button type="button" data-c="' + c + '" style="background:' + c + '" class="' + (c === d.color ? 'act' : '') + '" aria-label="' + c + '"></button>'; }).join('') + '</div></div>' +
+    '<div class="f" style="font-size:12px;color:var(--muted)">' + t('symbol') + '<div class="syms" id="wpSym">' + SYMS.map(function (x) { return '<button type="button" data-s="' + x[0] + '" class="' + (x[0] === d.sym ? 'act' : '') + '">' + x[1] + '</button>'; }).join('') + '</div></div>' +
     '<div class="row"><button class="btn pri grow" id="wpSave" type="button">' + t('save') + '</button><button class="btn" id="wpCancel" type="button">' + t('cancel') + '</button>' +
     (isNew ? '' : '<button class="btn dan" id="wpDel" type="button">' + t('del') + '</button>') + '</div>';
   openModal(html);
   var coordIn = $('#wpCoord');
   coordIn.addEventListener('input', function () { var p = Geo.parse(coordIn.value); $('#wpAlt').textContent = p ? Geo.format(p.lat, p.lon, 'utm') + ' · ' + Geo.format(p.lat, p.lon, 'mgrs') : t('invalid'); });
   $$('#wpCol button').forEach(function (b) { b.addEventListener('click', function () { $$('#wpCol button').forEach(function (x) { x.classList.remove('act'); }); b.classList.add('act'); d.color = b.dataset.c; }); });
+  $$('#wpSym button').forEach(function (b) { b.addEventListener('click', function () { $$('#wpSym button').forEach(function (x) { x.classList.remove('act'); }); b.classList.add('act'); d.sym = b.dataset.s; }); });
   $('#wpCancel').onclick = closeModal;
   $('#wpSave').onclick = function () {
     var p = Geo.parse(coordIn.value); if (!p) { toast(t('invalid')); return; }
@@ -1652,7 +1747,7 @@ function drawMeasure() {
   ll.forEach(function (p) { MEAS.markers.addLayer(L.marker(p, { icon: L.divIcon({ className: '', html: '<div class="mpt"></div>', iconSize: [12, 12], iconAnchor: [6, 6] }), interactive: false })); });
   if (sheetTab === 'measure') renderSheet();
 }
-map.on('click', function (e) { if (!MEAS.on) { if (S.geoOn && geoLayer && Date.now() - lastFeatClick > 400) identifyGeology(e.latlng.lat, ((e.latlng.lng + 540) % 360) - 180); return; } MEAS.pts.push([e.latlng.lat, e.latlng.lng]); drawMeasure(); });
+map.on('click', function (e) { if (PLAN.on) return; if (!MEAS.on) { if (S.geoOn && geoLayer && Date.now() - lastFeatClick > 400) identifyGeology(e.latlng.lat, ((e.latlng.lng + 540) % 360) - 180); return; } MEAS.pts.push([e.latlng.lat, e.latlng.lng]); drawMeasure(); });
 
 /* ================= IMPORT / EXPORT ================= */
 function safeName(s) { return String(s).replace(/[\\/:*?"<>|]+/g, '_').replace(/\s+/g, '_').slice(0, 60) || 'laagab'; }
@@ -2494,7 +2589,7 @@ function setBase3d(def) {
   m.addSource('base', { type: 'raster', tiles: tilesOf(def), tileSize: 256, maxzoom: def.max || 19, attribution: def.attr });
   m.addLayer({ id: 'base', type: 'raster', source: 'base', paint: { 'raster-fade-duration': 150 } }, m.getLayer('hs') ? 'hs' : undefined);
   if (def.over && !m.getSource('labels')) {
-    m.addSource('labels', { type: 'raster', tiles: [def.over], tileSize: 256, maxzoom: def.max || 19 });
+    m.addSource('labels', { type: 'raster', tiles: [].concat(def.over).slice(-1), tileSize: 256, maxzoom: def.max || 19 });
     m.addLayer({ id: 'labels', type: 'raster', source: 'labels' });
   } else if (!def.over && m.getSource('labels')) { m.removeLayer('labels'); m.removeSource('labels'); }
   renderBase3dSeg();
@@ -2585,6 +2680,888 @@ $('#v3dBack').addEventListener('click', close3d);
 $('#v3dEx').addEventListener('input', function () { S.exag3d = +this.value; saveSettings(); if (M3.map) M3.map.setTerrain({ source: 'dem', exaggeration: +this.value }); upd3dReadout(); });
 $('#v3dPi').addEventListener('input', function () { if (M3.map) M3.map.setPitch(+this.value); });
 
+/* ======================================================================
+   LAAGAB 2.0 — layers catalogue (Gaia-style), overlays, DEM tools
+   ====================================================================== */
+Object.assign(T.ar, { mtKey: 'مفتاح MapTiler (اختياري)' });
+Object.assign(T.fr, { mtKey: 'Clé MapTiler (optionnelle)' });
+Object.assign(T.ar, { elevS: 'الأرض' }); Object.assign(T.fr, { elevS: 'Terrain' });
+Object.assign(T.ar, {
+  baseMaps: 'خريطة الأساس', grpSat: 'أقمار صناعية', grpTopo: 'طبوغرافية', grpRoad: 'طرق وشوارع', grpOther: 'أخرى',
+  ovTitle: 'الطبقات الفوقية', ovTrans: 'الطرق والأسماء فوق القمر الصناعي', ovLabels: 'الحدود وأسماء الأماكن', ovSlope: 'تظليل زوايا الانحدار', ovSlopeHint: 'أصفر 27–29° · برتقالي 30–34° · أحمر 35–45° · بنفسجي 46–50° · أسود فوق 50° (من التكبير 10).',
+  ovContours: 'خطوط الكنتور', ovContHint: 'محسوبة من نموذج الارتفاع SRTM (من التكبير 10). الخط السميك كل 5 فواصل.', ovUtm: 'شبكة UTM / MGRS', ovUtmHint: 'مربعات 1 كم أو 10 كم أو 100 كم حسب التكبير.',
+  ovModis: 'صورة الأقمار الصناعية لليوم (سحب وغبار)', ovModisHint: 'NASA MODIS — صورة يومية بدقة منخفضة، مفيدة لمتابعة العواصف الرملية.', ovUnits: 'مواقع الوحدات', ovUnitsHint: 'مواقع العناصر الذين فعّلوا مشاركة الموقع في المحادثة.',
+  importedLayers: 'طبقات مستوردة', zoomMore: 'كبّر أكثر لإظهار هذه الطبقة', elevCenter: 'ارتفاع المركز', elevProfile: 'مقطع الارتفاع', elevMin: 'أدنى', elevMax: 'أعلى', elevGain: 'صعود', elevLoss: 'نزول', elevNA: 'تعذّر حساب الارتفاع (يحتاج إنترنت)',
+  searchTitle: 'بحث', searchPh: 'اسم مكان أو إحداثيات (DD، DMS، UTM، MGRS)', searchNone: 'لا نتائج', searchOff: 'البحث عن الأماكن يحتاج إنترنت. الإحداثيات تعمل دون شبكة.',
+  plan: 'تخطيط مسار', planHint: 'المس الخريطة لإضافة نقاط المسار.', straight: 'خط مستقيم', onRoads: 'على الطرق', planSpeed: 'السرعة المتوقعة (كم/س)', eta2: 'الزمن المقدّر', undo: 'تراجع', clear: 'مسح', saveRoute: 'حفظ كمسار', routeName: 'مسار مخطّط', routeErr: 'تعذّر إيجاد طريق — رُسم خط مستقيم', legs: 'نقاط',
+  weather: 'الطقس', wNow: 'الآن', wWind: 'الرياح', wGust: 'الهبّات', wHum: 'الرطوبة', wVis: 'الرؤية', wDust: 'الغبار', wRain: 'أمطار', wErr: 'تعذّر جلب الطقس (يحتاج إنترنت)', wAt: 'عند مركز الخريطة', wSun: 'الشروق / الغروب',
+  dustLow: 'منخفض', dustMod: 'متوسط', dustHigh: 'مرتفع', dustVHigh: 'مرتفع جدًا (عاصفة رملية محتملة)',
+  symbol: 'الرمز', chat: 'المحادثة', internal: 'للاستعمال الداخلي — الحرس الوطني الموريتاني'
+});
+Object.assign(T.fr, {
+  baseMaps: 'Fond de carte', grpSat: 'Satellite', grpTopo: 'Topographique', grpRoad: 'Routes', grpOther: 'Autres',
+  ovTitle: 'Couches superposées', ovTrans: 'Routes et noms sur satellite', ovLabels: 'Frontières et noms de lieux', ovSlope: 'Ombrage des pentes', ovSlopeHint: 'Jaune 27–29° · orange 30–34° · rouge 35–45° · violet 46–50° · noir > 50° (zoom 10+).',
+  ovContours: 'Courbes de niveau', ovContHint: 'Calculées depuis le MNT SRTM (zoom 10+). Courbe maîtresse toutes les 5.', ovUtm: 'Quadrillage UTM / MGRS', ovUtmHint: 'Carrés de 1, 10 ou 100 km selon le zoom.',
+  ovModis: 'Image satellite du jour (nuages, poussière)', ovModisHint: 'NASA MODIS — image quotidienne basse résolution, utile pour suivre les vents de sable.', ovUnits: 'Positions des unités', ovUnitsHint: 'Positions des membres ayant activé le partage dans la messagerie.',
+  importedLayers: 'Couches importées', zoomMore: 'Zoomez davantage pour afficher cette couche', elevCenter: 'Altitude du centre', elevProfile: 'Profil altimétrique', elevMin: 'Min', elevMax: 'Max', elevGain: 'D+', elevLoss: 'D−', elevNA: 'Altitude indisponible (Internet requis)',
+  searchTitle: 'Recherche', searchPh: 'Lieu ou coordonnées (DD, DMS, UTM, MGRS)', searchNone: 'Aucun résultat', searchOff: 'La recherche de lieux nécessite Internet. Les coordonnées fonctionnent hors ligne.',
+  plan: 'Planifier un itinéraire', planHint: 'Touchez la carte pour ajouter des points.', straight: 'Ligne droite', onRoads: 'Sur routes', planSpeed: 'Vitesse prévue (km/h)', eta2: 'Durée estimée', undo: 'Annuler', clear: 'Effacer', saveRoute: 'Enregistrer comme trace', routeName: 'Itinéraire planifié', routeErr: 'Aucune route trouvée — ligne droite tracée', legs: 'Points',
+  weather: 'Météo', wNow: 'Maintenant', wWind: 'Vent', wGust: 'Rafales', wHum: 'Humidité', wVis: 'Visibilité', wDust: 'Poussière', wRain: 'Pluie', wErr: 'Météo indisponible (Internet requis)', wAt: 'Au centre de la carte', wSun: 'Lever / coucher',
+  dustLow: 'Faible', dustMod: 'Modérée', dustHigh: 'Élevée', dustVHigh: 'Très élevée (vent de sable probable)',
+  symbol: 'Symbole', chat: 'Messagerie', internal: 'Usage interne — Garde nationale mauritanienne'
+});
+
+/* ---------------- base maps (Gaia-style catalogue) ---------------- */
+var ESRI = 'https://server.arcgisonline.com/ArcGIS/rest/services/';
+var ESRI_IMG_ATTR = 'Imagery © Esri, Maxar, Earthstar Geographics';
+LAYERS = function () {
+  var k = S.maptilerKey && S.maptilerKey.trim();
+  var L1 = [
+    { id: 'sat', g: 'sat', name: { ar: 'قمر صناعي', fr: 'Satellite' }, url: ESRI + 'World_Imagery/MapServer/tile/{z}/{y}/{x}', max: 19, attr: ESRI_IMG_ATTR, dl: true, d3: true },
+    { id: 'clar', g: 'sat', name: { ar: 'قمر صناعي عالي الدقة', fr: 'Satellite haute précision' }, url: 'https://clarity.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', max: 19, attr: 'Imagery © Esri, Maxar — Clarity', dl: true, d3: true },
+    { id: 'hyb', g: 'sat', name: { ar: 'قمر صناعي + أسماء', fr: 'Satellite + noms' }, url: ESRI + 'World_Imagery/MapServer/tile/{z}/{y}/{x}', max: 19, over: [ESRI + 'Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}'], attr: ESRI_IMG_ATTR, dl: true, d3: true },
+    { id: 'satroads', g: 'sat', name: { ar: 'قمر صناعي + طرق', fr: 'Satellite + routes' }, url: ESRI + 'World_Imagery/MapServer/tile/{z}/{y}/{x}', max: 19, over: [ESRI + 'Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', ESRI + 'Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}'], attr: ESRI_IMG_ATTR, dl: true, d3: true },
+    { id: 's2', g: 'sat', name: { ar: 'Sentinel-2 بدون سحب', fr: 'Sentinel-2 sans nuages' }, url: 'https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2023_3857/default/g/{z}/{y}/{x}.jpg', max: 15, attr: 'Sentinel-2 cloudless 2023 © EOX IT Services (CC BY-NC-SA 4.0), Copernicus', dl: true, d3: true },
+    { id: 'topo', g: 'topo', name: { ar: 'طبوغرافية (OpenTopoMap)', fr: 'Topo (OpenTopoMap)' }, url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', sub: 'abc', max: 17, attr: '© OpenStreetMap, SRTM | © OpenTopoMap (CC-BY-SA)', dl: true },
+    { id: 'esri-topo', g: 'topo', name: { ar: 'طبوغرافية مفصّلة', fr: 'Topo détaillée' }, url: ESRI + 'World_Topo_Map/MapServer/tile/{z}/{y}/{x}', max: 19, attr: '© Esri, HERE, Garmin, USGS, OpenStreetMap', dl: true, d3: true },
+    { id: 'natgeo', g: 'topo', name: { ar: 'ناشيونال جيوغرافيك', fr: 'National Geographic' }, url: ESRI + 'NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', max: 16, attr: '© National Geographic, Esri', dl: true, d3: true },
+    { id: 'cyclosm', g: 'road', name: { ar: 'مسالك وطرق ترابية', fr: 'Pistes et chemins' }, url: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', sub: 'abc', max: 19, attr: '© OpenStreetMap contributors | CyclOSM', dl: true },
+    { id: 'hot', g: 'road', name: { ar: 'OSM الإنسانية (قرى وآبار)', fr: 'OSM humanitaire (villages, puits)' }, url: 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', sub: 'ab', max: 19, attr: '© OpenStreetMap contributors | HOT', dl: true },
+    { id: 'osm', g: 'road', name: { ar: 'OpenStreetMap', fr: 'OpenStreetMap' }, url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', max: 19, attr: '© OpenStreetMap contributors', dl: false },
+    { id: 'streets', g: 'road', name: { ar: 'شوارع (Esri)', fr: 'Rues (Esri)' }, url: ESRI + 'World_Street_Map/MapServer/tile/{z}/{y}/{x}', max: 19, attr: '© Esri, HERE, Garmin, OpenStreetMap', dl: true, d3: true },
+    { id: 'dark', g: 'other', name: { ar: 'ليلي داكن', fr: 'Nuit (sombre)' }, url: ESRI + 'Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', max: 16, over: [ESRI + 'Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}'], attr: '© Esri, HERE, Garmin', dl: true },
+    { id: 'light', g: 'other', name: { ar: 'فاتح بسيط', fr: 'Clair simple' }, url: ESRI + 'Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', max: 16, over: [ESRI + 'Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}'], attr: '© Esri, HERE, Garmin', dl: true }
+  ];
+  if (k) L1.push(
+    { id: 'mt-out', g: 'topo', name: { ar: 'MapTiler خارجية', fr: 'MapTiler Outdoor' }, url: 'https://api.maptiler.com/maps/outdoor-v2/256/{z}/{x}/{y}.png?key=' + k, max: 20, attr: '© MapTiler © OpenStreetMap', dl: true, d3: true },
+    { id: 'mt-sat', g: 'sat', name: { ar: 'MapTiler قمر صناعي', fr: 'MapTiler Satellite' }, url: 'https://api.maptiler.com/maps/satellite/256/{z}/{x}/{y}.jpg?key=' + k, max: 20, attr: '© MapTiler © Maxar', dl: true, d3: true }
+  );
+  L1.forEach(function (l) { if (typeof l.over === 'string') l.over = [l.over]; });
+  return L1;
+};
+var baseOvers = [];
+setLayer = function (id) {
+  var list = LAYERS(), def = list.filter(function (l) { return l.id === id; })[0] || list[0];
+  if (baseLayer) map.removeLayer(baseLayer); if (overLayer) { map.removeLayer(overLayer); overLayer = null; }
+  baseOvers.forEach(function (l) { map.removeLayer(l); }); baseOvers = [];
+  baseLayer = L.tileLayer(def.url, { maxZoom: 21, maxNativeZoom: def.max, subdomains: def.sub || 'abc', attribution: def.attr }).addTo(map);
+  (def.over || []).forEach(function (u) { if (!map.getPane('baseOverPane')) { map.createPane('baseOverPane').style.zIndex = 240; } baseOvers.push(L.tileLayer(u, { maxZoom: 21, maxNativeZoom: def.max, pane: 'baseOverPane' }).addTo(map)); });
+  S.layer = def.id; saveSettings();
+};
+function tileUrl(tpl, z, x, y, sub) { return tpl.replace('{s}', (sub || 'abc').charAt(0)).replace('{z}', z).replace('{x}', x).replace('{y}', y); }
+var _tileList = tileList;
+tileList = function (bounds, z0, z1, def) {
+  var list = _tileList(bounds, z0, z1, Object.assign({}, def, { over: def.over && def.over[0] }));
+  if (def.over && def.over.length > 1) { // second base overlay (roads) — include in offline download
+    for (var z = z0; z <= Math.min(z1, def.max); z++) {
+      var x0 = lon2x(bounds.getWest(), z), x1 = lon2x(bounds.getEast(), z), y0 = lat2y(bounds.getNorth(), z), y1 = lat2y(bounds.getSouth(), z);
+      for (var x = x0; x <= x1; x++) for (var y = y0; y <= y1; y++) def.over.slice(1).forEach(function (u) { list.push(tileUrl(u, z, x, y)); });
+    }
+  }
+  return list;
+};
+
+/* ---------------- DEM (Terrarium / SRTM) ---------------- */
+var DEM = { cache: {}, order: [], pend: {} };
+function demTile(z, x, y) {
+  var n = Math.pow(2, z); x = ((x % n) + n) % n; if (y < 0 || y >= n) return Promise.resolve(null);
+  var k = z + '/' + x + '/' + y;
+  if (DEM.cache[k]) return Promise.resolve(DEM.cache[k]);
+  if (DEM.pend[k]) return DEM.pend[k];
+  DEM.pend[k] = new Promise(function (res) {
+    var img = new Image(); img.crossOrigin = 'anonymous';
+    img.onload = function () {
+      var e = null;
+      try {
+        var cv = document.createElement('canvas'); cv.width = cv.height = 256;
+        var cx = cv.getContext('2d', { willReadFrequently: true }); cx.drawImage(img, 0, 0);
+        var d = cx.getImageData(0, 0, 256, 256).data; e = new Float32Array(65536);
+        for (var i = 0, j = 0; i < 65536; i++, j += 4) e[i] = d[j] * 256 + d[j + 1] + d[j + 2] / 256 - 32768;
+        DEM.cache[k] = e; DEM.order.push(k); if (DEM.order.length > 96) delete DEM.cache[DEM.order.shift()];
+      } catch (er) { e = null; }
+      delete DEM.pend[k]; res(e);
+    };
+    img.onerror = function () { delete DEM.pend[k]; res(null); };
+    img.src = DEM_URL.replace('{z}', z).replace('{x}', x).replace('{y}', y);
+  });
+  return DEM.pend[k];
+}
+function demPix(lat, lon, z) {
+  var n = Math.pow(2, z), fx = (lon + 180) / 360 * n, r = lat * Math.PI / 180;
+  var fy = (1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * n;
+  var tx = Math.floor(fx), ty = Math.floor(fy);
+  return { z: z, x: tx, y: ty, px: (fx - tx) * 256, py: (fy - ty) * 256 };
+}
+function demSample(e, px, py) {
+  px = Math.max(0, Math.min(254.999, px - 0.5)); py = Math.max(0, Math.min(254.999, py - 0.5));
+  var x0 = Math.floor(px), y0 = Math.floor(py), fx = px - x0, fy = py - y0, i = y0 * 256 + x0;
+  return e[i] * (1 - fx) * (1 - fy) + e[i + 1] * fx * (1 - fy) + e[i + 256] * (1 - fx) * fy + e[i + 257] * fx * fy;
+}
+function elevAt(lat, lon, z) {
+  var p = demPix(lat, lon, z || 12);
+  return demTile(p.z, p.x, p.y).then(function (e) { return e ? demSample(e, p.px, p.py) : null; });
+}
+/* elevation profile for a list of [lat,lon,...] points (max 300 samples) */
+function elevProfile(pts, z) {
+  z = z || 13;
+  var n = pts.length, step = Math.max(1, Math.ceil(n / 300)), sel = [];
+  for (var i = 0; i < n; i += step) sel.push(pts[i]); if (sel[sel.length - 1] !== pts[n - 1]) sel.push(pts[n - 1]);
+  var dist = [0]; for (i = 1; i < sel.length; i++) dist.push(dist[i - 1] + Geo.distance(sel[i - 1][0], sel[i - 1][1], sel[i][0], sel[i][1]));
+  var pix = sel.map(function (p) { return demPix(p[0], p[1], z); }), keys = {};
+  pix.forEach(function (p) { keys[p.x + '/' + p.y] = p; });
+  return Promise.all(Object.keys(keys).map(function (k) { return demTile(z, keys[k].x, keys[k].y).then(function (e) { keys[k].e = e; }); })).then(function () {
+    var el = pix.map(function (p, i) { var e = keys[p.x + '/' + p.y].e; return e ? demSample(e, p.px, p.py) : (sel[i][2] != null ? sel[i][2] : null); });
+    if (el.every(function (v) { return v == null; })) return null;
+    for (i = 0; i < el.length; i++) if (el[i] == null) el[i] = i ? el[i - 1] : el.filter(function (v) { return v != null; })[0];
+    var gain = 0, loss = 0, ref = el[0];
+    for (i = 1; i < el.length; i++) { var d = el[i] - ref; if (d > 3) { gain += d; ref = el[i]; } else if (d < -3) { loss -= d; ref = el[i]; } }
+    return { d: dist, e: el, pts: sel, min: Math.min.apply(null, el), max: Math.max.apply(null, el), gain: gain, loss: loss };
+  });
+}
+function drawProfile(cv, pr, hi) {
+  var dpr = window.devicePixelRatio || 1, W = cv.clientWidth || 320, H = cv.clientHeight || 130;
+  cv.width = W * dpr; cv.height = H * dpr; var c = cv.getContext('2d'); c.scale(dpr, dpr); c.clearRect(0, 0, W, H);
+  var pl = 34, pb = 16, pt = 8, pr2 = 6, w = W - pl - pr2, h = H - pb - pt;
+  var lo = pr.min, span = Math.max(20, pr.max - pr.min); lo -= span * 0.08; span *= 1.16;
+  var total = pr.d[pr.d.length - 1] || 1;
+  var X = function (d) { return pl + d / total * w; }, Y = function (e) { return pt + h - (e - lo) / span * h; };
+  c.strokeStyle = 'rgba(155,165,162,.25)'; c.lineWidth = 1; c.fillStyle = '#9ba5a2'; c.font = '10px IBM Plex Mono, monospace'; c.textAlign = 'right'; c.textBaseline = 'middle';
+  for (var k = 0; k <= 3; k++) { var ev = lo + span * k / 3, yy = Y(ev); c.beginPath(); c.moveTo(pl, yy); c.lineTo(W - pr2, yy); c.stroke(); c.fillText(Math.round(ev), pl - 4, yy); }
+  c.textAlign = 'center'; c.textBaseline = 'top';
+  for (k = 0; k <= 4; k++) { var dd = total * k / 4; c.textAlign = k === 4 ? 'right' : k === 0 ? 'left' : 'center'; c.fillText(total < 5000 ? Math.round(dd) + '' : (dd / 1000).toFixed(dd < 1e4 ? 1 : 0), (k === 4 ? W - 2 : X(dd)), H - pb + 3); }
+  c.textAlign = 'right'; c.fillText(total < 5000 ? 'm' : 'km', W - 2, pt);
+  var g = c.createLinearGradient(0, pt, 0, pt + h); g.addColorStop(0, 'rgba(240,164,58,.55)'); g.addColorStop(1, 'rgba(240,164,58,.05)');
+  c.beginPath(); c.moveTo(X(0), pt + h); pr.d.forEach(function (d, i) { c.lineTo(X(d), Y(pr.e[i])); }); c.lineTo(X(total), pt + h); c.closePath(); c.fillStyle = g; c.fill();
+  c.beginPath(); pr.d.forEach(function (d, i) { if (i) c.lineTo(X(d), Y(pr.e[i])); else c.moveTo(X(d), Y(pr.e[i])); }); c.strokeStyle = '#f0a43a'; c.lineWidth = 2; c.stroke();
+  if (hi != null) { var hx = X(pr.d[hi]), hy = Y(pr.e[hi]); c.strokeStyle = '#efe8d8'; c.lineWidth = 1; c.beginPath(); c.moveTo(hx, pt); c.lineTo(hx, pt + h); c.stroke(); c.fillStyle = '#efe8d8'; c.beginPath(); c.arc(hx, hy, 4, 0, 7); c.fill(); }
+  return { X: X, pl: pl, w: w, total: total };
+}
+/* attaches an interactive profile to a container; shows the hovered point on the map */
+function mountProfile(box, pts) {
+  box.innerHTML = '<canvas class="elevcv"></canvas><div class="note num elevinfo">' + t('loading') + '</div>';
+  var cv = box.querySelector('canvas'), info = box.querySelector('.elevinfo'), mk = null;
+  elevProfile(pts).then(function (pr) {
+    if (!pr) { info.textContent = t('elevNA'); cv.hidden = true; return; }
+    var geo = drawProfile(cv, pr);
+    var base = t('elevMin') + ' ' + Math.round(pr.min) + ' m · ' + t('elevMax') + ' ' + Math.round(pr.max) + ' m · ' + t('elevGain') + ' ' + Math.round(pr.gain) + ' m · ' + t('elevLoss') + ' ' + Math.round(pr.loss) + ' m';
+    info.textContent = base;
+    function at(ev) {
+      var r = cv.getBoundingClientRect(), x = (ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left;
+      var d = Math.max(0, Math.min(1, (x - geo.pl) / geo.w)) * geo.total, i = 0;
+      while (i < pr.d.length - 1 && pr.d[i + 1] <= d) i++;
+      drawProfile(cv, pr, i);
+      info.textContent = fmtDist(pr.d[i]) + ' · ' + Math.round(pr.e[i]) + ' m';
+      var ll = [pr.pts[i][0], pr.pts[i][1]];
+      if (!mk) mk = L.circleMarker(ll, { radius: 7, color: '#fff', weight: 2, fillColor: '#f0a43a', fillOpacity: 1, interactive: false }).addTo(map); else mk.setLatLng(ll);
+      if (ev.cancelable) ev.preventDefault();
+    }
+    function end() { setTimeout(function () { if (mk) { map.removeLayer(mk); mk = null; } drawProfile(cv, pr); info.textContent = base; }, 1500); }
+    cv.addEventListener('touchstart', at, { passive: false }); cv.addEventListener('touchmove', at, { passive: false }); cv.addEventListener('touchend', end);
+    cv.addEventListener('mousemove', at); cv.addEventListener('mouseleave', end);
+  });
+}
+
+/* ---------------- slope angle shading & contours (computed from DEM) ---------------- */
+var SLOPE_COL = [[27, [243, 224, 59]], [30, [250, 170, 60]], [32, [245, 120, 40]], [35, [229, 72, 77]], [46, [167, 90, 250]], [51, [25, 25, 25]]];
+function tileRes(z, y) { var lat = tile2lat(y + 0.5, z); return 40075016.686 * Math.cos(lat * Math.PI / 180) / (256 * Math.pow(2, z)); }
+function drawSlopeTile(cv, e, c) {
+  var cx = cv.getContext('2d'), img = cx.createImageData(256, 256), d = img.data, res = tileRes(c.z, c.y), R2D = 180 / Math.PI;
+  function E(x, y) { x = x < 0 ? 0 : x > 255 ? 255 : x; y = y < 0 ? 0 : y > 255 ? 255 : y; return e[y * 256 + x]; }
+  for (var y = 0; y < 256; y++) for (var x = 0; x < 256; x++) {
+    var a = E(x - 1, y - 1), b = E(x, y - 1), cc = E(x + 1, y - 1), dd = E(x - 1, y), f = E(x + 1, y), g = E(x - 1, y + 1), h = E(x, y + 1), ii = E(x + 1, y + 1);
+    var dx = ((cc + 2 * f + ii) - (a + 2 * dd + g)) / (8 * res), dy = ((g + 2 * h + ii) - (a + 2 * b + cc)) / (8 * res);
+    var s = Math.atan(Math.sqrt(dx * dx + dy * dy)) * R2D, col = null;
+    for (var k = SLOPE_COL.length - 1; k >= 0; k--) if (s >= SLOPE_COL[k][0]) { col = SLOPE_COL[k][1]; break; }
+    if (!col) continue;
+    var o = (y * 256 + x) * 4; d[o] = col[0]; d[o + 1] = col[1]; d[o + 2] = col[2]; d[o + 3] = 200;
+  }
+  cx.putImageData(img, 0, 0);
+}
+function contourStep(z) { return z >= 15 ? 10 : z >= 14 ? 20 : z >= 13 ? 20 : z >= 12 ? 50 : z >= 11 ? 50 : 100; }
+function drawContourTile(cv, e0, c) {
+  var e = new Float32Array(65536), x, y;   // 3x3 smoothing
+  for (y = 0; y < 256; y++) for (x = 0; x < 256; x++) {
+    var s = 0, n = 0;
+    for (var j = -1; j <= 1; j++) for (var i = -1; i <= 1; i++) { var xx = x + i, yy = y + j; if (xx < 0 || yy < 0 || xx > 255 || yy > 255) continue; s += e0[yy * 256 + xx]; n++; }
+    e[y * 256 + x] = s / n;
+  }
+  var step = contourStep(c.z), idx = step * 5, cx = cv.getContext('2d'), thin = new Path2D(), bold = new Path2D();
+  function lerp(a, b, v) { return (v - a) / (b - a); }
+  for (y = 0; y < 255; y++) for (x = 0; x < 255; x++) {
+    var v0 = e[y * 256 + x], v1 = e[y * 256 + x + 1], v2 = e[(y + 1) * 256 + x + 1], v3 = e[(y + 1) * 256 + x];
+    var lo = Math.min(v0, v1, v2, v3), hi = Math.max(v0, v1, v2, v3);
+    for (var lv = Math.ceil(lo / step) * step; lv <= hi; lv += step) {
+      if (lv === lo && lv === hi) continue;
+      var pts = [];
+      if ((v0 < lv) !== (v1 < lv)) pts.push([x + lerp(v0, v1, lv), y]);
+      if ((v1 < lv) !== (v2 < lv)) pts.push([x + 1, y + lerp(v1, v2, lv)]);
+      if ((v3 < lv) !== (v2 < lv)) pts.push([x + lerp(v3, v2, lv), y + 1]);
+      if ((v0 < lv) !== (v3 < lv)) pts.push([x, y + lerp(v0, v3, lv)]);
+      var P = lv % idx === 0 ? bold : thin;
+      for (var q = 0; q + 1 < pts.length; q += 2) { P.moveTo(pts[q][0] + .5, pts[q][1] + .5); P.lineTo(pts[q + 1][0] + .5, pts[q + 1][1] + .5); }
+    }
+  }
+  cx.lineCap = 'round';
+  cx.strokeStyle = 'rgba(160,82,45,.85)'; cx.lineWidth = 0.9; cx.stroke(thin);
+  cx.strokeStyle = 'rgba(140,60,20,.95)'; cx.lineWidth = 1.8; cx.stroke(bold);
+}
+var DemGrid = L.GridLayer.extend({
+  createTile: function (c, done) {
+    var cv = document.createElement('canvas'); cv.width = cv.height = 256; var self = this;
+    demTile(c.z, c.x, c.y).then(function (e) { if (e) try { self.options.draw(cv, e, c); } catch (er) {} done(null, cv); });
+    return cv;
+  }
+});
+
+/* ---------------- UTM / MGRS grid ---------------- */
+var utmLayer = null, utmRenderer = null;
+function drawUtm() {
+  if (!utmLayer) return; utmLayer.clearLayers();
+  var z = map.getZoom(); if (z < 6) return;
+  var b = map.getBounds(), c = map.getCenter(), zone = Geo.zoneOf(c.lat, c.lng), north = c.lat >= 0;
+  var lonW = (zone - 1) * 6 - 180, lonE = lonW + 6;
+  var w = Math.max(b.getWest(), lonW), e = Math.min(b.getEast(), lonE), s = Math.max(b.getSouth(), -80), n = Math.min(b.getNorth(), 84);
+  if (w >= e) return;
+  var corners = [[s, w], [s, e], [n, w], [n, e], [c.lat, w], [c.lat, e]].map(function (p) { return Geo.toUTM(p[0], p[1], zone); });
+  var minE = Math.min.apply(null, corners.map(function (u) { return u.easting; })), maxE = Math.max.apply(null, corners.map(function (u) { return u.easting; }));
+  var minN = Math.min.apply(null, corners.map(function (u) { return u.northing; })), maxN = Math.max.apply(null, corners.map(function (u) { return u.northing; }));
+  var span = Math.max(maxE - minE, maxN - minN), step = span < 12000 ? 1000 : span < 120000 ? 10000 : 100000;
+  var st = { color: '#22d3ee', weight: step >= 100000 ? 1.6 : 1.1, opacity: .8, interactive: false, renderer: utmRenderer };
+  function toLL(E, N) { var p = Geo.fromUTM(zone, north, E, N); return [p.lat, p.lon]; }
+  function lbl(ll, txt) { utmLayer.addLayer(L.marker(ll, { interactive: false, icon: L.divIcon({ className: 'utmlbl', html: '<span>' + txt + '</span>', iconSize: [0, 0] }) })); }
+  var bl = map.containerPointToLatLng([4, map.getSize().y - 70]);
+  for (var E = Math.ceil(minE / step) * step; E <= maxE; E += step) {
+    var line = []; for (var k = 0; k <= 16; k++) line.push(toLL(E, minN + (maxN - minN) * k / 16));
+    line = line.filter(function (p) { return p[1] >= lonW - 1e-9 && p[1] <= lonE + 1e-9; }); if (line.length < 2) continue;
+    utmLayer.addLayer(L.polyline(line, st));
+    lbl([bl.lat, toLL(E, Geo.toUTM(bl.lat, bl.lng, zone).northing)[1]], step >= 100000 ? Math.round(E / 1000) + 'k' : ('0' + Math.round(E / 1000) % 100).slice(-2));
+  }
+  for (var N = Math.ceil(minN / step) * step; N <= maxN; N += step) {
+    var ln = []; for (k = 0; k <= 16; k++) { var q = toLL(minE + (maxE - minE) * k / 16, N); if (q[1] >= lonW && q[1] <= lonE) ln.push(q); }
+    if (ln.length < 2) continue; utmLayer.addLayer(L.polyline(ln, st));
+    var lp = map.containerPointToLatLng([8, 0]); lbl([toLL(Geo.toUTM(lp.lat, Math.max(lp.lng, lonW + 1e-6), zone).easting, N)[0], Math.max(lp.lng, lonW)], step >= 100000 ? Math.round(N / 1000) + 'k' : ('0' + Math.round(N / 1000) % 100).slice(-2));
+  }
+}
+function setUtm(on) {
+  if (on && !utmLayer) { if (!map.getPane('gridPane')) map.createPane('gridPane').style.zIndex = 395; utmRenderer = L.canvas({ pane: 'gridPane' }); utmLayer = L.layerGroup().addTo(map); drawUtm(); }
+  else if (!on && utmLayer) { map.removeLayer(utmLayer); utmLayer = null; }
+}
+map.on('moveend', function () { if (utmLayer) drawUtm(); });
+
+/* ---------------- overlay catalogue ---------------- */
+function gibsDate() { return new Date(Date.now() - 864e5).toISOString().slice(0, 10); }
+var OVC = [
+  { id: 'roads', g: 'roads', key: 'unpaved', hint: 'roadsHint', fn: true },
+  { id: 'trans', key: 'ovTrans', tile: ESRI + 'Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', max: 19, op: 1 },
+  { id: 'labels', key: 'ovLabels', tile: ESRI + 'Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', max: 19, op: 1 },
+  { id: 'hill', key: 'hillshade', hint: 'hillHint', fn: true, op: .75 },
+  { id: 'slope', key: 'ovSlope', hint: 'ovSlopeHint', grid: drawSlopeTile, minZ: 10, op: .65 },
+  { id: 'contours', key: 'ovContours', hint: 'ovContHint', grid: drawContourTile, minZ: 10, op: 1 },
+  { id: 'utm', key: 'ovUtm', hint: 'ovUtmHint', fn: true },
+  { id: 'modis', key: 'ovModis', hint: 'ovModisHint', tile: 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/{date}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg', max: 9, op: .8, attr: 'NASA GIBS / MODIS' },
+  { id: 'geology', key: 'geology', hint: 'geoHint', fn: true, op: .6 },
+  { id: 'mines', key: 'mines', hint: 'minesNote', fn: true },
+  { id: 'units', key: 'ovUnits', hint: 'ovUnitsHint', fn: true }
+];
+var ovObj = {};
+function ovState(id) { S.ovs = S.ovs || {}; return S.ovs[id] || (S.ovs[id] = { on: false, op: (OVC.filter(function (o) { return o.id === id; })[0] || {}).op || 1 }); }
+function ovIsOn(o) {
+  if (o.id === 'roads') return !!S.roadsOn; if (o.id === 'hill') return !!S.hillOn; if (o.id === 'geology') return !!S.geoOn; if (o.id === 'mines') return !!S.minesOn;
+  return !!ovState(o.id).on;
+}
+function ovSet(o, on) {
+  if (o.id === 'roads') return setRoads(on); if (o.id === 'hill') { setHill(on); if (on && hillLayer) hillLayer.setOpacity(ovState('hill').op); return; }
+  if (o.id === 'geology') return setGeology(on); if (o.id === 'mines') return setMines(on);
+  ovState(o.id).on = !!on; saveSettings();
+  if (o.id === 'utm') return setUtm(on);
+  if (o.id === 'units') return setUnits(on);
+  if (on && !ovObj[o.id]) {
+    if (!map.getPane('ovPane')) map.createPane('ovPane').style.zIndex = 300;
+    var op = ovState(o.id).op;
+    if (o.tile) ovObj[o.id] = L.tileLayer(o.tile.replace('{date}', gibsDate()), { pane: 'ovPane', maxZoom: 21, maxNativeZoom: o.max, opacity: op, attribution: o.attr || '' });
+    else if (o.grid) ovObj[o.id] = new DemGrid({ pane: 'ovPane', maxZoom: 21, maxNativeZoom: 15, minZoom: o.minZ || 0, opacity: op, draw: o.grid, attribution: 'SRTM / AWS Terrain Tiles' });
+    ovObj[o.id].addTo(map);
+    if (o.minZ && map.getZoom() < o.minZ) toast(t('zoomMore'));
+  } else if (!on && ovObj[o.id]) { map.removeLayer(ovObj[o.id]); delete ovObj[o.id]; }
+}
+function ovOpacity(o, v) {
+  if (o.id === 'geology') return setGeoOpacity(v);
+  ovState(o.id).op = v; saveSettings();
+  if (o.id === 'hill' && hillLayer) hillLayer.setOpacity(v);
+  if (ovObj[o.id]) ovObj[o.id].setOpacity(v);
+}
+function ovOpVal(o) { return o.id === 'geology' ? (S.geoOpacity || .6) : ovState(o.id).op; }
+
+/* ---------------- layers sheet (Gaia-style) ---------------- */
+function thumbFor(def) {
+  var c = map.getCenter(), z = Math.max(3, Math.min(def.max, Math.round(map.getZoom()) - 1));
+  return tileUrl(def.url, z, lon2tile(c.lng, z), lat2tile(c.lat, z), def.sub);
+}
+function layersSheet(body, title) {
+  title.textContent = t('layersTitle');
+  var list = LAYERS(), groups = [['sat', t('grpSat')], ['topo', t('grpTopo')], ['road', t('grpRoad')], ['other', t('grpOther')]];
+  var h = '<h3 class="sech">' + t('baseMaps') + '</h3>';
+  groups.forEach(function (g) {
+    var items = list.filter(function (l) { return l.g === g[0]; }); if (!items.length) return;
+    h += '<div class="lgrp">' + esc(g[1]) + '</div><div class="lcards">' + items.map(function (l) {
+      return '<button type="button" class="lcard' + (l.id === S.layer ? ' act' : '') + '" data-layer="' + l.id + '"><img loading="lazy" alt="" src="' + esc(thumbFor(l)) + '" onerror="this.style.visibility=\'hidden\'"><span>' + esc(l.name[S.lang]) + '</span></button>';
+    }).join('') + '</div>';
+  });
+  h += '<h3 class="sech">' + t('ovTitle') + '</h3><div class="ovlist">' + OVC.map(function (o) {
+    var on = ovIsOn(o), hasOp = o.op != null;
+    return '<div class="ovrow' + (on ? ' on' : '') + '"><label class="ovmain"><span class="ovtxt"><b>' + esc(t(o.key)) + (o.id === 'mines' ? ' (' + MINES.length + ')' : '') + '</b>' + (on && o.hint ? '<small>' + esc(t(o.hint)) + '</small>' : '') + '</span><input type="checkbox" class="tgl" data-ov="' + o.id + '"' + (on ? ' checked' : '') + '></label>' +
+      (on && o.id === 'roads' ? '<div class="note"><span class="rdleg"><i style="border-top:3px dashed ' + RD_COL.unpaved + '"></i>' + t('unpaved') + '</span><span class="rdleg"><i style="border-top:3px dotted ' + RD_COL.unknown + '"></i>' + t('unknownSurf') + '</span><span class="rdleg"><i style="border-top:3px solid ' + RD_COL.paved + '"></i>' + t('paved') + '</span></div>' : '') +
+      (on && o.id === 'mines' ? '<div class="note">' + Object.keys(MINE_TYPE_COLOR).map(function (k) { return '<span class="rdleg"><i style="width:10px;height:10px;transform:rotate(45deg);background:' + MINE_TYPE_COLOR[k] + '"></i>' + esc(mineType(k)) + '</span>'; }).join('') + '</div>' : '') +
+      (on && hasOp ? '<input type="range" class="ovop" data-op="' + o.id + '" min="0.15" max="1" step="0.05" value="' + ovOpVal(o) + '">' : '') + '</div>';
+  }).join('') + '</div>';
+  h += '<h3 class="sech">' + t('importedLayers') + '</h3>' + (OV.length ? '<div class="list">' + OV.map(function (o) { return '<div class="item"><span class="pin" style="background:' + o.color + '"></span><div class="main"><div class="nm">' + esc(o.name) + '</div><div class="sub num">' + o.n + '</div></div><button class="ib" type="button" data-ovv="' + o.id + '">' + (o.visible ? ICON.eye : ICON.eyeOff) + '</button><button class="ib" type="button" data-ovz="' + o.id + '">' + ICON.target + '</button><button class="ib" type="button" data-ovd="' + o.id + '">' + ICON.trash + '</button></div>'; }).join('') + '</div>' : '') +
+    '<div class="row" style="margin-top:8px"><button class="btn grow" id="lImp" type="button">' + t('importLayer') + '</button></div><div class="note" style="margin-top:6px">' + t('shpHint') + '</div>' +
+    '<div class="switch sec"><span>' + t('crosshair') + '</span><input type="checkbox" class="tgl" id="lCross" ' + (S.cross ? 'checked' : '') + '></div>';
+  body.innerHTML = h;
+  $$('[data-layer]', body).forEach(function (el) { el.onclick = function () { setLayer(el.dataset.layer); $$('.lcard', body).forEach(function (x) { x.classList.toggle('act', x === el); }); }; });
+  $$('[data-ov]', body).forEach(function (el) { el.onchange = function () { var o = OVC.filter(function (x) { return x.id === el.dataset.ov; })[0]; ovSet(o, el.checked); if (o.id === 'mines' && el.checked) map.fitBounds(L.latLngBounds(MINES.map(function (m) { return [m.lat, m.lon]; })).pad(0.1)); var sc = $('#sheetBody').scrollTop; renderSheet(); $('#sheetBody').scrollTop = sc; }; });
+  $$('[data-op]', body).forEach(function (el) { el.oninput = function () { ovOpacity(OVC.filter(function (x) { return x.id === el.dataset.op; })[0], +el.value); }; });
+  $('#lImp').onclick = function () { $('#ovIn').click(); };
+  $$('[data-ovv]', body).forEach(function (el) { el.onclick = function () { var o = OV.filter(function (x) { return x.id === el.dataset.ovv; })[0]; o.visible = !o.visible; saveOV(); renderOverlay(o); renderSheet(); }; });
+  $$('[data-ovz]', body).forEach(function (el) { el.onclick = function () { var o = OV.filter(function (x) { return x.id === el.dataset.ovz; })[0]; if (!o.visible) { o.visible = true; saveOV(); renderOverlay(o); } var bb = fcBounds(o.fc); if (bb) map.fitBounds(bb.pad(0.1)); closeSheet(); }; });
+  $$('[data-ovd]', body).forEach(function (el) { el.onclick = function () { confirmBox(t('confirmDel'), function () { var id = el.dataset.ovd; if (ovLayers[id]) { map.removeLayer(ovLayers[id]); delete ovLayers[id]; } OV = OV.filter(function (x) { return x.id !== id; }); saveOV(); renderSheet(); }); }; });
+  $('#lCross').onchange = function () { S.cross = this.checked; document.body.classList.toggle('nocross', !S.cross); saveSettings(); };
+}
+
+/* ======================================================================
+   LAAGAB 2.0 — search, route planner, weather, symbols, elevation
+   ====================================================================== */
+/* ---------------- search (places + coordinates) ---------------- */
+var srchT = null, srchSeq = 0;
+function searchSheet(body, title) {
+  title.textContent = t('searchTitle');
+  var rp = readoutPoint(), here = pos || rp;
+  body.innerHTML = '<input type="search" id="sq" class="sq" placeholder="' + esc(t('searchPh')) + '" autocomplete="off" spellcheck="false" enterkeyhint="search"><div id="sres"></div>' +
+    '<div class="sec"><h3>' + (pos ? t('here') : t('mapCenter')) + ' · <span class="num" id="sElev"></span></h3>' + coordsTable(here.lat, here.lon) + '</div>';
+  bindCopy(body);
+  elevAt(here.lat, here.lon, 13).then(function (v) { var el = $('#sElev'); if (el && v != null) el.textContent = t('elev') + ' ≈ ' + Math.round(v) + ' m'; });
+  var inp = $('#sq'); if (window.innerWidth > 700) inp.focus();
+  inp.oninput = function () {
+    var q = this.value.trim(), out = $('#sres'); clearTimeout(srchT);
+    if (!q) { out.innerHTML = ''; return; }
+    var p = Geo.parse(q);
+    if (p) { coordResult(out, p); return; }
+    if (q.length < 2) return;
+    out.innerHTML = '<div class="note">' + t('loading') + '</div>';
+    srchT = setTimeout(function () { placeSearch(q, out); }, 600);
+  };
+}
+function coordResult(out, p) {
+  var dd = pos ? '<div class="kv"><span>' + t('distTo') + '</span><b class="num">' + fmtDist(Geo.distance(pos.lat, pos.lon, p.lat, p.lon)) + ' · ' + brgTxt(Geo.bearing(pos.lat, pos.lon, p.lat, p.lon)) + '</b><span></span></div>' : '';
+  out.innerHTML = '<div class="sec">' + coordsTable(p.lat, p.lon) + '</div>' + (dd ? '<div class="sec">' + dd + '</div>' : '') +
+    '<div class="row sec"><button class="btn pri grow" id="gtMap" type="button">' + t('goMap') + '</button><button class="btn" id="gtSave" type="button">' + t('savePoint') + '</button><button class="btn" id="gtNav" type="button">' + ICON.nav + '</button></div>';
+  bindCopy(out);
+  $('#gtMap').onclick = function () { flyMark(p.lat, p.lon, 14); closeSheet(); };
+  $('#gtSave').onclick = function () { editPoint({ lat: p.lat, lon: p.lon }); };
+  $('#gtNav').onclick = function () { startNav({ id: null, name: Geo.format(p.lat, p.lon, 'dd'), lat: p.lat, lon: p.lon }); };
+}
+function flyMark(lat, lon, z) {
+  var m = L.circleMarker([lat, lon], { radius: 10, color: '#f0a43a', weight: 3, fillOpacity: .3, interactive: false }).addTo(map);
+  setTimeout(function () { map.removeLayer(m); }, 9000);
+  follow = false; $('#locBtn').classList.remove('on');
+  map.setView([lat, lon], Math.max(map.getZoom(), z || 14));
+}
+function placeSearch(q, out) {
+  var my = ++srchSeq, c = map.getCenter();
+  function run(extra) {
+    return fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=10&addressdetails=0&accept-language=' + S.lang + ',fr,ar' + extra + '&q=' + encodeURIComponent(q)).then(function (r) { return r.json(); });
+  }
+  run('&countrycodes=mr').then(function (j) { return j && j.length ? j : run(''); }).then(function (j) {
+    if (my !== srchSeq) return;
+    if (!j || !j.length) { out.innerHTML = '<div class="empty">' + t('searchNone') + '</div>'; return; }
+    j.sort(function (a, b) { return Geo.distance(c.lat, c.lng, +a.lat, +a.lon) - Geo.distance(c.lat, c.lng, +b.lat, +b.lon); });
+    out.innerHTML = '<div class="list">' + j.map(function (r, i) {
+      var nm = r.name || r.display_name.split(',')[0], d = pos ? Geo.distance(pos.lat, pos.lon, +r.lat, +r.lon) : null;
+      return '<button type="button" class="item" data-r="' + i + '" style="border:0;text-align:start;width:100%"><span class="pin" style="background:var(--sand)"></span><span class="main"><span class="nm" style="display:block">' + esc(nm) + '</span><span class="sub" style="display:block">' + esc(r.display_name) + '</span></span>' + (d != null ? '<span class="dist num">' + fmtDist(d) + '</span>' : '') + '</button>';
+    }).join('') + '</div><div class="note" style="margin-top:6px">© OpenStreetMap · Nominatim</div>';
+    $$('[data-r]', out).forEach(function (b) { b.onclick = function () { var r = j[+b.dataset.r]; closeSheet(); flyMark(+r.lat, +r.lon, 14); var pr = {}; pr[t('type')] = (r.category || '') + ' / ' + (r.type || ''); featureDetail({ name: r.name || r.display_name.split(',')[0], lat: +r.lat, lon: +r.lon, props: pr }); }; });
+  }).catch(function () { if (my === srchSeq) out.innerHTML = '<div class="note" style="color:var(--amber)">' + t('searchOff') + '</div>'; });
+}
+
+/* ---------------- route planner (Gaia "Create route") ---------------- */
+var PLAN = { on: false, pts: [], segs: [], mode: 'road', layer: null, prof: null, profT: null };
+function startPlan() {
+  if (MEAS.on) stopMeasure();
+  PLAN.on = true; PLAN.pts = []; PLAN.segs = []; PLAN.prof = null;
+  if (!PLAN.layer) PLAN.layer = L.layerGroup().addTo(map);
+  document.body.classList.add('nocross'); openSheet('plan');
+}
+function stopPlan() {
+  PLAN.on = false; if (PLAN.layer) { map.removeLayer(PLAN.layer); PLAN.layer = null; }
+  document.body.classList.toggle('nocross', !S.cross);
+}
+function planCoords() {
+  var out = []; PLAN.segs.forEach(function (s, i) { s.coords.forEach(function (c, j) { if (i && !j) return; out.push(c); }); });
+  if (!out.length && PLAN.pts.length) out = [PLAN.pts[0]];
+  return out;
+}
+function planDist() { return PLAN.segs.reduce(function (a, s) { return a + Geo.pathLength(s.coords); }, 0); }
+function addPlanPt(lat, lon) {
+  var p = [lat, lon]; PLAN.pts.push(p);
+  if (PLAN.pts.length > 1) {
+    var a = PLAN.pts[PLAN.pts.length - 2], seg = { mode: PLAN.mode, coords: [a, p], pend: PLAN.mode === 'road' };
+    PLAN.segs.push(seg); if (seg.pend) routeSeg(seg);
+  }
+  drawPlan();
+}
+function routeSeg(seg) {
+  var a = seg.coords[0], b = seg.coords[seg.coords.length - 1];
+  fetch('https://router.project-osrm.org/route/v1/driving/' + a[1].toFixed(6) + ',' + a[0].toFixed(6) + ';' + b[1].toFixed(6) + ',' + b[0].toFixed(6) + '?overview=full&geometries=geojson')
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      if (!j.routes || !j.routes.length) throw new Error('none');
+      var c = j.routes[0].geometry.coordinates.map(function (q) { return [q[1], q[0]]; });
+      seg.coords = [a].concat(c, [b]);
+    })
+    .catch(function () { seg.mode = 'straight'; toast(t('routeErr')); })
+    .then(function () { seg.pend = false; drawPlan(); });
+}
+function drawPlan() {
+  if (!PLAN.layer) return; PLAN.layer.clearLayers();
+  PLAN.segs.forEach(function (s) { PLAN.layer.addLayer(L.polyline(s.coords, { color: s.mode === 'road' ? '#5b8def' : '#a78bfa', weight: 5, opacity: s.pend ? .5 : .95, dashArray: s.pend ? '6 8' : null, interactive: false })); });
+  PLAN.pts.forEach(function (p, i) {
+    PLAN.layer.addLayer(L.marker(p, { interactive: false, icon: L.divIcon({ className: '', iconSize: [20, 20], iconAnchor: [10, 10], html: '<div class="ppt">' + (i + 1) + '</div>' }) }));
+  });
+  if (sheetTab === 'plan') updatePlanStats();
+  clearTimeout(PLAN.profT);
+  PLAN.profT = setTimeout(function () {
+    var c = planCoords(), box = $('#planProf');
+    if (c.length < 2 || !box || PLAN.segs.some(function (s) { return s.pend; })) { if (box && c.length < 2) box.innerHTML = ''; return; }
+    mountProfile(box, c);
+    elevProfile(c).then(function (pr) { PLAN.prof = pr; });
+  }, 700);
+}
+function updatePlanStats() {
+  var d = planDist(), sp = S.planSpeed || 40, el = $('#planStats'); if (!el) return;
+  el.innerHTML = '<span>' + t('total') + '</span><b class="num">' + fmtDist(d) + '</b><span></span>' +
+    '<span>' + t('legs') + '</span><b class="num">' + PLAN.pts.length + '</b><span></span>' +
+    '<span>' + t('eta2') + '</span><b class="num">' + (d ? fmtDur(d / (sp / 3.6) * 1000) : '—') + '</b><span></span>';
+}
+function planSheet(body, title) {
+  title.textContent = t('plan');
+  body.innerHTML = '<div class="note">' + t('planHint') + '</div>' +
+    '<div class="seg sec" id="plMode"><button type="button" data-m="road" class="' + (PLAN.mode === 'road' ? 'act' : '') + '">' + t('onRoads') + '</button><button type="button" data-m="straight" class="' + (PLAN.mode === 'straight' ? 'act' : '') + '">' + t('straight') + '</button></div>' +
+    '<div class="kv sec" id="planStats"></div>' +
+    '<label class="f sec">' + t('planSpeed') + '<input type="number" id="plSpeed" min="2" max="150" value="' + (S.planSpeed || 40) + '"></label>' +
+    '<div class="sec" id="planProf"></div>' +
+    '<div class="row sec"><button class="btn" id="plUndo" type="button">' + t('undo') + '</button><button class="btn" id="plClear" type="button">' + t('clear') + '</button><button class="btn pri grow" id="plSave" type="button">' + t('saveRoute') + '</button></div>' +
+    '<div class="row" style="margin-top:8px"><button class="btn grow" id="plDone" type="button">' + t('done') + '</button></div>';
+  updatePlanStats();
+  $$('#plMode button').forEach(function (b) { b.onclick = function () { PLAN.mode = b.dataset.m; $$('#plMode button').forEach(function (x) { x.classList.toggle('act', x === b); }); }; });
+  $('#plSpeed').oninput = function () { S.planSpeed = Math.max(2, +this.value || 40); saveSettings(); updatePlanStats(); };
+  $('#plUndo').onclick = function () { if (!PLAN.pts.length) return; PLAN.pts.pop(); if (PLAN.segs.length >= PLAN.pts.length && PLAN.segs.length) PLAN.segs.pop(); drawPlan(); };
+  $('#plClear').onclick = function () { PLAN.pts = []; PLAN.segs = []; drawPlan(); };
+  $('#plSave').onclick = function () {
+    var c = planCoords(); if (c.length < 2) { toast(t('planHint')); return; }
+    var save = function (pr) {
+      TR.unshift({ id: uid(), name: t('routeName') + ' ' + fmtDate(Date.now()), created: Date.now(), pts: c.map(function (x) { return [+x[0].toFixed(6), +x[1].toFixed(6), null, 0]; }), dist: planDist(), gain: pr ? Math.round(pr.gain) : 0, dur: 0, maxSpeed: 0, color: COLORS[3], visible: true, planned: true });
+      saveTR(); renderTracks(); toast(t('saved'));
+    };
+    if (PLAN.prof) save(PLAN.prof); else elevProfile(c).then(save, function () { save(null); });
+  };
+  $('#plDone').onclick = function () { closeSheet(); };
+  if (planCoords().length >= 2) mountProfile($('#planProf'), planCoords());
+}
+
+/* ---------------- weather + dust (Open-Meteo) ---------------- */
+var WMO = { 0: ['☀️', 'صحو', 'Ciel clair'], 1: ['🌤️', 'صحو غالبًا', 'Peu nuageux'], 2: ['⛅', 'غائم جزئيًا', 'Partiellement nuageux'], 3: ['☁️', 'غائم', 'Couvert'], 45: ['🌫️', 'ضباب', 'Brouillard'], 48: ['🌫️', 'ضباب', 'Brouillard'],
+  51: ['🌦️', 'رذاذ', 'Bruine'], 53: ['🌦️', 'رذاذ', 'Bruine'], 55: ['🌦️', 'رذاذ', 'Bruine'], 61: ['🌧️', 'مطر خفيف', 'Pluie faible'], 63: ['🌧️', 'مطر', 'Pluie'], 65: ['🌧️', 'مطر غزير', 'Forte pluie'],
+  80: ['🌦️', 'زخّات', 'Averses'], 81: ['🌧️', 'زخّات', 'Averses'], 82: ['⛈️', 'زخّات قوية', 'Fortes averses'], 95: ['⛈️', 'عاصفة رعدية', 'Orage'], 96: ['⛈️', 'عاصفة رعدية', 'Orage'], 99: ['⛈️', 'عاصفة رعدية', 'Orage'] };
+function wmo(c) { var w = WMO[c] || WMO[Math.floor(c / 10) * 10] || ['🌡️', '—', '—']; return { ico: w[0], txt: S.lang === 'ar' ? w[1] : w[2] }; }
+function dustTxt(v) { return v == null ? '—' : v < 50 ? t('dustLow') : v < 150 ? t('dustMod') : v < 500 ? t('dustHigh') : t('dustVHigh'); }
+function windArrow(dir) { return '<svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align:-3px;transform:rotate(' + ((dir + 180) % 360) + 'deg)"><path d="M12 3 18 19 12 15 6 19z" fill="currentColor"/></svg>'; }
+function weatherSheet(body, title) {
+  title.textContent = t('weather');
+  var c = map.getCenter(), lat = c.lat.toFixed(4), lon = (((c.lng + 540) % 360) - 180).toFixed(4);
+  body.innerHTML = '<div class="note num">' + t('wAt') + ' · ' + esc(Geo.format(+lat, +lon, S.fmt)) + '</div><div id="wBox" class="sec"><div class="note">' + t('loading') + '</div></div>';
+  var f = fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current=temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m,weather_code,visibility&daily=weather_code,temperature_2m_max,temperature_2m_min,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,precipitation_sum,sunrise,sunset&timezone=auto&forecast_days=5').then(function (r) { return r.json(); });
+  var a = fetch('https://air-quality-api.open-meteo.com/v1/air-quality?latitude=' + lat + '&longitude=' + lon + '&current=dust,pm10&hourly=dust&timezone=auto&forecast_days=5').then(function (r) { return r.json(); }).catch(function () { return null; });
+  Promise.all([f, a]).then(function (r) {
+    var w = r[0], q = r[1], cur = w.current, box = $('#wBox'); if (!box || !cur) throw new Error('x');
+    var k = wmo(cur.weather_code), dust = q && q.current ? q.current.dust : null;
+    var dayDust = {};
+    if (q && q.hourly) q.hourly.time.forEach(function (tm, i) { var d = tm.slice(0, 10), v = q.hourly.dust[i]; if (v != null && (dayDust[d] == null || v > dayDust[d])) dayDust[d] = v; });
+    var h = '<div class="wnow"><div class="wico">' + k.ico + '</div><div><div class="wt num">' + Math.round(cur.temperature_2m) + '°C</div><div class="note">' + esc(k.txt) + '</div></div></div>' +
+      '<div class="kv sec">' +
+      '<span>' + t('wWind') + '</span><b class="num">' + windArrow(cur.wind_direction_10m) + ' ' + Math.round(cur.wind_speed_10m) + ' km/h · ' + Math.round(cur.wind_direction_10m) + '°</b><span></span>' +
+      '<span>' + t('wGust') + '</span><b class="num">' + Math.round(cur.wind_gusts_10m) + ' km/h</b><span></span>' +
+      '<span>' + t('wHum') + '</span><b class="num">' + Math.round(cur.relative_humidity_2m) + ' %</b><span></span>' +
+      (cur.visibility != null ? '<span>' + t('wVis') + '</span><b class="num">' + fmtDist(cur.visibility) + '</b><span></span>' : '') +
+      '<span>' + t('wDust') + '</span><b>' + (dust != null ? '<span class="num">' + Math.round(dust) + ' µg/m³</span> · ' : '') + esc(dustTxt(dust)) + '</b><span></span>' +
+      '<span>' + t('wSun') + '</span><b class="num">' + w.daily.sunrise[0].slice(11) + ' / ' + w.daily.sunset[0].slice(11) + '</b><span></span></div>' +
+      '<div class="list sec">' + w.daily.time.map(function (d, i) {
+        var kk = wmo(w.daily.weather_code[i]), dn = new Date(d + 'T12:00:00').toLocaleDateString(S.lang === 'ar' ? 'ar-MR-u-nu-latn' : 'fr-FR', { weekday: 'short', day: 'numeric' });
+        return '<div class="item"><span style="font-size:22px">' + kk.ico + '</span><div class="main"><div class="nm">' + esc(dn) + '</div><div class="sub num">' + windArrow(w.daily.wind_direction_10m_dominant[i]) + ' ' + Math.round(w.daily.wind_speed_10m_max[i]) + '–' + Math.round(w.daily.wind_gusts_10m_max[i]) + ' km/h' + (w.daily.precipitation_sum[i] ? ' · ' + w.daily.precipitation_sum[i] + ' mm' : '') + (dayDust[d] != null ? ' · ' + t('wDust') + ': ' + esc(dustTxt(dayDust[d])) : '') + '</div></div><b class="num">' + Math.round(w.daily.temperature_2m_max[i]) + '° / ' + Math.round(w.daily.temperature_2m_min[i]) + '°</b></div>';
+      }).join('') + '</div><div class="note" style="margin-top:6px">Open-Meteo.com (CC BY 4.0) · CAMS</div>';
+    box.innerHTML = h;
+  }).catch(function () { var box = $('#wBox'); if (box) box.innerHTML = '<div class="note" style="color:var(--amber)">' + t('wErr') + '</div>'; });
+}
+
+/* ---------------- waypoint symbols ---------------- */
+var SYMS = [['', '·'], ['camp', '⛺'], ['base', '🏠'], ['check', '🚧'], ['well', '💧'], ['fuel', '⛽'], ['car', '🚙'], ['danger', '⚠️'], ['obs', '🔭'], ['heli', '🚁'], ['flag', '🚩'], ['mine', '⛏️'], ['med', '🩺'], ['tent', '🏕️'], ['star', '⭐']];
+function symChar(s) { var r = SYMS.filter(function (x) { return x[0] === s; })[0]; return r && r[0] ? r[1] : ''; }
+wpIcon = function (w) {
+  var c = w.color || COLORS[0], sy = symChar(w.sym);
+  return L.divIcon({ className: 'wp', iconSize: [26, 30], iconAnchor: [13, 29],
+    html: '<svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 29s10-9.4 10-16.5A10 10 0 0 0 3 12.5C3 19.6 13 29 13 29z" fill="' + c + '" stroke="#121517" stroke-width="1.5"/>' + (sy ? '<circle cx="13" cy="12.5" r="7.5" fill="#fff"/>' : '<circle cx="13" cy="12.5" r="3.6" fill="#121517"/>') + '</svg>' + (sy ? '<i class="wsym">' + sy + '</i>' : '') + '<span>' + esc(w.name) + '</span>' });
+};
+
+/* ---------------- elevation profile in track details ---------------- */
+var _trackDetail = trackDetail;
+trackDetail = function (tr) {
+  _trackDetail(tr);
+  var box = $('#modalBox'), row = box && box.querySelector('.row'); if (!row || !tr.pts || tr.pts.length < 2) return;
+  var sec = document.createElement('div'); sec.className = 'sec';
+  sec.innerHTML = '<h3 class="sech" style="margin-top:0">' + t('elevProfile') + '</h3><div class="profbox"></div>';
+  row.parentNode.insertBefore(sec, row);
+  mountProfile(sec.querySelector('.profbox'), tr.pts);
+};
+
+/* ======================================================================
+   LAAGAB 2.0 — unit chat + position sharing (internal server)
+   ====================================================================== */
+Object.assign(T.ar, {
+  elev: 'ارتفاع الأرض', chatLogin: 'تسجيل الدخول إلى محادثة الوحدات', chatServer: 'عنوان الخادم الداخلي', chatServerHint: 'اتركه فارغًا إذا فتحت التطبيق من خادم الحرس نفسه.', user: 'اسم المستخدم', password: 'كلمة المرور', login: 'دخول', logout: 'خروج',
+  badLogin: 'اسم المستخدم أو كلمة المرور غير صحيحة', throttled: 'محاولات كثيرة — انتظر 15 دقيقة', noServer: 'تعذّر الاتصال بالخادم', online: 'متصل', chOffline: 'غير متصل — ستُرسل الرسائل عند عودة الشبكة',
+  chAll: 'كل الوحدات', chUnit: 'الوحدة', newDm: 'رسالة خاصة', typeMsg: 'اكتب رسالة…', send: 'إرسال', myPos: 'موقعي', mapPos: 'مركز الخريطة', sos: 'نداء استغاثة', sosConfirm: 'إرسال نداء استغاثة بموقعك الحالي إلى هذه المحادثة؟',
+  sosTitle: '🆘 نداء استغاثة', locMsg: 'موقع', showMap: 'على الخريطة', shareLive: 'مشاركة موقعي مع الوحدات', shareLiveHint: 'يُرسل موقعك إلى الخادم كل 30 ثانية تقريبًا ما دام التطبيق مفتوحًا.', noMsgs: 'لا رسائل بعد',
+  admin: 'إدارة المستخدمين', addUser: 'إضافة مستخدم', unitName: 'الوحدة', dispName: 'الاسم الظاهر', role: 'الصلاحية', member: 'عضو', adminRole: 'مسؤول', resetPw: 'تغيير كلمة المرور', weakPw: 'كلمة المرور 8 أحرف على الأقل', userExists: 'المستخدم موجود', badUser: 'اسم المستخدم: حروف لاتينية صغيرة وأرقام فقط',
+  pending: 'في الانتظار', failed: 'لم تُرسل', ago: 'منذ', newMsg: 'رسالة جديدة', chPw: 'تغيير كلمة مروري', oldPw: 'كلمة المرور الحالية', newPw: 'كلمة المرور الجديدة', delUser: 'حذف المستخدم'
+});
+Object.assign(T.fr, {
+  elev: 'Alt. terrain', chatLogin: 'Connexion à la messagerie des unités', chatServer: 'Adresse du serveur interne', chatServerHint: 'Laissez vide si l’application est ouverte depuis le serveur de la Garde.', user: 'Identifiant', password: 'Mot de passe', login: 'Connexion', logout: 'Déconnexion',
+  badLogin: 'Identifiant ou mot de passe incorrect', throttled: 'Trop d’essais — attendez 15 min', noServer: 'Serveur injoignable', online: 'Connecté', chOffline: 'Hors ligne — les messages partiront au retour du réseau',
+  chAll: 'Toutes les unités', chUnit: 'Unité', newDm: 'Message privé', typeMsg: 'Écrire un message…', send: 'Envoyer', myPos: 'Ma position', mapPos: 'Centre carte', sos: 'Détresse', sosConfirm: 'Envoyer un appel de détresse avec votre position dans cette conversation ?',
+  sosTitle: '🆘 Appel de détresse', locMsg: 'Position', showMap: 'Sur la carte', shareLive: 'Partager ma position avec les unités', shareLiveHint: 'Envoie votre position au serveur environ toutes les 30 s tant que l’application est ouverte.', noMsgs: 'Aucun message',
+  admin: 'Gestion des utilisateurs', addUser: 'Ajouter un utilisateur', unitName: 'Unité', dispName: 'Nom affiché', role: 'Rôle', member: 'Membre', adminRole: 'Administrateur', resetPw: 'Changer le mot de passe', weakPw: 'Mot de passe : 8 caractères minimum', userExists: 'Utilisateur existant', badUser: 'Identifiant : minuscules latines et chiffres uniquement',
+  pending: 'En attente', failed: 'Non envoyé', ago: 'il y a', newMsg: 'Nouveau message', chPw: 'Changer mon mot de passe', oldPw: 'Mot de passe actuel', newPw: 'Nouveau mot de passe', delUser: 'Supprimer l’utilisateur'
+});
+
+var CHAT = { token: null, user: null, chans: [], ch: {}, read: {}, lastId: 0, cur: null, es: null, online: false, outbox: [], retryT: null, backoff: 3000, users: [] };
+var UNITS = {}, unitsLayer = null, shareT = 0, lastShare = null;
+function chatBase() { return String(S.chatUrl || '').trim().replace(/\/+$/, ''); }
+function capi(path, opt) {
+  opt = opt || {};
+  var h = { 'Content-Type': 'application/json' }; if (CHAT.token) h.Authorization = 'Bearer ' + CHAT.token;
+  return fetch(chatBase() + path, { method: opt.method || (opt.body ? 'POST' : 'GET'), headers: h, body: opt.body ? JSON.stringify(opt.body) : undefined, cache: 'no-store' })
+    .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) { var e = new Error(j.error || 'http'); e.status = r.status; throw e; } return j; }); });
+}
+function chatSave() { persist('chat', { token: CHAT.token, user: CHAT.user, read: CHAT.read, lastId: CHAT.lastId, chans: CHAT.chans }, 400); persist('chatmsgs', CHAT.ch, 1500); persist('outbox', CHAT.outbox, 200); }
+function chName(c) { if (!c) return ''; if (c.id === 'all') return t('chAll'); if (c.type === 'unit') return t('chUnit') + ' · ' + c.name; return c.name || c.with || c.id; }
+function chanOf(id) { return CHAT.chans.filter(function (c) { return c.id === id; })[0]; }
+function unreadOf(id) { var r = CHAT.read[id] || 0, me = CHAT.user && CHAT.user.u; return (CHAT.ch[id] || []).filter(function (m) { return m.id && m.id > r && m.from !== me; }).length; }
+function unreadTotal() { return CHAT.chans.reduce(function (a, c) { return a + unreadOf(c.id); }, 0); }
+function updateBadge() { var b = $('#chatBadge'); if (!b) return; var n = unreadTotal(); b.textContent = n > 99 ? '99+' : n; b.hidden = !n; }
+function markRead(id) { var a = CHAT.ch[id] || []; for (var i = a.length - 1; i >= 0; i--) if (a[i].id) { CHAT.read[id] = a[i].id; break; } updateBadge(); chatSave(); }
+function timeTxt(ts) { var d = new Date(ts), now = new Date(); var hm = d.toLocaleTimeString(S.lang === 'ar' ? 'ar-MR-u-nu-latn' : 'fr-FR', { hour: '2-digit', minute: '2-digit' }); return d.toDateString() === now.toDateString() ? hm : d.toLocaleDateString(S.lang === 'ar' ? 'ar-MR-u-nu-latn' : 'fr-FR', { day: 'numeric', month: 'short' }) + ' ' + hm; }
+
+/* ---- connection ---- */
+function chatConnect() {
+  if (!CHAT.token) return;
+  if (CHAT.es) { CHAT.es.close(); CHAT.es = null; }
+  clearTimeout(CHAT.retryT);
+  var es;
+  try { es = new EventSource(chatBase() + '/api/stream?token=' + encodeURIComponent(CHAT.token) + '&since=' + CHAT.lastId); } catch (e) { return; }
+  CHAT.es = es;
+  es.addEventListener('hello', function (e) {
+    var d = JSON.parse(e.data); CHAT.online = true; CHAT.backoff = 3000; CHAT.user = d.user;
+    d.channels.forEach(function (c) { var old = chanOf(c.id); if (old) Object.assign(old, c); else CHAT.chans.push(c); });
+    if (!CHAT.lastId) d.channels.forEach(function (c) { capi('/api/messages?ch=' + encodeURIComponent(c.id) + '&limit=150').then(function (j) { j.messages.forEach(function (m) { addMsg(m, false); }); markRead(c.id); chatRefresh(); }); });
+    flushOutbox(); chatSave(); chatRefresh();
+    if (unitsLayer) loadPositions();
+  });
+  es.addEventListener('msg', function (e) { addMsg(JSON.parse(e.data), true); });
+  es.addEventListener('pos', function (e) { var p = JSON.parse(e.data); if (p.off) delete UNITS[p.u]; else UNITS[p.u] = p; drawUnits(); });
+  es.onerror = function () {
+    CHAT.online = false; es.close(); if (CHAT.es === es) CHAT.es = null; chatRefreshStatus();
+    capi('/api/me').then(function () {
+      CHAT.retryT = setTimeout(chatConnect, CHAT.backoff); CHAT.backoff = Math.min(60000, CHAT.backoff * 2);
+    }).catch(function (er) {
+      if (er.status === 401) { chatLogoutLocal(); return; }
+      CHAT.retryT = setTimeout(chatConnect, CHAT.backoff); CHAT.backoff = Math.min(60000, CHAT.backoff * 2);
+    });
+  };
+}
+window.addEventListener('online', function () { if (CHAT.token && !CHAT.es) chatConnect(); flushOutbox(); });
+document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible' && CHAT.token && !CHAT.es) chatConnect(); });
+
+function addMsg(m, live) {
+  var arr = CHAT.ch[m.ch] || (CHAT.ch[m.ch] = []);
+  if (arr.some(function (x) { return x.id === m.id; })) return;
+  var mine = CHAT.user && m.from === CHAT.user.u;
+  var replaced = false;
+  if (m.cid) { var i = arr.findIndex(function (x) { return !x.id && x.cid === m.cid; }); if (i > -1) { arr.splice(i, 1); replaced = true; } }
+  arr.push(m); arr.sort(function (a, b) { return (a.id || 1e15) - (b.id || 1e15); });
+  if (arr.length > 300) arr.splice(0, arr.length - 300);
+  if (m.id > CHAT.lastId) CHAT.lastId = m.id;
+  if (!chanOf(m.ch)) { var p = m.ch.split(':'); CHAT.chans.push(m.ch.indexOf('dm:') === 0 ? { id: m.ch, type: 'dm', name: mine ? m.ch : m.fromName, with: mine ? (p[1] === CHAT.user.u ? p[2] : p[1]) : m.from } : { id: m.ch, type: 'unit', name: m.ch.slice(5) }); }
+  var viewing = sheetTab === 'chat' && CHAT.cur === m.ch && document.visibilityState === 'visible';
+  if (viewing) { if (replaced) rerenderMsgs(); else appendBubble(m); markRead(m.ch); }
+  else if (live && !mine) {
+    vibrate(m.type === 'alert' ? [400, 150, 400, 150, 400] : 60);
+    if (m.type === 'alert') alertModal(m); else toast((m.fromName || m.from) + ': ' + (m.type === 'loc' ? '📍 ' + (m.name || t('locMsg')) : m.text.slice(0, 60)));
+    if (sheetTab === 'chat' && !CHAT.cur) chatRefresh();
+  }
+  updateBadge(); chatSave();
+}
+function alertModal(m) {
+  openModal('<h3 style="color:var(--red)">' + t('sosTitle') + '</h3><div class="note"><b style="color:var(--text)">' + esc(m.fromName) + '</b> · ' + esc(m.unit || '') + ' · ' + timeTxt(m.t) + '</div>' + (m.text ? '<div>' + esc(m.text) + '</div>' : '') + coordsTable(m.lat, m.lon) +
+    '<div class="row"><button class="btn pri grow" id="alMap" type="button">' + t('showMap') + '</button><button class="btn" id="alNav" type="button">' + ICON.nav + t('navigate') + '</button><button class="btn" id="alX" type="button">✕</button></div>');
+  bindCopy();
+  $('#alMap').onclick = function () { closeModal(); closeSheet(); flyMark(m.lat, m.lon, 15); };
+  $('#alNav').onclick = function () { closeModal(); startNav({ id: null, name: m.fromName + ' 🆘', lat: m.lat, lon: m.lon }); };
+  $('#alX').onclick = closeModal;
+}
+
+/* ---- sending with offline outbox ---- */
+function chatSend(type, extra) {
+  if (!CHAT.cur || !CHAT.user) return;
+  var m = Object.assign({ cid: uid(), ch: CHAT.cur, from: CHAT.user.u, fromName: CHAT.user.name, unit: CHAT.user.unit, type: type, text: '', t: Date.now(), pending: true }, extra);
+  (CHAT.ch[m.ch] = CHAT.ch[m.ch] || []).push(m); appendBubble(m);
+  CHAT.outbox.push(m); chatSave(); flushOutbox();
+}
+var flushing = false;
+function flushOutbox() {
+  if (flushing || !CHAT.token || !CHAT.outbox.length) return;
+  flushing = true;
+  var m = CHAT.outbox[0];
+  capi('/api/send', { body: { ch: m.ch, type: m.type, text: m.text, lat: m.lat, lon: m.lon, name: m.name, cid: m.cid } }).then(function (j) {
+    CHAT.outbox.shift(); addMsg(j.message, false); if (CHAT.cur === m.ch) rerenderMsgs(); flushing = false; chatSave(); flushOutbox();
+  }).catch(function (e) {
+    flushing = false;
+    if (e.status >= 400 && e.status < 500 && e.status !== 401 && e.status !== 429) { CHAT.outbox.shift(); m.failed = true; m.pending = false; if (CHAT.cur === m.ch) rerenderMsgs(); chatSave(); flushOutbox(); }
+  });
+}
+setInterval(flushOutbox, 15000);
+
+/* ---- chat UI ---- */
+function chatSheet(body, title) {
+  if (!CHAT.token) return chatLoginView(body, title);
+  if (CHAT.cur && chanOf(CHAT.cur)) return chatConvView(body, title);
+  CHAT.cur = null; chatListView(body, title);
+}
+function chatRefresh() { if (sheetTab === 'chat') { var sc = $('#sheetBody').scrollTop; renderSheet(); if (!CHAT.cur) $('#sheetBody').scrollTop = sc; } updateBadge(); }
+function chatRefreshStatus() { var el = $('#chStatus'); if (el) { el.className = 'cstat ' + (CHAT.online ? 'on' : ''); el.lastChild.textContent = CHAT.online ? t('online') : t('chOffline'); } }
+function chatLoginView(body, title) {
+  title.textContent = t('chat');
+  body.innerHTML = '<div class="note">' + t('chatLogin') + '</div>' +
+    '<label class="f sec">' + t('chatServer') + '<input type="text" id="cSrv" class="num" placeholder="https://laagab.garde.local:8443" value="' + esc(S.chatUrl || '') + '" autocomplete="off" spellcheck="false" autocapitalize="off"></label><div class="note">' + t('chatServerHint') + '</div>' +
+    '<label class="f sec">' + t('user') + '<input type="text" id="cUser" autocomplete="username" autocapitalize="off" spellcheck="false" dir="ltr"></label>' +
+    '<label class="f sec">' + t('password') + '<input type="password" id="cPw" autocomplete="current-password" dir="ltr"></label>' +
+    '<div class="row sec"><button class="btn pri grow" id="cGo" type="button">' + t('login') + '</button></div><div class="note sec" style="text-align:center">' + t('internal') + '</div>';
+  $('#cGo').onclick = function () {
+    S.chatUrl = $('#cSrv').value.trim(); saveSettings();
+    var b = this; b.disabled = true;
+    capi('/api/login', { body: { u: $('#cUser').value.trim().toLowerCase(), p: $('#cPw').value } }).then(function (j) {
+      CHAT.token = j.token; CHAT.user = j.user; CHAT.lastId = 0; CHAT.ch = {}; CHAT.chans = []; CHAT.read = {}; chatSave(); chatConnect(); renderSheet();
+    }).catch(function (e) { b.disabled = false; toast(e.status === 401 ? t('badLogin') : e.status === 429 ? t('throttled') : t('noServer')); });
+  };
+  $('#cPw').onkeydown = function (e) { if (e.key === 'Enter') $('#cGo').click(); };
+}
+function lastOf(id) { var a = CHAT.ch[id] || []; return a[a.length - 1]; }
+function chatListView(body, title) {
+  title.textContent = t('chat');
+  var chans = CHAT.chans.slice().sort(function (a, b) { var x = lastOf(a.id), y = lastOf(b.id); if (a.id === 'all') return -1; if (b.id === 'all') return 1; return ((y && y.t) || 0) - ((x && x.t) || 0); });
+  var h = '<div class="chead"><span id="chStatus" class="cstat ' + (CHAT.online ? 'on' : '') + '"><i></i>' + (CHAT.online ? t('online') : t('chOffline')) + '</span><span class="note">' + esc(CHAT.user.name) + ' · ' + esc(CHAT.user.unit || '') + '</span></div>';
+  h += '<div class="list sec">' + chans.map(function (c) {
+    var l = lastOf(c.id), n = unreadOf(c.id), ico = c.id === 'all' ? '📢' : c.type === 'unit' ? '🛡️' : '👤';
+    var prev = l ? (l.type === 'alert' ? '🆘 ' : l.type === 'loc' ? '📍 ' : '') + (l.fromName ? l.fromName + ': ' : '') + (l.type === 'loc' ? (l.name || t('locMsg')) : l.text) : t('noMsgs');
+    return '<button type="button" class="item citem" data-ch="' + esc(c.id) + '"><span class="cico">' + ico + '</span><span class="main"><span class="nm">' + esc(chName(c)) + '</span><span class="sub">' + esc(prev.slice(0, 80)) + '</span></span><span class="cmeta">' + (l ? '<small class="num">' + timeTxt(l.t) + '</small>' : '') + (n ? '<b class="cbadge">' + n + '</b>' : '') + '</span></button>';
+  }).join('') + '</div>';
+  h += '<div class="row sec"><button class="btn grow" id="cDm" type="button">' + t('newDm') + '</button></div>' +
+    '<div class="switch sec"><span>' + t('shareLive') + '<small class="note" style="display:block">' + t('shareLiveHint') + '</small></span><input type="checkbox" class="tgl" id="cShare" ' + (S.shareLive ? 'checked' : '') + '></div>' +
+    '<div class="row sec">' + (CHAT.user.role === 'admin' ? '<button class="btn grow" id="cAdm" type="button">' + t('admin') + '</button>' : '') + '<button class="btn grow" id="cPwB" type="button">' + t('chPw') + '</button><button class="btn dan" id="cOut" type="button">' + t('logout') + '</button></div>';
+  body.innerHTML = h;
+  $$('[data-ch]', body).forEach(function (b) { b.onclick = function () { CHAT.cur = b.dataset.ch; renderSheet(); }; });
+  $('#cDm').onclick = dmPicker;
+  $('#cShare').onchange = function () { S.shareLive = this.checked; saveSettings(); if (this.checked) { lastShare = null; shareTick(); if (!unitsLayer) ovSet(OVC.filter(function (o) { return o.id === 'units'; })[0], true); } else if (CHAT.token) capi('/api/pos/off', { body: {} }).catch(function () {}); };
+  if ($('#cAdm')) $('#cAdm').onclick = adminPanel;
+  $('#cPwB').onclick = changePw;
+  $('#cOut').onclick = function () { confirmBox(t('logout') + ' ?', function () { capi('/api/logout', { body: {} }).catch(function () {}); chatLogoutLocal(); }); };
+}
+function chatLogoutLocal() {
+  if (CHAT.es) CHAT.es.close(); CHAT.es = null; CHAT.token = null; CHAT.user = null; CHAT.ch = {}; CHAT.chans = []; CHAT.read = {}; CHAT.lastId = 0; CHAT.cur = null; CHAT.outbox = []; CHAT.online = false;
+  S.shareLive = false; saveSettings(); chatSave(); UNITS = {}; drawUnits(); updateBadge(); if (sheetTab === 'chat') renderSheet();
+}
+function dmPicker() {
+  capi('/api/users').then(function (j) {
+    var list = j.users.filter(function (u) { return u.u !== CHAT.user.u; });
+    openModal('<h3>' + t('newDm') + '</h3><div class="list">' + list.map(function (u) { return '<button type="button" class="item" data-u="' + esc(u.u) + '" style="border:0;text-align:start"><span class="cico">👤</span><span class="main"><span class="nm">' + esc(u.name) + '</span><span class="sub">' + esc(u.unit || '') + ' · ' + esc(u.u) + '</span></span></button>'; }).join('') + '</div><button class="btn" id="dmX" type="button">' + t('cancel') + '</button>');
+    $('#dmX').onclick = closeModal;
+    $$('[data-u]').forEach(function (b) { b.onclick = function () {
+      var u = list.filter(function (x) { return x.u === b.dataset.u; })[0], id = 'dm:' + [CHAT.user.u, u.u].sort().join(':');
+      if (!chanOf(id)) CHAT.chans.push({ id: id, type: 'dm', name: u.name, with: u.u });
+      closeModal(); CHAT.cur = id; renderSheet();
+    }; });
+  }).catch(function () { toast(t('noServer')); });
+}
+function bubbleHTML(m) {
+  var mine = CHAT.user && m.from === CHAT.user.u, cls = 'msg ' + (mine ? 'mine' : 'them') + (m.type === 'alert' ? ' alert' : '');
+  var h = '<div class="' + cls + '" data-mid="' + esc(m.id || m.cid) + '">';
+  if (!mine) h += '<div class="mh">' + esc(m.fromName || m.from) + (m.unit ? ' · ' + esc(m.unit) : '') + '</div>';
+  if (m.type === 'alert') h += '<div class="mtitle">' + t('sosTitle') + '</div>';
+  if (m.text) h += '<div class="mt">' + esc(m.text) + '</div>';
+  if (m.type !== 'text') h += '<div class="mloc"><b>📍 ' + esc(m.name || t('locMsg')) + '</b><span class="num">' + esc(Geo.format(m.lat, m.lon, S.fmt)) + '</span>' +
+    (pos ? '<span class="num">' + fmtDist(Geo.distance(pos.lat, pos.lon, m.lat, m.lon)) + ' · ' + Math.round(Geo.bearing(pos.lat, pos.lon, m.lat, m.lon)) + '°</span>' : '') +
+    '<span class="mbtns"><button type="button" class="btn sm" data-show>' + t('showMap') + '</button><button type="button" class="btn sm" data-navm>' + ICON.nav + '</button><button type="button" class="btn sm" data-savem>' + t('savePoint') + '</button></span></div>';
+  h += '<div class="mf num">' + timeTxt(m.t) + (m.pending ? ' · ⏳ ' + t('pending') : '') + (m.failed ? ' · ⚠️ ' + t('failed') : '') + '</div></div>';
+  return h;
+}
+function chatConvView(body, title) {
+  var c = chanOf(CHAT.cur); title.textContent = chName(c);
+  body.innerHTML = '<div class="cbar"><button class="btn sm" id="cBack" type="button">' + (S.lang === 'ar' ? '→' : '←') + '</button><span id="chStatus" class="cstat ' + (CHAT.online ? 'on' : '') + '"><i></i>' + (CHAT.online ? t('online') : t('chOffline')) + '</span></div>' +
+    '<div class="msgs" id="msgs"></div>' +
+    '<div class="composer"><div class="cacts"><button type="button" class="btn sm" id="cLoc">📍 ' + t('myPos') + '</button><button type="button" class="btn sm" id="cCtr">🎯 ' + t('mapPos') + '</button><button type="button" class="btn sm dan" id="cSos">🆘 ' + t('sos') + '</button></div>' +
+    '<div class="cin"><textarea id="cTxt" rows="1" placeholder="' + esc(t('typeMsg')) + '"></textarea><button type="button" class="btn pri" id="cSend" aria-label="' + t('send') + '"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5 21 12 3 3.5 3 10l12 2-12 2z"/></svg></button></div></div>';
+  rerenderMsgs(); markRead(CHAT.cur);
+  $('#cBack').onclick = function () { CHAT.cur = null; renderSheet(); };
+  var ta = $('#cTxt');
+  ta.oninput = function () { ta.style.height = 'auto'; ta.style.height = Math.min(120, ta.scrollHeight) + 'px'; };
+  $('#cSend').onclick = function () { var v = ta.value.trim(); if (!v) return; chatSend('text', { text: v }); ta.value = ''; ta.style.height = 'auto'; };
+  ta.onkeydown = function (e) { if (e.key === 'Enter' && !e.shiftKey && window.innerWidth > 700) { e.preventDefault(); $('#cSend').click(); } };
+  $('#cLoc').onclick = function () { if (!pos) { toast(t('noFix')); return; } chatSend('loc', { lat: +pos.lat.toFixed(6), lon: +pos.lon.toFixed(6), name: t('myPos'), text: ta.value.trim() }); ta.value = ''; };
+  $('#cCtr').onclick = function () { var p = map.getCenter(); chatSend('loc', { lat: +p.lat.toFixed(6), lon: +(((p.lng + 540) % 360) - 180).toFixed(6), name: t('mapPos'), text: ta.value.trim() }); ta.value = ''; };
+  $('#cSos').onclick = function () { if (!pos) { toast(t('noFix')); return; } confirmBox(t('sosConfirm'), function () { chatSend('alert', { lat: +pos.lat.toFixed(6), lon: +pos.lon.toFixed(6), name: t('sos'), text: ta.value.trim() }); ta.value = ''; }); };
+  $('#msgs').onclick = function (e) {
+    var b = e.target.closest('button'); if (!b) return; var el = b.closest('.msg'), id = el.dataset.mid;
+    var m = (CHAT.ch[CHAT.cur] || []).filter(function (x) { return String(x.id || x.cid) === id; })[0]; if (!m) return;
+    if (b.hasAttribute('data-show')) { closeSheet(); flyMark(m.lat, m.lon, 15); }
+    else if (b.hasAttribute('data-navm')) startNav({ id: null, name: (m.fromName || '') + ' · ' + (m.name || t('locMsg')), lat: m.lat, lon: m.lon });
+    else if (b.hasAttribute('data-savem')) editPoint({ lat: m.lat, lon: m.lon, name: (m.fromName || '') + ' · ' + (m.name || t('locMsg')) });
+  };
+}
+function rerenderMsgs() {
+  var box = $('#msgs'); if (!box) return; var a = CHAT.ch[CHAT.cur] || [];
+  box.innerHTML = a.length ? a.map(bubbleHTML).join('') : '<div class="empty">' + t('noMsgs') + '</div>';
+  box.scrollTop = box.scrollHeight;
+}
+function appendBubble(m) {
+  var box = $('#msgs'); if (!box || sheetTab !== 'chat' || CHAT.cur !== m.ch) return;
+  var em = box.querySelector('.empty'); if (em) em.remove();
+  var near = box.scrollHeight - box.scrollTop - box.clientHeight < 120;
+  box.insertAdjacentHTML('beforeend', bubbleHTML(m)); if (near || (CHAT.user && m.from === CHAT.user.u)) box.scrollTop = box.scrollHeight;
+}
+function changePw() {
+  openModal('<h3>' + t('chPw') + '</h3><label class="f">' + t('oldPw') + '<input type="password" id="pwO" dir="ltr"></label><label class="f">' + t('newPw') + '<input type="password" id="pwN" dir="ltr"></label><div class="row"><button class="btn pri grow" id="pwS" type="button">' + t('save') + '</button><button class="btn" id="pwX" type="button">' + t('cancel') + '</button></div>');
+  $('#pwX').onclick = closeModal;
+  $('#pwS').onclick = function () { var n = $('#pwN').value; if (n.length < 8) { toast(t('weakPw')); return; } capi('/api/password', { body: { old: $('#pwO').value, new: n } }).then(function () { closeModal(); toast(t('saved')); }).catch(function (e) { toast(e.status === 403 ? t('badLogin') : t('noServer')); }); };
+}
+function adminPanel() {
+  capi('/api/admin/users').then(function (j) {
+    openModal('<h3>' + t('admin') + '</h3><div class="list">' + j.users.map(function (u) { return '<div class="item"><span class="cico">' + (u.role === 'admin' ? '⭐' : '👤') + '</span><div class="main"><div class="nm">' + esc(u.name) + '</div><div class="sub num">' + esc(u.u) + ' · ' + esc(u.unit || '') + '</div></div><button class="ib" type="button" data-pw="' + esc(u.u) + '" aria-label="' + t('resetPw') + '">🔑</button>' + (u.u !== CHAT.user.u ? '<button class="ib" type="button" data-del="' + esc(u.u) + '" aria-label="' + t('delUser') + '">' + ICON.trash + '</button>' : '') + '</div>'; }).join('') + '</div>' +
+      '<h3 class="sech">' + t('addUser') + '</h3><label class="f">' + t('user') + '<input type="text" id="auU" dir="ltr" autocapitalize="off" spellcheck="false" placeholder="gmo1-c1-s1"></label><label class="f">' + t('dispName') + '<input type="text" id="auN"></label><label class="f">' + t('unitName') + '<input type="text" id="auUn" placeholder="GMO1 / 1ère Cie"></label>' +
+      '<label class="f">' + t('role') + '<select id="auR"><option value="member">' + t('member') + '</option><option value="admin">' + t('adminRole') + '</option></select></label><label class="f">' + t('password') + '<input type="password" id="auP" dir="ltr"></label>' +
+      '<div class="row"><button class="btn pri grow" id="auGo" type="button">' + t('addUser') + '</button><button class="btn" id="auX" type="button">' + t('done') + '</button></div>');
+    $('#auX').onclick = closeModal;
+    $('#auGo').onclick = function () {
+      capi('/api/admin/users', { body: { u: $('#auU').value.trim().toLowerCase(), name: $('#auN').value.trim(), unit: $('#auUn').value.trim(), role: $('#auR').value, p: $('#auP').value } })
+        .then(function () { toast(t('saved')); adminPanel(); })
+        .catch(function (e) { toast(e.message === 'weak' ? t('weakPw') : e.message === 'exists' ? t('userExists') : e.message === 'bad_user' ? t('badUser') : t('noServer')); });
+    };
+    $$('[data-del]').forEach(function (b) { b.onclick = function () { confirmBox(t('delUser') + ' ' + b.dataset.del + ' ?', function () { capi('/api/admin/users/' + encodeURIComponent(b.dataset.del), { method: 'DELETE' }).then(adminPanel).catch(function () { toast(t('noServer')); }); }); }; });
+    $$('[data-pw]').forEach(function (b) { b.onclick = function () {
+      var u = b.dataset.pw;
+      openModal('<h3>' + t('resetPw') + ' · ' + esc(u) + '</h3><label class="f">' + t('newPw') + '<input type="password" id="rpP" dir="ltr"></label><div class="row"><button class="btn pri grow" id="rpGo" type="button">' + t('save') + '</button><button class="btn" id="rpX" type="button">' + t('cancel') + '</button></div>');
+      $('#rpX').onclick = adminPanel;
+      $('#rpGo').onclick = function () { capi('/api/admin/users/' + encodeURIComponent(u) + '/password', { body: { p: $('#rpP').value } }).then(function () { toast(t('saved')); adminPanel(); }).catch(function (e) { toast(e.message === 'weak' ? t('weakPw') : t('noServer')); }); };
+    }; });
+  }).catch(function () { toast(t('noServer')); });
+}
+
+/* ---- live positions of units ---- */
+function shareTick() {
+  if (!S.shareLive || !CHAT.token || !pos) return;
+  var now = Date.now();
+  if (lastShare && now - lastShare.t < 120000 && Geo.distance(lastShare.lat, lastShare.lon, pos.lat, pos.lon) < 25) return;
+  if (lastShare && now - lastShare.t < 25000) return;
+  lastShare = { lat: pos.lat, lon: pos.lon, t: now };
+  capi('/api/pos', { body: { lat: +pos.lat.toFixed(6), lon: +pos.lon.toFixed(6), acc: pos.acc, hdg: heading != null ? heading : pos.hdg } }).catch(function () { lastShare = null; });
+}
+setInterval(shareTick, 10000);
+function loadPositions() { if (!CHAT.token) return; capi('/api/positions').then(function (j) { UNITS = {}; j.positions.forEach(function (p) { UNITS[p.u] = p; }); drawUnits(); }).catch(function () {}); }
+function drawUnits() {
+  if (!unitsLayer) return; unitsLayer.clearLayers();
+  Object.keys(UNITS).forEach(function (k) {
+    var p = UNITS[k], age = Math.round((Date.now() - p.t) / 60000), stale = age > 15;
+    var mk = L.marker([p.lat, p.lon], { zIndexOffset: 800, icon: L.divIcon({ className: 'unitmk' + (stale ? ' stale' : ''), iconSize: [22, 22], iconAnchor: [11, 11],
+      html: '<svg viewBox="0 0 22 22" width="22" height="22"><circle cx="11" cy="11" r="9" fill="#2563eb" stroke="#fff" stroke-width="2"/>' + (p.hdg != null ? '<path d="M11 3 14.5 11h-7z" fill="#fff" transform="rotate(' + Math.round(p.hdg) + ' 11 11)"/>' : '<circle cx="11" cy="11" r="3" fill="#fff"/>') + '</svg><span>' + esc(p.name) + ' · ' + (age < 1 ? '<1' : age) + (S.lang === 'ar' ? ' د' : ' min') + '</span>' }) });
+    mk.on('click', function () { var pr = {}; pr[t('unitName')] = p.unit; pr[t('created')] = fmtDate(p.t); if (p.acc) pr['±'] = Math.round(p.acc) + ' m'; featureDetail({ name: p.name, lat: p.lat, lon: p.lon, props: pr }); });
+    unitsLayer.addLayer(mk);
+  });
+}
+setInterval(drawUnits, 60000);
+function setUnits(on) {
+  if (on && !unitsLayer) { unitsLayer = L.layerGroup().addTo(map); loadPositions(); if (!CHAT.token) toast(t('chatLogin')); }
+  else if (!on && unitsLayer) { map.removeLayer(unitsLayer); unitsLayer = null; }
+}
+
+function chatInit() {
+  Promise.all([DB.get('chat'), DB.get('chatmsgs'), DB.get('outbox')]).then(function (r) {
+    if (r[0] && r[0].token) { CHAT.token = r[0].token; CHAT.user = r[0].user; CHAT.read = r[0].read || {}; CHAT.lastId = r[0].lastId || 0; CHAT.chans = r[0].chans || []; }
+    CHAT.ch = r[1] || {}; CHAT.outbox = r[2] || [];
+    updateBadge(); if (CHAT.token) chatConnect();
+  });
+}
+
+/* ======================================================================
+   LAAGAB 2.0 — glue: sheets routing, tools, settings, boot helpers
+   ====================================================================== */
+var _renderSheet = renderSheet;
+renderSheet = function () {
+  var body = $('#sheetBody'), title = $('#sheetTitle');
+  $('#sheet').classList.toggle('tall', sheetTab === 'chat' && !!CHAT.cur && !!CHAT.token);
+  if (sheetTab === 'layers') return layersSheet(body, title);
+  if (sheetTab === 'goto') return searchSheet(body, title);
+  if (sheetTab === 'plan') return planSheet(body, title);
+  if (sheetTab === 'weather') return weatherSheet(body, title);
+  if (sheetTab === 'chat') return chatSheet(body, title);
+  _renderSheet();
+  if (sheetTab === 'tools') {
+    var tg = document.createElement('div'); tg.className = 'tgrid';
+    tg.innerHTML = [['tPlan', '🗺️', t('plan')], ['tMeas2', '📏', t('measure')], ['tWx', '🌤️', t('weather')], ['t3d', '⛰️', '3D'], ['tCmp', '🧭', t('compass')], ['tSrch', '🔎', t('searchTitle')]]
+      .map(function (x) { return '<button type="button" class="tbtn" id="' + x[0] + '"><span>' + x[1] + '</span>' + esc(x[2]) + '</button>'; }).join('');
+    var first = body.firstElementChild; if (first && first.classList.contains('row')) first.remove();
+    body.insertBefore(tg, body.firstChild);
+    $('#tPlan').onclick = startPlan; $('#tMeas2').onclick = function () { startMeasure(); }; $('#tWx').onclick = function () { openSheet('weather'); };
+    $('#t3d').onclick = open3d; $('#tCmp').onclick = function () { openSheet('compass'); }; $('#tSrch').onclick = function () { openSheet('goto'); };
+  }
+  if (sheetTab === 'settings') {
+    var box = document.createElement('div'); box.className = 'sec';
+    box.innerHTML = '<div class="badge-int">🛡️ ' + t('internal') + '</div>';
+    body.insertBefore(box, body.firstChild);
+  }
+};
+var _closeSheet = closeSheet;
+closeSheet = function () {
+  if (sheetTab === 'plan' && PLAN.on) stopPlan();
+  _closeSheet(); $('#sheet').classList.remove('tall');
+};
+map.on('click', function (e) { if (PLAN.on) { lastFeatClick = Date.now(); addPlanPt(e.latlng.lat, e.latlng.lng); } });
+$('#searchBtn').addEventListener('click', function () { if (sheetTab === 'goto') closeSheet(); else openSheet('goto'); });
+
+/* center elevation in the top readout (throttled, from DEM) */
+var elevT = null;
+map.on('moveend', function () {
+  clearTimeout(elevT);
+  elevT = setTimeout(function () {
+    var c = map.getCenter(), el = $('#demV'); if (!el) return;
+    if (map.getZoom() < 8) { el.textContent = '—'; return; }
+    elevAt(c.lat, ((c.lng + 540) % 360) - 180, Math.min(14, Math.max(10, Math.round(map.getZoom())))).then(function (v) { el.textContent = v == null ? '—' : Math.round(v) + ' m'; });
+  }, 350);
+});
+
+function restoreOverlays() {
+  OVC.forEach(function (o) { if (!o.fn && ovState(o.id).on) ovSet(o, true); });
+  if (ovState('utm').on) setUtm(true);
+  if (ovState('units').on) setUnits(true);
+}
+
+
 /* ================= BOOT ================= */
 Promise.all([DB.get('settings'), DB.get('wp'), DB.get('tr'), DB.get('rec'), DB.get('ov')]).then(function (r) {
   OV = r[4] || [];
@@ -2594,7 +3571,7 @@ Promise.all([DB.get('settings'), DB.get('wp'), DB.get('tr'), DB.get('rec'), DB.g
   if (r[3] && r[3].pts) { REC = r[3]; if (!REC.paused) { REC.paused = true; REC.pauseAt = Date.now(); } recLine = L.polyline(REC.pts.map(function (p) { return [p[0], p[1]]; }), { color: '#e5484d', weight: 4, interactive: false }).addTo(map); }
   if (S.view) map.setView([S.view[0], S.view[1]], S.view[2]);
   setLayer(S.layer); document.body.classList.toggle('nocross', !S.cross);
-  renderWaypoints(); renderTracks(); renderAllOverlays(); if (S.geoOn) setGeology(true); if (S.minesOn) setMines(true); if (S.hillOn) setHill(true); if (S.roadsOn) setRoads(true);
+  renderWaypoints(); renderTracks(); renderAllOverlays(); if (S.geoOn) setGeology(true); if (S.minesOn) setMines(true); if (S.hillOn) setHill(true); if (S.roadsOn) setRoads(true); restoreOverlays(); chatInit();
   applyLang(); updateRecUI(); startGPS();
 });
 

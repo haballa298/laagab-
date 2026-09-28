@@ -1,7 +1,7 @@
 /* Laagab service worker: offline app shell + map tile cache */
-var SHELL = 'laagab-shell-v1.2.0', TILES = 'laagab-tiles-v1', FONTS = 'laagab-fonts-v1';
+var SHELL = 'laagab-shell-v2.0.0', TILES = 'laagab-tiles-v1', FONTS = 'laagab-fonts-v1';
 var FILES = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
-var TILE_HOSTS = /(tile\.opentopomap\.org|server\.arcgisonline\.com|tile\.openstreetmap\.org|api\.maptiler\.com|tiles\.macrostrat\.org|clarity\.maptiles\.arcgis\.com|tile-cyclosm\.openstreetmap\.fr|elevation-tiles-prod\.s3\.amazonaws\.com|s3\.amazonaws\.com)$/;
+var TILE_HOSTS = /(tile\.opentopomap\.org|server\.arcgisonline\.com|tile\.openstreetmap\.org|api\.maptiler\.com|tiles\.macrostrat\.org|clarity\.maptiles\.arcgis\.com|tile-cyclosm\.openstreetmap\.fr|elevation-tiles-prod\.s3\.amazonaws\.com|s3\.amazonaws\.com|tiles\.maps\.eox\.at|gibs\.earthdata\.nasa\.gov|tile\.openstreetmap\.fr)$/;
 var LIBS = 'laagab-libs-v1';
 
 self.addEventListener('install', function (e) {
@@ -42,6 +42,7 @@ self.addEventListener('fetch', function (e) {
     }));
     return;
   }
+  if (url.origin === self.location.origin && url.pathname.indexOf('/api/') === 0) return; // chat API: never cache
   if (url.origin === self.location.origin) {
     e.respondWith(caches.open(SHELL).then(function (cache) {
       return cache.match(req, { ignoreSearch: true }).then(function (hit) {
