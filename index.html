@@ -699,6 +699,7 @@ button{cursor:pointer}
 
 /* top readout */
 #top{position:fixed;top:calc(8px + var(--safe-t));inset-inline:10px;z-index:900;display:flex;gap:8px;align-items:stretch;pointer-events:none}
+#top .chip{-webkit-appearance:none;appearance:none;margin:0;line-height:1.25}
 .chip{pointer-events:auto;background:rgba(27,32,35,.94);border:1px solid var(--line);border-radius:var(--radius);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 #readout{flex:1;min-width:0;padding:7px 12px;display:flex;flex-direction:column;gap:2px;text-align:start;border:1px solid var(--line)}
 #readout .lbl{font-size:11px;color:var(--muted);letter-spacing:.04em;display:flex;gap:8px;align-items:center}
@@ -706,8 +707,8 @@ button{cursor:pointer}
 #coord{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:start}
 #gpsdot{width:8px;height:8px;border-radius:50%;background:#666;display:inline-block}
 #gpsdot.ok{background:var(--teal)} #gpsdot.weak{background:var(--amber)} #gpsdot.bad{background:var(--red)}
-#stats{padding:6px 10px;display:flex;flex-direction:column;justify-content:center;gap:1px;font-size:11px;color:var(--muted);min-width:78px}
-#stats b{color:var(--text);font-weight:500;font-size:13px}
+#stats{padding:7px 10px;display:grid;grid-template-columns:auto auto;align-content:center;gap:3px 8px;font-size:11px;color:var(--muted);align-items:baseline}
+#stats b{color:var(--text);font-weight:500;font-size:13px;text-align:end}
 
 /* crosshair */
 #cross{position:fixed;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;z-index:450;pointer-events:none;opacity:.85}
@@ -716,7 +717,7 @@ button{cursor:pointer}
 body.nocross #cross{display:none}
 
 /* floating buttons */
-#fab{position:fixed;inset-inline-end:10px;top:calc(76px + var(--safe-t));z-index:900;display:flex;flex-direction:column;gap:8px}
+#fab{position:fixed;inset-inline-end:10px;top:calc(76px + var(--safe-t));transition:top .15s;z-index:900;display:flex;flex-direction:column;gap:8px}
 .fb{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:rgba(27,32,35,.94);border:1px solid var(--line);color:var(--text)}
 .fb svg{width:22px;height:22px}
 .fb.on{background:var(--amber);color:#1a1206;border-color:var(--amber)}
@@ -746,13 +747,13 @@ body.nocross #cross{display:none}
 #navStop{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:transparent}
 
 /* bottom tab bar */
-#tabs{position:fixed;left:0;right:0;bottom:0;z-index:1000;display:grid;grid-template-columns:repeat(5,1fr);background:var(--panel);border-top:1px solid var(--line);padding-bottom:var(--safe-b)}
+#tabs{position:fixed;left:0;right:0;bottom:0;z-index:1000;display:grid;grid-template-columns:repeat(5,1fr);background:var(--panel);border-top:1px solid var(--line);padding-bottom:max(4px, calc(var(--safe-b) - 14px))}
 #tabs button{background:none;border:0;padding:8px 0 9px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:var(--muted)}
 #tabs button svg{width:22px;height:22px}
 #tabs button.act{color:var(--amber)}
 
 /* sheet */
-#sheet{position:fixed;left:0;right:0;bottom:calc(58px + var(--safe-b));z-index:950;max-height:68vh;background:var(--panel);border-top:1px solid var(--line);border-radius:18px 18px 0 0;display:flex;flex-direction:column;transform:translateY(110%);transition:transform .22s ease;box-shadow:0 -10px 30px rgba(0,0,0,.4)}
+#sheet{position:fixed;left:0;right:0;bottom:calc(58px + max(4px, calc(var(--safe-b) - 14px)));z-index:950;max-height:68vh;background:var(--panel);border-top:1px solid var(--line);border-radius:18px 18px 0 0;display:flex;flex-direction:column;transform:translateY(110%);transition:transform .22s ease;box-shadow:0 -10px 30px rgba(0,0,0,.4)}
 #sheet.open{transform:none}
 #sheetHead{display:flex;align-items:center;gap:10px;padding:12px 16px 8px}
 #sheetHead h2{margin:0;font-size:17px;flex:1}
@@ -872,6 +873,7 @@ textarea{min-height:64px;resize:vertical}
 <div id="toast" hidden></div>
 <input type="file" id="fileIn" accept=".gpx,.kml,.csv,.json,.geojson,application/gpx+xml,application/vnd.google-earth.kml+xml,text/csv,application/json" hidden>
 
+<input type="file" id="ovIn" multiple accept=".shp,.dbf,.prj,.cpg,.shx,.geojson,.json,.kml,.csv,.gpx" hidden>
 <script>/* @preserve
  * Leaflet 1.9.4+v1.d15112c, a JS library for interactive maps. https://leafletjs.com
  * (c) 2010-2023 Vladimir Agafonkin, (c) 2010-2011 CloudMade
@@ -1109,7 +1111,7 @@ textarea{min-height:64px;resize:vertical}
 'use strict';
 
 /* ================= CONFIG ================= */
-var APP = { name: 'لعگاب — Laagab', version: '1.0.0', author: 'Abderrahmane Haballa' };
+var APP = { name: 'لعگاب — Laagab', version: '1.1.0', author: 'Abderrahmane Haballa' };
 function LAYERS() {
   var k = S.maptilerKey && S.maptilerKey.trim();
   var L1 = [
@@ -1137,7 +1139,14 @@ var FMT_LBL = { dd: 'DD', dms: 'DMS', dm: 'DM', utm: 'UTM', mgrs: 'MGRS' };
 
 /* ================= I18N ================= */
 var T = {
-  ar: { gps: 'GPS', center: 'مركز الخريطة', acc: 'الدقة', alt: 'الارتفاع', locate: 'موقعي', layers: 'الطبقات', addPoint: 'إضافة نقطة', measure: 'قياس', compass: 'البوصلة',
+  ar: {
+    overlays: 'طبقات جيولوجية ومنجمية', geology: 'الخريطة الجيولوجية', geoHint: 'المس الخريطة لمعرفة نوع الصخور وعمرها (يحتاج إنترنت).', opacity: 'الشفافية',
+    mines: 'المناجم والمشاريع المنجمية', minesNote: 'مواقع موثّقة من تقارير الشركات والمصادر العامة؛ درجة الدقة مذكورة لكل موقع.', importLayer: 'استيراد طبقة (Shapefile / GeoJSON / KML / CSV)',
+    shpHint: 'Shapefile: اختر معًا ملفات ‎.shp و ‎.dbf و ‎.prj لنفس الطبقة. تدعم الإحداثيات الجغرافية و UTM.', layerAdded: 'أُضيفت الطبقة', shpNeed: 'اختر ملف ‎.shp مع ‎.dbf و ‎.prj', noDbf: 'لم يُرفق ملف ‎.dbf فلن تظهر الخصائص',
+    prjUnknown: 'نظام الإحداثيات غير مدعوم. صدّر الطبقة من QGIS بنظام WGS84 (EPSG:4326)', geoUnit: 'الوحدة الجيولوجية', loading: 'جارٍ التحميل…', geoNone: 'لا توجد بيانات جيولوجية لهذه النقطة',
+    geoSrc: 'المصدر: Macrostrat (خرائط جيولوجية إقليمية بمقياس صغير — للاستئناس، لا تغني عن الخرائط الجيولوجية الوطنية 1:200 000).', geoOffline: 'تعذّر الاتصال. التعرّف على الصخور يحتاج إنترنت.',
+    lith: 'الصخور', age: 'العمر', type: 'النوع', commodity: 'المعدن', confidence: 'دقة الموقع', feature: 'عنصر', legend: 'المفتاح',
+    gps: 'GPS', center: 'مركز الخريطة', acc: 'الدقة', alt: 'الارتفاع', locate: 'موقعي', layers: 'الطبقات', addPoint: 'إضافة نقطة', measure: 'قياس', compass: 'البوصلة',
     dist: 'المسافة', bearing: 'السمت', eta: 'الوصول', time: 'المدة', speed: 'كم/س', gain: 'صعود م', record: 'تسجيل مسار', stop: 'إيقاف', paused: 'متوقف مؤقتًا',
     points: 'النقاط', tracks: 'المسارات', coords: 'إحداثيات', tools: 'أدوات', settings: 'الإعدادات',
     noPoints: 'لا توجد نقاط بعد. اضغط مطوّلًا على الخريطة أو استعمل زر الإضافة.', noTracks: 'لا توجد مسارات. اضغط «تسجيل مسار» لبدء التسجيل.',
@@ -1161,7 +1170,14 @@ var T = {
     distTo: 'المسافة', recSaved: 'تم حفظ المسار', recEmpty: 'المسار قصير جدًا ولم يُحفظ', resume: 'استئناف', min: 'د', h: 'س', layersTitle: 'طبقات الخريطة', gridUtm: 'شبكة UTM',
     followOn: 'تتبّع الموقع مفعّل', allFormats: 'كل الصيغ', created: 'أُنشئ', pointsCount: 'عدد النقاط', duration: 'المدة', maxSpeed: 'أقصى سرعة', avgSpeed: 'متوسط السرعة',
     zoomTo: 'إلى تكبير', fitTrack: 'عرض المسار' },
-  fr: { gps: 'GPS', center: 'Centre carte', acc: 'Précision', alt: 'Altitude', locate: 'Ma position', layers: 'Couches', addPoint: 'Ajouter un point', measure: 'Mesurer', compass: 'Boussole',
+  fr: {
+    overlays: 'Couches géologiques et minières', geology: 'Carte géologique', geoHint: 'Touchez la carte pour identifier la roche et son âge (Internet requis).', opacity: 'Opacité',
+    mines: 'Mines et projets miniers', minesNote: 'Positions issues de rapports de sociétés et sources publiques ; précision indiquée pour chaque site.', importLayer: 'Importer une couche (Shapefile / GeoJSON / KML / CSV)',
+    shpHint: 'Shapefile : sélectionnez ensemble les fichiers .shp, .dbf et .prj de la couche. Coordonnées géographiques et UTM prises en charge.', layerAdded: 'Couche ajoutée', shpNeed: 'Sélectionnez le .shp avec le .dbf et le .prj', noDbf: 'Sans fichier .dbf, les attributs ne s’afficheront pas',
+    prjUnknown: 'Système de coordonnées non pris en charge. Exportez la couche depuis QGIS en WGS84 (EPSG:4326)', geoUnit: 'Unité géologique', loading: 'Chargement…', geoNone: 'Aucune donnée géologique pour ce point',
+    geoSrc: 'Source : Macrostrat (cartes géologiques régionales à petite échelle — indicatif, ne remplace pas les cartes nationales au 1:200 000).', geoOffline: 'Connexion impossible. L’identification des roches nécessite Internet.',
+    lith: 'Lithologie', age: 'Âge', type: 'Type', commodity: 'Substance', confidence: 'Précision du site', feature: 'Élément', legend: 'Légende',
+    gps: 'GPS', center: 'Centre carte', acc: 'Précision', alt: 'Altitude', locate: 'Ma position', layers: 'Couches', addPoint: 'Ajouter un point', measure: 'Mesurer', compass: 'Boussole',
     dist: 'Distance', bearing: 'Azimut', eta: 'Arrivée', time: 'Durée', speed: 'km/h', gain: 'D+ m', record: 'Enregistrer', stop: 'Arrêter', paused: 'En pause',
     points: 'Points', tracks: 'Traces', coords: 'Coordonnées', tools: 'Outils', settings: 'Réglages',
     noPoints: 'Aucun point. Appui long sur la carte ou bouton d’ajout.', noTracks: 'Aucune trace. Touchez « Enregistrer » pour commencer.',
@@ -1593,7 +1609,7 @@ function drawMeasure() {
   ll.forEach(function (p) { MEAS.markers.addLayer(L.marker(p, { icon: L.divIcon({ className: '', html: '<div class="mpt"></div>', iconSize: [12, 12], iconAnchor: [6, 6] }), interactive: false })); });
   if (sheetTab === 'measure') renderSheet();
 }
-map.on('click', function (e) { if (!MEAS.on) return; MEAS.pts.push([e.latlng.lat, e.latlng.lng]); drawMeasure(); });
+map.on('click', function (e) { if (!MEAS.on) { if (S.geoOn && geoLayer && Date.now() - lastFeatClick > 400) identifyGeology(e.latlng.lat, ((e.latlng.lng + 540) % 360) - 180); return; } MEAS.pts.push([e.latlng.lat, e.latlng.lng]); drawMeasure(); });
 
 /* ================= IMPORT / EXPORT ================= */
 function safeName(s) { return String(s).replace(/[\\/:*?"<>|]+/g, '_').replace(/\s+/g, '_').slice(0, 60) || 'laagab'; }
@@ -1639,7 +1655,7 @@ function importText(name, text) {
   function pushT(nm, pts) { if (pts.length < 2) return; TR.push({ id: uid(), name: nm || name, created: pts[0][3] || Date.now(), pts: pts, dist: Geo.pathLength(pts), gain: 0, dur: pts[pts.length - 1][3] && pts[0][3] ? pts[pts.length - 1][3] - pts[0][3] : 0, maxSpeed: 0, color: COLORS[3], visible: true }); addT++; }
   if (/\.json$/.test(lower)) {
     var j = JSON.parse(text);
-    if (j.app === 'laagab') { (j.waypoints || []).forEach(function (w) { if (!WP.some(function (x) { return x.id === w.id; })) { WP.push(w); addW++; } }); (j.tracks || []).forEach(function (tr) { if (!TR.some(function (x) { return x.id === tr.id; })) { TR.push(tr); addT++; } }); }
+    if (j.app === 'laagab') { (j.waypoints || []).forEach(function (w) { if (!WP.some(function (x) { return x.id === w.id; })) { WP.push(w); addW++; } }); (j.tracks || []).forEach(function (tr) { if (!TR.some(function (x) { return x.id === tr.id; })) { TR.push(tr); addT++; } }); (j.overlays || []).forEach(function (o) { if (!OV.some(function (x) { return x.id === o.id; })) { OV.push(o); } }); saveOV(); renderAllOverlays(); }
     else if (j.type === 'FeatureCollection') {
       j.features.forEach(function (f) {
         var g = f.geometry || {}, pr = f.properties || {}, nm = pr.name || pr.Name || pr.NOM || pr.nom;
@@ -1693,15 +1709,18 @@ $('#fileIn').addEventListener('change', function () {
   rd.readAsText(f); this.value = '';
 });
 
+$('#ovIn').addEventListener('change', function () { if (this.files.length) importOverlayFiles(this.files); this.value = ''; });
+
 /* ================= OFFLINE TILES ================= */
 var TILE_CACHE = 'laagab-tiles-v1';
 function lon2x(lon, z) { return Math.floor((lon + 180) / 360 * Math.pow(2, z)); }
 function lat2y(lat, z) { var r = lat * Math.PI / 180; return Math.floor((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * Math.pow(2, z)); }
 function tileList(bounds, z0, z1, def) {
-  var out = [], urls = [def.url].concat(def.over ? [def.over] : []);
+  var out = [], urls = [def.url].concat(def.over ? [def.over] : []).concat(S.geoOn ? [GEO_URL] : []);
   for (var z = z0; z <= Math.min(z1, def.max); z++) {
+    var zu = urls.filter(function (u) { return u !== GEO_URL || z <= GEO_MAX; });
     var x0 = lon2x(bounds.getWest(), z), x1 = lon2x(bounds.getEast(), z), y0 = lat2y(bounds.getNorth(), z), y1 = lat2y(bounds.getSouth(), z);
-    for (var x = x0; x <= x1; x++) for (var y = y0; y <= y1; y++) urls.forEach(function (u, i) {
+    for (var x = x0; x <= x1; x++) for (var y = y0; y <= y1; y++) zu.forEach(function (u, i) {
       var s = (def.sub || 'abc').charAt((x + y) % (def.sub || 'abc').length);
       out.push(u.replace('{s}', s).replace('{z}', z).replace('{x}', x).replace('{y}', y));
     });
@@ -1853,7 +1872,7 @@ function renderSheet() {
       $('#ioGpx').onclick = function () { exportFile('laagab_' + stamp + '.gpx', toGPX(WP, TR), 'application/gpx+xml'); };
       $('#ioKml').onclick = function () { exportFile('laagab_' + stamp + '.kml', toKML(WP, TR), 'application/vnd.google-earth.kml+xml'); };
       $('#ioCsv').onclick = function () { exportFile('laagab_points_' + stamp + '.csv', toCSV(WP), 'text/csv'); };
-      $('#ioJson').onclick = function () { exportFile('laagab_backup_' + stamp + '.json', JSON.stringify({ app: 'laagab', version: APP.version, exported: Date.now(), waypoints: WP, tracks: TR }), 'application/json'); };
+      $('#ioJson').onclick = function () { exportFile('laagab_backup_' + stamp + '.json', JSON.stringify({ app: 'laagab', version: APP.version, exported: Date.now(), waypoints: WP, tracks: TR, overlays: OV }), 'application/json'); };
       break;
     case 'measure':
       title.textContent = t('measTitle');
@@ -1884,9 +1903,23 @@ function renderSheet() {
     case 'layers':
       title.textContent = t('layersTitle');
       h += '<div class="list">' + LAYERS().map(function (l) { return '<button class="item" type="button" data-layer="' + l.id + '" style="border:0;text-align:start;color:' + (l.id === S.layer ? 'var(--amber)' : 'var(--text)') + '"><span class="pin" style="background:' + (l.id === S.layer ? 'var(--amber)' : 'var(--line)') + '"></span><span class="main"><span class="nm">' + esc(l.name[S.lang]) + '</span><span class="sub" style="display:block">' + esc(l.attr) + '</span></span></button>'; }).join('') + '</div>' +
+        '<div class="sec"><h3>' + t('overlays') + '</h3>' +
+        '<div class="switch"><span>' + t('geology') + '</span><input type="checkbox" id="lGeo" ' + (S.geoOn ? 'checked' : '') + '></div>' +
+        (S.geoOn ? '<label class="f" style="margin-top:6px">' + t('opacity') + '<input type="range" id="lGeoOp" min="0.2" max="1" step="0.05" value="' + (S.geoOpacity || 0.6) + '" style="accent-color:var(--amber)"></label><div class="note">' + t('geoHint') + '</div>' : '') +
+        '<div class="switch" style="margin-top:8px"><span>' + t('mines') + ' (' + MINES.length + ')</span><input type="checkbox" id="lMines" ' + (S.minesOn ? 'checked' : '') + '></div>' +
+        (S.minesOn ? '<div class="note" style="margin-top:6px">' + Object.keys(MINE_TYPE_COLOR).map(function (k) { return '<span style="display:inline-flex;align-items:center;gap:4px;margin-inline-end:10px"><i style="width:10px;height:10px;transform:rotate(45deg);background:' + MINE_TYPE_COLOR[k] + ';display:inline-block"></i>' + esc(mineType(k)) + '</span>'; }).join('') + '<br>' + t('minesNote') + '</div>' : '') +
+        (OV.length ? '<div class="list" style="margin-top:8px">' + OV.map(function (o) { return '<div class="item"><span class="pin" style="background:' + o.color + '"></span><div class="main"><div class="nm">' + esc(o.name) + '</div><div class="sub num">' + o.n + '</div></div><button class="ib" type="button" data-ovv="' + o.id + '">' + (o.visible ? ICON.eye : ICON.eyeOff) + '</button><button class="ib" type="button" data-ovz="' + o.id + '">' + ICON.target + '</button><button class="ib" type="button" data-ovd="' + o.id + '">' + ICON.trash + '</button></div>'; }).join('') + '</div>' : '') +
+        '<div class="row" style="margin-top:8px"><button class="btn grow" id="lImp" type="button">' + t('importLayer') + '</button></div><div class="note" style="margin-top:6px">' + t('shpHint') + '</div></div>' +
         '<div class="switch sec"><span>' + t('crosshair') + '</span><input type="checkbox" id="lCross" ' + (S.cross ? 'checked' : '') + '></div>';
       body.innerHTML = h;
       $$('[data-layer]', body).forEach(function (el) { el.onclick = function () { setLayer(el.dataset.layer); renderSheet(); }; });
+      $('#lGeo').onchange = function () { setGeology(this.checked); renderSheet(); };
+      if ($('#lGeoOp')) $('#lGeoOp').oninput = function () { setGeoOpacity(+this.value); };
+      $('#lMines').onchange = function () { setMines(this.checked); renderSheet(); if (this.checked) map.fitBounds(L.latLngBounds(MINES.map(function (m) { return [m.lat, m.lon]; })).pad(0.1)); };
+      $('#lImp').onclick = function () { $('#ovIn').click(); };
+      $$('[data-ovv]', body).forEach(function (el) { el.onclick = function () { var o = OV.filter(function (x) { return x.id === el.dataset.ovv; })[0]; o.visible = !o.visible; saveOV(); renderOverlay(o); renderSheet(); }; });
+      $$('[data-ovz]', body).forEach(function (el) { el.onclick = function () { var o = OV.filter(function (x) { return x.id === el.dataset.ovz; })[0]; if (!o.visible) { o.visible = true; saveOV(); renderOverlay(o); } var b = fcBounds(o.fc); if (b) map.fitBounds(b.pad(0.1)); closeSheet(); }; });
+      $$('[data-ovd]', body).forEach(function (el) { el.onclick = function () { confirmBox(t('confirmDel'), function () { var id = el.dataset.ovd; if (ovLayers[id]) { map.removeLayer(ovLayers[id]); delete ovLayers[id]; } OV = OV.filter(function (x) { return x.id !== id; }); saveOV(); renderSheet(); }); }; });
       $('#lCross').onchange = function () { S.cross = this.checked; document.body.classList.toggle('nocross', !S.cross); saveSettings(); };
       break;
     case 'settings':
@@ -1956,7 +1989,22 @@ function applyLang() {
   $$('[data-t]').forEach(function (el) { el.setAttribute('aria-label', t(el.dataset.t)); el.title = t(el.dataset.t); });
   updateRecUI(); updateReadout();
   if (NAV) $('#navName').textContent = t('navTo') + ' ' + NAV.name;
+  placeFloating();
+  if (typeof minesLayer !== 'undefined' && minesLayer) { map.removeLayer(minesLayer); minesLayer = null; setMines(true); }
 }
+
+/* ================= LAYOUT ================= */
+function placeFloating() {
+  var r = $('#top').getBoundingClientRect(), y = Math.round(r.bottom + 10);
+  $('#fab').style.top = y + 'px'; $('#navPanel').style.top = y + 'px';
+  var tb = $('#tabs').getBoundingClientRect().height;
+  $('#rec').style.bottom = (tb + 28) + 'px'; $('#recStats').style.bottom = (tb + 84) + 'px';
+  $('.leaflet-bottom.leaflet-left') && ($('.leaflet-bottom.leaflet-left').style.bottom = (tb + 6) + 'px');
+  $('.leaflet-bottom.leaflet-right') && ($('.leaflet-bottom.leaflet-right').style.bottom = (tb + 6) + 'px');
+}
+window.addEventListener('resize', placeFloating);
+window.addEventListener('orientationchange', function () { setTimeout(placeFloating, 300); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeFloating);
 
 /* ================= PWA ================= */
 var installEvt = null;
@@ -1966,15 +2014,292 @@ if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
 }
 if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function () {});
 
+var MINES = [{"name": "Tasiast (mine d'or, Kinross)", "name_ar": "منجم تازيازت", "type": "mine en exploitation", "commodity": "Or", "lat": 20.57864, "lon": -15.51238, "wilaya": "Dakhlet Nouadhibou / Inchiri", "source": "https://s204.q4cdn.com/896213035/files/doc_downloads/technical_reports/2019/Kinross-Tasiast-NI-43-101-Technical-Report-Oct-2019-FINAL.pdf", "confidence": "Exact – converti depuis UTM 28N WGS84 (446600E, 2275600N) du rapport NI 43-101 Kinross 2019 (même valeur dans le rapport SEC 2010). Recoupement : Wikipedia 20.5833,-15.5000 (~1.4 km) ; centrale électrique du site (GEM) 20.540573,-15.529067 (~4.5 km au S)."}, {"name": "Guelb Moghrein (mine cuivre-or, MCM / First Quantum)", "name_ar": "منجم قلب أمغرين (أكجوجت)", "type": "mine en exploitation", "commodity": "Cuivre, Or (Magnétite)", "lat": 19.746792, "lon": -14.448051, "wilaya": "Inchiri", "source": "https://www.over-view.com/overviews/guelb-moghrein-mine", "confidence": "Bonne – centre de l'image satellite de la fosse (Daily Overview). Recoupement : article MDPI Applied Sciences 2024 donne 19°45'N 14°25'W (19.75,-14.4167 ; précision à la minute, ~3 km d'écart) ; Wikipedia : 4 km à l'ouest d'Akjoujt (19.7458,-14.3878). Attention : la fiche USGS MRDS (19.5002,-14.5818) est erronée (~30 km)."}, {"name": "Tijirit – zone Eleonore (projet or, Aya Gold & Silver, ex-Algold)", "name_ar": "مشروع تجريت – منطقة إليونور", "type": "projet", "commodity": "Or", "lat": 20.34709, "lon": -15.16958, "wilaya": "Inchiri", "source": "https://www.prnewswire.com/news-releases/algold-identifies-potential-high-grade-31-km-strike-length-gold-zone-with-intercepts-including-164-gt-au-over-6-meters-at-tijirit-mauritania-590286971.html", "confidence": "Exact – converti depuis les collets de forage UTM 28N (≈482300E, 2249900N ; forages T16RC024/027/031/032). Datum supposé WGS84. Permis révoqué en juin 2025 (MiningDataOnline). Le propriétaire est Aya Gold & Silver, pas Aura."}, {"name": "Tijirit – zone Sophie II", "name_ar": "مشروع تجريت – منطقة صوفي 2", "type": "projet", "commodity": "Or", "lat": 20.35515, "lon": -15.23379, "wilaya": "Inchiri", "source": "https://www.prnewswire.com/news-releases/algold-identifies-potential-high-grade-31-km-strike-length-gold-zone-with-intercepts-including-164-gt-au-over-6-meters-at-tijirit-mauritania-590286971.html", "confidence": "Exact – converti depuis les collets de forage UTM 28N (≈475600E, 2250800N ; forages T16RC020/021). Datum supposé WGS84."}, {"name": "Guelb El Rhein (mine de fer SNIM)", "name_ar": "منجم قلب الرين", "type": "mine en exploitation", "commodity": "Fer (magnétite)", "lat": 22.8734, "lon": -12.31534, "wilaya": "Tiris Zemmour", "source": "https://www.gem.wiki/SNIM_Guelb_Rhein_Mine", "confidence": "Exact selon Global Energy Monitor. Recoupement : USGS MRDS 10183317 = 22.8736,-12.3359 (~2 km d'écart en longitude) ; Wikipedia : 35 km au N de Zouérate."}, {"name": "TO14 (mine de fer SNIM, Kédia d'Idjil)", "name_ar": "منجم TO14", "type": "mine en exploitation", "commodity": "Fer (hématite)", "lat": 22.690084, "lon": -12.477883, "wilaya": "Tiris Zemmour", "source": "https://www.gem.wiki/SNIM_TO14_Mine", "confidence": "Exact selon Global Energy Monitor (source unique)."}, {"name": "Tazadit (mine de fer SNIM, Kédia d'Idjil)", "name_ar": "منجم تازاديت", "type": "mine en exploitation", "commodity": "Fer (hématite)", "lat": 22.6667, "lon": -12.6651, "wilaya": "Tiris Zemmour", "source": "https://thediggings.com/mines/usgs10084941", "confidence": "Approximative – USGS MRDS 10084941 ; coordonnées identiques à celles de Rouessa, donc généralisées (précision ~5 km)."}, {"name": "Rouessa (mine de fer SNIM, Kédia d'Idjil)", "name_ar": "منجم الرويسة", "type": "mine en exploitation", "commodity": "Fer (hématite)", "lat": 22.6667, "lon": -12.6651, "wilaya": "Tiris Zemmour", "source": "https://thediggings.com/mines/usgs10084940", "confidence": "Approximative – USGS MRDS 10084940 ; coordonnées identiques à Tazadit (généralisées, précision ~5 km)."}, {"name": "F'Dérik (mines de fer, Kédia d'Idjil ouest)", "name_ar": "مناجم أفديرك", "type": "mine en exploitation", "commodity": "Fer", "lat": 22.6834, "lon": -12.7151, "wilaya": "Tiris Zemmour", "source": "https://thediggings.com/mines/usgs10084939", "confidence": "Approximative (niveau ville) – USGS MRDS 10084939 ; quasi identique à la ville de F'Dérik (Wikipedia 22.67833,-12.71139). Une autre fiche MRDS (usgs10158598) donne 22.4501,-12.7484 (~26 km au S) : discordante, non retenue."}, {"name": "Kédia d'Idjil (massif ferrifère)", "name_ar": "كدية الجل", "type": "gisement", "commodity": "Fer (hématite)", "lat": 22.65111, "lon": -12.57417, "wilaya": "Tiris Zemmour", "source": "https://en.wikipedia.org/wiki/Kediet_ej_Jill", "confidence": "Exact pour le point culminant du massif (infobox Wikipedia) ; le gisement s'étend sur plusieurs km autour."}, {"name": "Zouérate (centre minier SNIM)", "name_ar": "ازويرات", "type": "centre minier", "commodity": "Fer", "lat": 22.733, "lon": -12.467, "wilaya": "Tiris Zemmour", "source": "https://en.wikipedia.org/wiki/Zou%C3%A9rat", "confidence": "Approximative (niveau ville, infobox Wikipedia 22°44'N 12°28'W)."}, {"name": "Chami – zone d'orpaillage (ruée vers l'or)", "name_ar": "الشامي – منطقة التنقيب التقليدي عن الذهب", "type": "zone artisanale", "commodity": "Or", "lat": 20.1673, "lon": -15.9724, "wilaya": "Dakhlet Nouadhibou", "source": "https://en.wikipedia.org/wiki/Chami,_Mauritania", "confidence": "Approximative (niveau ville) – coordonnées de la ville de Chami ; les chantiers artisanaux sont dispersés dans le désert à l'est/nord-est (Tasiast–Inchiri)."}, {"name": "Bofal – Loubboira (gisement de phosphate)", "name_ar": "فوسفات بوفال", "type": "gisement", "commodity": "Phosphate", "lat": 16.41667, "lon": -13.8, "wilaya": "Brakna", "source": "https://en.wikipedia.org/wiki/Bofal", "confidence": "Approximative (niveau village, Wikipedia 16°25'N 13°48'W ; même valeur sur latitude.to). Wilaya Brakna (moughataa de Bababé) selon trustmag.net/mapcarta."}, {"name": "N'Dramcha / Sebkha de Ndrhamcha (gypse, SAMIA)", "name_ar": "سبخة انضغماشة (الجبس)", "type": "mine en exploitation", "commodity": "Gypse", "lat": 18.5061, "lon": -16.0497, "wilaya": "Trarza", "source": "https://www.getamap.net/maps/mauritania/trarza/_ndrhamcha_sebkhade/", "confidence": "Approximative – centre de la sebkha (base NGA GNS via getamap) ; cohérent avec « 50 km au nord de Nouakchott » (Global Gypsum Magazine). Discordance : latitude.to donne 18.45,-15.48 (~60 km à l'E), non retenu. La sebkha mesure 40–80 km : le point n'est pas la carrière exacte."}, {"name": "Bou Naga (ancienne exploitation monazite / terres rares)", "name_ar": "بوناغة", "type": "indice", "commodity": "Terres rares (monazite, yttrium)", "lat": 20.8002, "lon": -13.6985, "wilaya": "Adrar", "source": "https://thediggings.com/mines/usgs10305137", "confidence": "Faible / approximative – USGS MRDS 10305137 ; coordonnées arrondies, source unique non recoupée."}];
+/* ================= OVERLAYS: geology, mines, imported layers ================= */
+var OV = [];            // imported overlays: {id,name,color,visible,fc (GeoJSON FeatureCollection)}
+var ovLayers = {};      // id -> Leaflet layer
+var geoLayer = null;    // Macrostrat geology tiles
+var minesLayer = null;
+var GEO_URL = 'https://tiles.macrostrat.org/carto/{z}/{x}/{y}.png';
+var GEO_MAX = 13;
+var lastFeatClick = 0;
+var OV_COLORS = ['#f0a43a', '#e5484d', '#43b5a5', '#5b8def', '#a78bfa', '#f472b6'];
+
+function setGeology(on) {
+  S.geoOn = !!on; saveSettings();
+  if (on && !geoLayer) {
+    geoLayer = L.tileLayer(GEO_URL, { maxZoom: 20, maxNativeZoom: GEO_MAX, opacity: S.geoOpacity || 0.6, attribution: 'Geology © <a href="https://macrostrat.org" target="_blank" rel="noopener">Macrostrat</a> (CC-BY 4.0)' }).addTo(map);
+  } else if (!on && geoLayer) { map.removeLayer(geoLayer); geoLayer = null; }
+}
+function setGeoOpacity(v) { S.geoOpacity = v; saveSettings(); if (geoLayer) geoLayer.setOpacity(v); }
+
+/* ---- Geology identify (Macrostrat API, needs internet) ---- */
+function identifyGeology(lat, lon) {
+  openModal('<h3>' + t('geoUnit') + '</h3><div class="note num">' + esc(Geo.format(lat, lon, S.fmt)) + '</div><div id="geoRes" class="note">' + t('loading') + '</div><div class="row"><button class="btn grow" type="button" id="geoClose">' + t('done') + '</button></div>');
+  $('#geoClose').onclick = closeModal;
+  var mk = L.circleMarker([lat, lon], { radius: 7, color: '#fff', weight: 2, fillColor: '#e5484d', fillOpacity: 1 }).addTo(map);
+  setTimeout(function () { map.removeLayer(mk); }, 6000);
+  fetch('https://macrostrat.org/api/v2/geologic_units/map?lat=' + lat.toFixed(5) + '&lng=' + lon.toFixed(5))
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      var d = (j.success && j.success.data) || [], el = $('#geoRes'); if (!el) return;
+      if (!d.length) { el.textContent = t('geoNone'); return; }
+      el.innerHTML = d.slice(0, 3).map(function (u) {
+        var age = u.t_int_name === u.b_int_name ? u.t_int_name : (u.b_int_name + ' → ' + u.t_int_name);
+        var ma = (u.b_int_age != null && u.t_int_age != null) ? ' (' + Math.round(u.b_int_age) + '–' + Math.round(u.t_int_age) + ' Ma)' : '';
+        return '<div class="kv" style="margin-top:8px;grid-template-columns:auto 1fr"><span style="width:14px;height:14px;border-radius:4px;background:' + esc(u.color || '#888') + '"></span><b style="color:var(--text)">' + esc(u.name || u.lith || '—') + '</b>' +
+          (u.lith ? '<span>' + t('lith') + '</span><span style="color:var(--text)">' + esc(u.lith) + '</span>' : '') +
+          (age ? '<span>' + t('age') + '</span><span style="color:var(--text)">' + esc(age + ma) + '</span>' : '') +
+          (u.descrip ? '<span></span><span style="color:var(--text)">' + esc(u.descrip.slice(0, 400)) + '</span>' : '') + '</div>';
+      }).join('') + '<div class="note" style="margin-top:6px">' + t('geoSrc') + '</div>';
+    })
+    .catch(function () { var el = $('#geoRes'); if (el) el.textContent = t('geoOffline'); });
+}
+
+/* ---- Built-in mines layer ---- */
+var MINE_TYPE_COLOR = { 'mine en exploitation': '#e5484d', 'projet': '#f0a43a', 'gisement': '#a78bfa', 'zone artisanale': '#f472b6', 'centre minier': '#5b8def', 'indice': '#43b5a5' };
+var MINE_TYPE_AR = { 'mine en exploitation': 'منجم قيد الاستغلال', 'projet': 'مشروع', 'gisement': 'مكمن', 'zone artisanale': 'منطقة تنقيب تقليدي', 'centre minier': 'مركز منجمي', 'indice': 'مؤشر معدني' };
+var COMMO_AR = { 'Cuivre, Or (Magnétite)': 'نحاس، ذهب (مغنتيت)', 'Fer': 'حديد', 'Fer (hématite)': 'حديد (هيماتيت)', 'Fer (magnétite)': 'حديد (مغنتيت)', 'Gypse': 'جبس', 'Or': 'ذهب', 'Phosphate': 'فوسفات', 'Terres rares (monazite, yttrium)': 'عناصر أرضية نادرة (مونازيت، إتريوم)' };
+function mineType(k) { return S.lang === 'ar' ? (MINE_TYPE_AR[k] || k) : k; }
+function setMines(on) {
+  S.minesOn = !!on; saveSettings();
+  if (on && !minesLayer) {
+    minesLayer = L.layerGroup();
+    MINES.forEach(function (m) {
+      var c = MINE_TYPE_COLOR[m.type] || '#f0a43a';
+      var mk = L.marker([m.lat, m.lon], { icon: L.divIcon({ className: 'wp', iconSize: [22, 22], iconAnchor: [11, 11],
+        html: '<svg width="22" height="22" viewBox="0 0 22 22"><rect x="3" y="3" width="16" height="16" rx="3" transform="rotate(45 11 11)" fill="' + c + '" stroke="#121517" stroke-width="1.5"/><path d="M8 13l3-5 3 5z" fill="#121517"/></svg><span style="top:22px">' + esc(S.lang === 'ar' && m.name_ar ? m.name_ar : m.name.split(' (')[0]) + '</span>' }) });
+      mk.on('click', function () { featureDetail({ name: S.lang === 'ar' && m.name_ar ? m.name_ar : m.name, lat: m.lat, lon: m.lon, props: { [t('type')]: mineType(m.type), [t('commodity')]: S.lang === 'ar' ? (COMMO_AR[m.commodity] || m.commodity) : m.commodity, wilaya: m.wilaya, [t('confidence')]: m.confidence, source: m.source } }); });
+      minesLayer.addLayer(mk);
+    });
+    minesLayer.addTo(map);
+  } else if (!on && minesLayer) { map.removeLayer(minesLayer); minesLayer = null; }
+}
+
+/* ---- Feature detail (points of overlays / mines / polygons) ---- */
+function featureDetail(f) {
+  var rows = Object.keys(f.props || {}).filter(function (k) { var v = f.props[k]; return v !== null && v !== '' && typeof v !== 'object'; }).slice(0, 30).map(function (k) {
+    var v = String(f.props[k]);
+    var val = /^https?:\/\//.test(v) ? '<a href="' + esc(v) + '" target="_blank" rel="noopener" style="color:var(--sand);word-break:break-all">' + esc(v.length > 60 ? v.slice(0, 60) + '…' : v) + '</a>' : esc(v);
+    return '<span>' + esc(k) + '</span><span style="color:var(--text);word-break:break-word">' + val + '</span>';
+  }).join('');
+  var hasPt = f.lat != null;
+  var html = '<h3>' + esc(f.name || t('feature')) + '</h3>' + (f.layer ? '<div class="note">' + esc(f.layer) + '</div>' : '') +
+    (rows ? '<div class="kv" style="grid-template-columns:auto 1fr">' + rows + '</div>' : '') +
+    (f.area ? '<div class="kv"><span>' + t('area') + '</span><b class="num">' + fmtArea(f.area) + '</b><span></span></div>' : '') +
+    (hasPt ? coordsTable(f.lat, f.lon) : '') +
+    '<div class="row">' + (hasPt ? '<button class="btn pri grow" id="fdNav" type="button">' + ICON.nav + t('navigate') + '</button><button class="btn" id="fdSave" type="button">' + t('savePoint') + '</button>' : '') +
+    '<button class="btn' + (hasPt ? '' : ' grow') + '" id="fdClose" type="button">' + t('done') + '</button></div>';
+  openModal(html); bindCopy();
+  if (hasPt) {
+    $('#fdNav').onclick = function () { closeModal(); startNav({ id: null, name: f.name || t('feature'), lat: f.lat, lon: f.lon }); };
+    $('#fdSave').onclick = function () { closeModal(); editPoint({ lat: f.lat, lon: f.lon, name: f.name }); };
+  }
+  $('#fdClose').onclick = closeModal;
+}
+
+/* ---- Render imported overlays ---- */
+function propName(p) {
+  if (!p) return '';
+  var keys = ['name', 'Name', 'NAME', 'nom', 'NOM', 'Nom', 'label', 'LABEL', 'title', 'Site_Name', 'SITE_NAME', 'DEP_NAME', 'dep_name', 'id', 'ID', 'Tract', 'TRACT', 'tract_name'];
+  for (var i = 0; i < keys.length; i++) if (p[keys[i]] != null && p[keys[i]] !== '') return String(p[keys[i]]);
+  return '';
+}
+function renderOverlay(o) {
+  if (ovLayers[o.id]) { map.removeLayer(ovLayers[o.id]); delete ovLayers[o.id]; }
+  if (!o.visible) return;
+  var lyr = L.geoJSON(o.fc, {
+    style: function () { return { color: o.color, weight: 2, opacity: .95, fillColor: o.color, fillOpacity: .18, bubblingMouseEvents: false }; },
+    pointToLayer: function (f, ll) { return L.circleMarker(ll, { radius: 6, color: '#121517', weight: 1.5, fillColor: o.color, fillOpacity: 1, bubblingMouseEvents: false }); },
+    onEachFeature: function (f, l) {
+      l.on('click', function (e) {
+        L.DomEvent.stopPropagation(e); lastFeatClick = Date.now();
+        var g = f.geometry || {}, nm = propName(f.properties);
+        if (g.type === 'Point') featureDetail({ name: nm, lat: g.coordinates[1], lon: g.coordinates[0], props: f.properties, layer: o.name });
+        else {
+          var ar = 0;
+          if (g.type === 'Polygon') ar = polyArea(g.coordinates);
+          else if (g.type === 'MultiPolygon') g.coordinates.forEach(function (pg) { ar += polyArea(pg); });
+          featureDetail({ name: nm, props: f.properties, layer: o.name, area: ar || null });
+        }
+      });
+    }
+  }).addTo(map);
+  ovLayers[o.id] = lyr;
+}
+function polyArea(rings) { var a = Geo.area(rings[0].map(function (c) { return [c[1], c[0]]; })); for (var i = 1; i < rings.length; i++) a -= Geo.area(rings[i].map(function (c) { return [c[1], c[0]]; })); return Math.max(0, a); }
+function renderAllOverlays() { Object.keys(ovLayers).forEach(function (k) { map.removeLayer(ovLayers[k]); }); ovLayers = {}; OV.forEach(renderOverlay); }
+function saveOV() { persist('ov', OV, 500); }
+function fcBounds(fc) {
+  var pts = [];
+  (function walk(c) { if (typeof c[0] === 'number') pts.push([c[1], c[0]]); else c.forEach(walk); })(fc.features.map(function (f) { return f.geometry ? f.geometry.coordinates : []; }).filter(function (c) { return c && c.length; }));
+  return pts.length ? L.latLngBounds(pts) : null;
+}
+function addOverlay(name, fc) {
+  fc.features = (fc.features || []).filter(function (f) { return f && f.geometry && f.geometry.coordinates; });
+  if (!fc.features.length) { toast(t('importErr')); return; }
+  var o = { id: uid(), name: name.replace(/\.(geojson|json|kml|shp|dbf|prj|zip)$/i, ''), color: OV_COLORS[OV.length % OV_COLORS.length], visible: true, fc: fc, n: fc.features.length };
+  OV.push(o); saveOV(); renderOverlay(o);
+  var b = fcBounds(fc); if (b) map.fitBounds(b.pad(0.1), { maxZoom: 14 });
+  toast(t('layerAdded') + ': ' + o.name + ' (' + o.n + ')');
+  if (sheetTab === 'layers') renderSheet();
+}
+
+/* ---- KML -> GeoJSON (polygons, lines, points, with ExtendedData) ---- */
+function kmlToFC(text) {
+  var doc = new DOMParser().parseFromString(text, 'application/xml');
+  if (doc.getElementsByTagName('parsererror').length) throw new Error('xml');
+  var coordsOf = function (el) { return el.textContent.trim().split(/\s+/).filter(Boolean).map(function (s) { var c = s.split(','); return [+c[0], +c[1]]; }); };
+  var feats = [];
+  $$('Placemark', doc).forEach(function (pm) {
+    var props = {}, nm = pm.getElementsByTagName('name')[0], ds = pm.getElementsByTagName('description')[0];
+    if (nm) props.name = nm.textContent.trim(); if (ds) props.description = ds.textContent.replace(/<[^>]+>/g, ' ').trim().slice(0, 500);
+    $$('Data', pm).forEach(function (d) { var v = d.getElementsByTagName('value')[0]; if (v) props[d.getAttribute('name')] = v.textContent; });
+    $$('SimpleData', pm).forEach(function (d) { props[d.getAttribute('name')] = d.textContent; });
+    $$('Point', pm).forEach(function (p) { var c = coordsOf(p.getElementsByTagName('coordinates')[0])[0]; if (c) feats.push({ type: 'Feature', properties: props, geometry: { type: 'Point', coordinates: c } }); });
+    $$('LineString', pm).forEach(function (l) { feats.push({ type: 'Feature', properties: props, geometry: { type: 'LineString', coordinates: coordsOf(l.getElementsByTagName('coordinates')[0]) } }); });
+    $$('Polygon', pm).forEach(function (pg) {
+      var rings = [], ob = pg.getElementsByTagName('outerBoundaryIs')[0];
+      if (ob) rings.push(coordsOf(ob.getElementsByTagName('coordinates')[0]));
+      $$('innerBoundaryIs', pg).forEach(function (ib) { rings.push(coordsOf(ib.getElementsByTagName('coordinates')[0])); });
+      if (!rings.length) { var c = pg.getElementsByTagName('coordinates')[0]; if (c) rings.push(coordsOf(c)); }
+      feats.push({ type: 'Feature', properties: props, geometry: { type: 'Polygon', coordinates: rings } });
+    });
+  });
+  return { type: 'FeatureCollection', features: feats };
+}
+
+/* ---- Shapefile (.shp + .dbf + .prj + .cpg) -> GeoJSON ---- */
+function parsePrj(wkt) {
+  if (!wkt) return { kind: 'geo' };
+  var w = wkt.toUpperCase();
+  if (/^\s*GEOGCS/.test(w)) return { kind: 'geo', datum: w };
+  var m = w.match(/UTM[_ ]?ZONE[_ ]?(\d{1,2})\s*([NS])?/) || w.match(/ZONE[_ ]?(\d{1,2})([NS])/);
+  if (m) return { kind: 'utm', zone: +m[1], north: m[2] ? m[2] === 'N' : !/SOUTH/.test(w), datum: w };
+  if (/MERCATOR/.test(w) && /(AUXILIARY|PSEUDO|3857|POPULAR)/.test(w)) return { kind: 'merc' };
+  return { kind: 'unknown', datum: w };
+}
+function makeTransform(prj) {
+  if (prj.kind === 'utm') return function (x, y) { var p = Geo.fromUTM(prj.zone, prj.north, x, y); return [p.lon, p.lat]; };
+  if (prj.kind === 'merc') return function (x, y) { return [x / 6378137 * 180 / Math.PI, (2 * Math.atan(Math.exp(y / 6378137)) - Math.PI / 2) * 180 / Math.PI]; };
+  return function (x, y) { return [x, y]; };
+}
+function parseDBF(buf, enc) {
+  var dv = new DataView(buf), n = dv.getUint32(4, true), hl = dv.getUint16(8, true), rl = dv.getUint16(10, true);
+  var fields = [], off = 32, dec;
+  try { dec = new TextDecoder(enc || 'utf-8', { fatal: false }); } catch (e) { dec = new TextDecoder('utf-8'); }
+  var latin = new TextDecoder('windows-1252');
+  while (off < hl - 1 && dv.getUint8(off) !== 0x0D) {
+    var nm = ''; for (var i = 0; i < 11; i++) { var ch = dv.getUint8(off + i); if (!ch) break; nm += String.fromCharCode(ch); }
+    fields.push({ name: nm, type: String.fromCharCode(dv.getUint8(off + 11)), len: dv.getUint8(off + 16) }); off += 32;
+  }
+  var rows = [];
+  for (var r = 0; r < n; r++) {
+    var p = hl + r * rl, rec = {}; if (p + rl > buf.byteLength) break;
+    var pos = p + 1;
+    fields.forEach(function (f) {
+      var bytes = new Uint8Array(buf, pos, f.len), s = dec.decode(bytes);
+      if (s.indexOf('�') > -1) s = latin.decode(bytes);
+      s = s.replace(/\u0000/g, '').trim();
+      rec[f.name] = (f.type === 'N' || f.type === 'F') ? (s === '' ? null : +s) : s;
+      pos += f.len;
+    });
+    rows.push(rec);
+  }
+  return rows;
+}
+function ringSigned(r) { var s = 0; for (var i = 0, n = r.length; i < n; i++) { var a = r[i], b = r[(i + 1) % n]; s += (b[0] - a[0]) * (b[1] + a[1]); } return s; } // >0 clockwise
+function parseSHP(buf, tf) {
+  var dv = new DataView(buf), off = 100, geoms = [];
+  while (off + 8 <= buf.byteLength) {
+    var clen = dv.getInt32(off + 4, false) * 2; off += 8;
+    if (off + clen > buf.byteLength) break;
+    var st = dv.getInt32(off, true), g = null;
+    if (st === 1 || st === 11 || st === 21) g = { type: 'Point', coordinates: tf(dv.getFloat64(off + 4, true), dv.getFloat64(off + 12, true)) };
+    else if (st === 8 || st === 18 || st === 28) {
+      var np = dv.getInt32(off + 36, true), pts = [];
+      for (var i = 0; i < np; i++) pts.push(tf(dv.getFloat64(off + 40 + i * 16, true), dv.getFloat64(off + 48 + i * 16, true)));
+      g = { type: 'MultiPoint', coordinates: pts };
+    } else if (st === 3 || st === 13 || st === 23 || st === 5 || st === 15 || st === 25) {
+      var nParts = dv.getInt32(off + 36, true), nPts = dv.getInt32(off + 40, true), parts = [];
+      for (var k = 0; k < nParts; k++) parts.push(dv.getInt32(off + 44 + k * 4, true));
+      var base = off + 44 + nParts * 4, rings = [];
+      for (var q = 0; q < nParts; q++) {
+        var s = parts[q], e = q + 1 < nParts ? parts[q + 1] : nPts, ring = [];
+        for (var j = s; j < e; j++) ring.push(tf(dv.getFloat64(base + j * 16, true), dv.getFloat64(base + j * 16 + 8, true)));
+        rings.push(ring);
+      }
+      if (st === 3 || st === 13 || st === 23) g = rings.length === 1 ? { type: 'LineString', coordinates: rings[0] } : { type: 'MultiLineString', coordinates: rings };
+      else {
+        var polys = [];
+        rings.forEach(function (rg) { if (ringSigned(rg) >= 0 || !polys.length) polys.push([rg]); else polys[polys.length - 1].push(rg); });
+        g = polys.length === 1 ? { type: 'Polygon', coordinates: polys[0] } : { type: 'MultiPolygon', coordinates: polys };
+      }
+    }
+    geoms.push(g); off += clen;
+  }
+  return geoms;
+}
+function importShapefile(files) {
+  var by = {}; files.forEach(function (f) { var m = f.name.match(/^(.*)\.(shp|dbf|prj|cpg|shx)$/i); if (m) { by[m[1]] = by[m[1]] || {}; by[m[1]][m[2].toLowerCase()] = f; } });
+  var names = Object.keys(by).filter(function (k) { return by[k].shp; });
+  if (!names.length) { toast(t('shpNeed')); return; }
+  names.forEach(function (base) {
+    var set = by[base], rd = function (f, txt) { return f ? (txt ? f.text() : f.arrayBuffer()) : Promise.resolve(null); };
+    Promise.all([rd(set.shp), rd(set.dbf), rd(set.prj, true), rd(set.cpg, true)]).then(function (r) {
+      var prj = parsePrj(r[2]), tf = makeTransform(prj);
+      var geoms = parseSHP(r[0], tf), rows = r[1] ? parseDBF(r[1], r[3] && r[3].trim()) : [];
+      var feats = geoms.map(function (g, i) { return g ? { type: 'Feature', properties: rows[i] || {}, geometry: g } : null; }).filter(Boolean);
+      var fc = { type: 'FeatureCollection', features: feats };
+      var b = fcBounds(fc);
+      if (prj.kind === 'unknown' || (b && (Math.abs(b.getNorth()) > 90 || Math.abs(b.getEast()) > 180))) { toast(t('prjUnknown')); return; }
+      if (!set.dbf) toast(t('noDbf'));
+      addOverlay(base, fc);
+    }).catch(function () { toast(t('importErr')); });
+  });
+}
+function importOverlayFiles(files) {
+  files = Array.prototype.slice.call(files);
+  if (files.some(function (f) { return /\.shp$/i.test(f.name); })) { importShapefile(files); return; }
+  files.forEach(function (f) {
+    f.text().then(function (txt) {
+      var fc;
+      if (/\.kml$/i.test(f.name)) fc = kmlToFC(txt);
+      else if (/\.gpx$/i.test(f.name)) { var k = new DOMParser().parseFromString(txt, 'application/xml'); fc = { type: 'FeatureCollection', features: $$('wpt', k).map(function (w) { var n = w.getElementsByTagName('name')[0]; return { type: 'Feature', properties: { name: n ? n.textContent : '' }, geometry: { type: 'Point', coordinates: [+w.getAttribute('lon'), +w.getAttribute('lat')] } }; }) }; }
+      else if (/\.csv$/i.test(f.name)) { fc = csvToFC(txt); }
+      else { var j = JSON.parse(txt); fc = j.type === 'FeatureCollection' ? j : j.type === 'Feature' ? { type: 'FeatureCollection', features: [j] } : null; }
+      if (!fc) throw new Error('fmt');
+      addOverlay(f.name, fc);
+    }).catch(function () { toast(t('importErr') + ': ' + f.name); });
+  });
+}
+function csvToFC(text) {
+  var lines = text.replace(/^﻿/, '').split(/\r?\n/).filter(function (l) { return l.trim(); });
+  var sep = (lines[0].match(/;/g) || []).length > (lines[0].match(/,/g) || []).length ? ';' : ',';
+  var head = lines[0].split(sep).map(function (h) { return h.trim().replace(/^"|"$/g, ''); });
+  var low = head.map(function (h) { return h.toLowerCase(); });
+  var iLa = low.findIndex(function (h) { return /^(lat|latitude|y|lat_dd)$/.test(h); }), iLo = low.findIndex(function (h) { return /^(lon|lng|long|longitude|x|lon_dd)$/.test(h); });
+  var feats = [];
+  for (var r = 1; r < lines.length; r++) {
+    var c = lines[r].split(sep).map(function (x) { return x.trim().replace(/^"|"$/g, ''); });
+    var p = iLa > -1 && iLo > -1 ? Geo.parse(c[iLa] + ', ' + c[iLo]) : null; if (!p) continue;
+    var props = {}; head.forEach(function (h, i) { props[h] = c[i]; });
+    feats.push({ type: 'Feature', properties: props, geometry: { type: 'Point', coordinates: [p.lon, p.lat] } });
+  }
+  return { type: 'FeatureCollection', features: feats };
+}
+
 /* ================= BOOT ================= */
-Promise.all([DB.get('settings'), DB.get('wp'), DB.get('tr'), DB.get('rec')]).then(function (r) {
+Promise.all([DB.get('settings'), DB.get('wp'), DB.get('tr'), DB.get('rec'), DB.get('ov')]).then(function (r) {
+  OV = r[4] || [];
   if (r[0]) Object.keys(r[0]).forEach(function (k) { S[k] = r[0][k]; });
   else if ((navigator.language || '').toLowerCase().indexOf('fr') === 0) S.lang = 'fr';
   WP = r[1] || []; TR = r[2] || [];
   if (r[3] && r[3].pts) { REC = r[3]; if (!REC.paused) { REC.paused = true; REC.pauseAt = Date.now(); } recLine = L.polyline(REC.pts.map(function (p) { return [p[0], p[1]]; }), { color: '#e5484d', weight: 4, interactive: false }).addTo(map); }
   if (S.view) map.setView([S.view[0], S.view[1]], S.view[2]);
   setLayer(S.layer); document.body.classList.toggle('nocross', !S.cross);
-  renderWaypoints(); renderTracks(); applyLang(); updateRecUI(); startGPS();
+  renderWaypoints(); renderTracks(); renderAllOverlays(); if (S.geoOn) setGeology(true); if (S.minesOn) setMines(true);
+  applyLang(); updateRecUI(); startGPS();
 });
 
 })();

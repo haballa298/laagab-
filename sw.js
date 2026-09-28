@@ -1,7 +1,7 @@
 /* Laagab service worker: offline app shell + map tile cache */
-var SHELL = 'laagab-shell-v1.0.0', TILES = 'laagab-tiles-v1', FONTS = 'laagab-fonts-v1';
+var SHELL = 'laagab-shell-v1.1.0', TILES = 'laagab-tiles-v1', FONTS = 'laagab-fonts-v1';
 var FILES = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
-var TILE_HOSTS = /(tile\.opentopomap\.org|server\.arcgisonline\.com|tile\.openstreetmap\.org|api\.maptiler\.com)$/;
+var TILE_HOSTS = /(tile\.opentopomap\.org|server\.arcgisonline\.com|tile\.openstreetmap\.org|api\.maptiler\.com|tiles\.macrostrat\.org)$/;
 
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(SHELL).then(function (c) { return c.addAll(FILES); }).then(function () { return self.skipWaiting(); }));
