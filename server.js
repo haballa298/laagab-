@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * لعگاب — Laagab internal server (Garde nationale)
+ * لعگابْ 🦅 — Laagab internal server (Garde nationale)
  * Serves the Laagab web app and provides unit-to-unit chat + position sharing.
  * Pure Node.js (>= 18), no external packages.
  *
@@ -28,7 +28,7 @@ const CFG_FILE = path.join(ROOT, 'config.json');
 const CFG = Object.assign({
   port: 8443,
   host: '0.0.0.0',
-  name: 'لعگاب — الحرس الوطني',
+  name: 'لعگابْ 🦅 — الحرس الوطني',
   tls: { key: 'certs/server.key', cert: 'certs/server.crt' },
   corsOrigins: [],            // e.g. ["https://haballa298.github.io"] if the app is hosted elsewhere
   sessionDays: 30,

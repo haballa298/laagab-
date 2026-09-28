@@ -1,19 +1,17 @@
 {
-  "name": "لعگاب — Laagab",
-  "short_name": "لعگاب",
-  "description": "GPS hors ligne : cartes, points, traces, UTM / MGRS — ملاحة بدون إنترنت",
+  "name": "لعگابْ 🦅 — الحرس الوطني",
+  "short_name": "لعگابْ 🦅",
+  "description": "لعگابْ — خرائط ونقاط ومسارات ومحادثة الوحدات. للاستعمال الداخلي — الحرس الوطني الموريتاني",
+  "lang": "ar",
+  "dir": "rtl",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "orientation": "any",
-  "background_color": "#121517",
+  "orientation": "portrait",
+  "background_color": "#122219",
   "theme_color": "#121517",
-  "lang": "ar",
-  "dir": "auto",
-  "categories": ["navigation", "travel", "utilities"],
   "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
-    { "src": "maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ]
 }

@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-<title>لعگاب — الحرس الوطني</title>
+<title>لعگابْ 🦅 — الحرس الوطني</title>
+<meta name="apple-mobile-web-app-title" content="لعگابْ 🦅">
+<meta name="application-name" content="لعگابْ 🦅">
 <meta name="theme-color" content="#121517">
 <meta name="description" content="Laagab — cartes hors ligne, points, traces, UTM/MGRS">
 <link rel="manifest" href="manifest.webmanifest">
@@ -924,10 +926,64 @@ input.tgl:checked::after{transform:translateX(18px)}
 
 /* compass view */
 #bigCompass{width:230px;height:230px;margin:6px auto;display:block}
+
+/* ===== Laagab 2.1 — splash + gold layer ===== */
+#splash{position:fixed;inset:0;z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:max(24px,env(safe-area-inset-top)) 22px max(24px,env(safe-area-inset-bottom));text-align:center;color:#f3ead7;
+  background:radial-gradient(120% 80% at 50% 38%,#1f3a2b 0%,#122219 55%,#0a130e 100%);transition:opacity .7s ease,visibility .7s;font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;overflow:hidden}
+#splash::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.018) 0 2px,transparent 2px 9px);pointer-events:none}
+#splash.out{opacity:0;visibility:hidden}
+#splash .sp-top{position:absolute;top:max(14px,env(safe-area-inset-top));left:0;right:0;height:6px;display:flex}
+#splash .sp-top i{flex:1}
+#splash .sp-emb{width:132px;height:132px;object-fit:contain;filter:drop-shadow(0 6px 18px rgba(0,0,0,.55));opacity:0;transform:scale(.9);animation:spIn .8s .1s ease forwards}
+#splash .sp-emb[hidden]{display:none}
+#splash .sp-flag{width:78px;height:52px;margin-top:16px;border-radius:3px;box-shadow:0 3px 12px rgba(0,0,0,.5);opacity:0;animation:spIn .8s .35s ease forwards}
+#splash h1{margin:18px 0 0;font-size:46px;line-height:1.15;font-weight:700;letter-spacing:.01em;color:#e9c46a;text-shadow:0 2px 14px rgba(0,0,0,.5);opacity:0;animation:spIn .8s .55s ease forwards}
+#splash .sp-sub{font:500 12px/1 'IBM Plex Mono',monospace;letter-spacing:.32em;color:#b9a77f;margin-top:6px;opacity:0;animation:spIn .8s .65s ease forwards}
+#splash .sp-rule{width:180px;height:1px;margin:20px auto 16px;background:linear-gradient(90deg,transparent,#c9a24a,transparent);opacity:0;animation:spIn .8s .8s ease forwards}
+#splash .sp-who{opacity:0;animation:spIn .8s .9s ease forwards}
+#splash .sp-rank{font-size:21px;font-weight:700;color:#fff}
+#splash .sp-fr{font-size:13px;color:#cdbf9f;margin-top:3px;letter-spacing:.02em}
+#splash .sp-unit{font-size:14px;color:#e6dcc4;margin-top:12px;line-height:1.7}
+#splash .sp-org{margin-top:14px;display:inline-block;padding:6px 14px;border:1px solid rgba(201,162,74,.55);border-radius:20px;font-size:13.5px;font-weight:600;color:#e9c46a;background:rgba(0,0,0,.18)}
+#splash .sp-foot{position:absolute;bottom:max(16px,env(safe-area-inset-bottom));left:0;right:0;font-size:11px;color:#8f9a8f;letter-spacing:.04em}
+#splash .sp-bar{width:120px;height:2px;margin:10px auto 0;background:rgba(255,255,255,.12);border-radius:2px;overflow:hidden}
+#splash .sp-bar i{display:block;height:100%;width:0;background:#e9c46a;animation:spBar 2.6s linear forwards}
+@keyframes spIn{to{opacity:1;transform:none}}
+@keyframes spBar{to{width:100%}}
+@media (max-height:640px){#splash .sp-emb{width:100px;height:100px}#splash h1{font-size:38px}}
+.goldmk{position:relative}
+.goldmk span{position:absolute;top:30px;left:50%;transform:translateX(-50%);white-space:nowrap;font:600 10.5px var(--mono);color:#ffe7a3;text-shadow:0 0 3px #000,0 0 3px #000;display:none}
+.goldlbl .goldmk span{display:block}
+.embrow{display:flex;align-items:center;gap:12px}
+.embrow img{width:52px;height:52px;object-fit:contain;border-radius:10px;background:var(--ink);border:1px solid var(--line)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
+<div id="splash" role="dialog" aria-label="لعگابْ">
+  <div class="sp-top"><i style="background:#D01C1F"></i><i style="background:#00A95C"></i><i style="background:#FFD700"></i><i style="background:#00A95C"></i><i style="background:#D01C1F"></i></div>
+  <img class="sp-emb" id="spEmb" alt="شعار الحرس الوطني" hidden>
+  <svg class="sp-flag" viewBox="0 0 300 200" role="img" aria-label="علم موريتانيا"><rect width="300" height="200" fill="#D01C1F"/><rect y="40" width="300" height="120" fill="#00A95C"/><mask id="spCres"><rect width="300" height="200" fill="#fff"/><circle cx="150" cy="78" r="50" fill="#000"/></mask><circle cx="150" cy="96" r="50" fill="#FFD700" mask="url(#spCres)"/><polygon fill="#FFD700" points="150,62 154.9,77.2 170.9,77.2 158,86.6 162.9,101.8 150,92.4 137.1,101.8 142,86.6 129.1,77.2 145.1,77.2"/></svg>
+  <h1>لعگابْ 🦅</h1>
+  <div class="sp-sub">LAAGAB</div>
+  <div class="sp-rule"></div>
+  <div class="sp-who">
+    <div class="sp-rank">الملازم عبد الرحمن حب الله</div>
+    <div class="sp-fr">Lieutenant Abderrahmane Haballa</div>
+    <div class="sp-unit">قائد الفصيلة الأولى — السرية الأولى<br>تجمع حفظ النظام رقم 1</div>
+    <div class="sp-org">الحرس الوطني الموريتاني</div>
+  </div>
+  <div class="sp-foot">للاستعمال الداخلي — Usage interne<div class="sp-bar"><i></i></div></div>
+</div>
+<script>/* Laagab — splash */(function(){
+  var sp=document.getElementById('splash'),im=document.getElementById('spEmb'),src=null;
+  try{src=localStorage.getItem('laagab_emblem');}catch(e){}
+  im.onload=function(){im.hidden=false;};
+  im.onerror=function(){ if(src&&im.src.indexOf('data:')===0){src=null;im.src='garde-emblem.png';} else im.hidden=true; };
+  im.src=src||'garde-emblem.png';
+  var done=false;function hide(){if(done)return;done=true;sp.classList.add('out');setTimeout(function(){sp.remove();},800);}
+  setTimeout(hide,2700);sp.addEventListener('click',hide);
+})();</script>
 <div id="map" dir="ltr" role="application" aria-label="Map"></div>
 <div id="cross" aria-hidden="true"></div>
 
@@ -1235,7 +1291,7 @@ input.tgl:checked::after{transform:translateX(18px)}
 'use strict';
 
 /* ================= CONFIG ================= */
-var APP = { name: 'لعگاب — Laagab', version: '2.0.0', author: 'Abderrahmane Haballa' };
+var APP = { name: 'لعگابْ 🦅 — Laagab', version: '2.1.0', author: 'Abderrahmane Haballa' };
 function LAYERS() {
   var k = S.maptilerKey && S.maptilerKey.trim();
   var L1 = [
@@ -2948,9 +3004,47 @@ function setUtm(on) {
 }
 map.on('moveend', function () { if (utmLayer) drawUtm(); });
 
+
+/* ---------------- LAAGAB 2.1 — gold points (USGS PRISM-II, Deliverable 53) ---------------- */
+Object.assign(T.ar, { ovGold: 'نقاط الذهب — عينات USGS', ovGoldHint: '72 نقطة من تقرير USGS PRISM-II (Deliverable 53). الإطار الأحمر = مؤشر معدني فعلي. المس أي نقطة لمعرفة طبيعتها. الأسماء تظهر من التكبير 9.', goldOcc: 'مؤشر معدني', goldSample: 'موقع عينة', goldCat: 'التصنيف', goldUnit: 'الوحدة الجيولوجية', goldDesc: 'الوصف', goldAge: 'العمر / النتيجة', goldMeth: 'الطريقة', goldSrc: 'المصدر', goldType: 'نوع التحليل', emblem: 'شعار شاشة الافتتاح', emblemPick: 'اختيار صورة', emblemDel: 'إزالة', emblemHint: 'صورة PNG بخلفية شفافة تعطي أفضل نتيجة. تُحفظ في الهاتف.' });
+Object.assign(T.fr, { ovGold: "Points or — échantillons USGS", ovGoldHint: "72 points du rapport USGS PRISM-II (Livrable 53). Cadre rouge = indice minéral réel. Touchez un point pour sa nature. Noms visibles dès le zoom 9.", goldOcc: 'Indice minéral', goldSample: "Site d'échantillon", goldCat: 'Catégorie', goldUnit: 'Unité géologique', goldDesc: 'Description', goldAge: 'Âge / résultat', goldMeth: 'Méthode', goldSrc: 'Source', goldType: "Type d'analyse", emblem: "Emblème de l'écran d'accueil", emblemPick: 'Choisir une image', emblemDel: 'Retirer', emblemHint: "Un PNG à fond transparent donne le meilleur rendu. Enregistré sur le téléphone." });
+var GOLD = [["DB07RIM29a",20.4971,-12.87567,"U-Pb ig","Gr. de Téniagouri, Fm. de Bouly","Tuff interbedded with siltstone, near Atar","623.5 or 569.4±0.4 Ma","2009 SIMS; 2012 CA-TIMS",0],["DB07RIM64a",17.47236,-12.96754,"U-Pb ig","Cortège de Kelbé","Foliated granitoid","Undatable (Paleoproterozoic xenocrysts)","2012 SIMS; 2012 LAICPMS",0],["CT07RIM10-01",19.64872,-14.13991,"U-Pb ig","Gr. d'Oumachoueima, Fm. de St. Barbe","Banded quartz-kspar-amphibole (meta-rhyolite?) host to quartz-wolframite-malachite veins","2839±14 Ma","2012 SIMS; 2012 LAICPMS",1],["DB07RIM25a",20.68434,-13.19708,"U-Pb ig","Complexe d'Amsaga","Deformed granitoid","Undatable (metamict zircon)","2012 SIMS",0],["CT07RIM25-1",21.25933,-13.15357,"U-Pb ig","Complexe d'Amsaga, unit Amlb","Anorthosite, coarse crystalline 'black granite' from quarry","2930±33 Ma","2012 SIMS; 2012 LAICPMS",0],["DB07RIM32-1a",21.08348,-13.16768,"U-Pb ig","Complexe d'Amsaga, anorthosite","Anorthosite, coarse-grained phase","2718±7 Ma (concordia)","2010 SIMS",0],["CT07RIM22-1",21.083334,-13.166667,"U-Pb ig","Complexe d'Amsaga, unit Amlb","Dark, fine-grained anorthosite","2743±4 Ma (concordia)","2012 SIMS",0],["DB07RIM51a",24.7835,-10.45706,"U-Pb ig","Cortège de Gleibat Tenebdar","Red alkali granite","2068±21 Ma (upper intercept)","2011 SIMS",0],["CT07RIM37-1",26.33772,-8.53738,"U-Pb ig","Gr. de Blekhzaymat, Fm. d'Aguelt Nebkha","Quartz-veined pyritic metatuff","2113±17 Ma","2012 SIMS; 2012 LAICPMS",0],["DB07RIM47a",22.7055,-12.51691,"U-Pb ig","Complexe d'Idjil","Contorted clay zone in BIF (possible tephra)","Undatable","2009 SIMS",0],["DB07RIM22b",20.259537,-13.216916,"U-Pb ig","Complexe d'Amsaga","Paleosol weathered on granitoid","Undatable","2012 SIMS",0],["CT07RIM54-5",16.84516,-12.75505,"U-Pb ig","Gr. d'El Mseigguem, Fm. d'Ouechkech","Felsic metatuff","Undatable","2012 SIMS; 2012 LAICPMS",0],["CT22",20.259361,-13.215861,"U-Pb dz","Gr. de Char","Tan fine-grained sandstone, roadcut, 10 m above unconformity with Amsaga basement","MDA 2054 ; dep. ~1125 Ma","2007 SIMS",0],["DB07RIM23a",20.29909,-13.17002,"U-Pb dz","Gr. d'Atar, Fm. de Foum Chor","Sandstone","MDA 2031 ; dep. ~1107 Ma","2012 LAICPMS",0],["DB07RIM31a",20.717,-12.73111,"U-Pb dz","Gr. d'Assabet el Hassiane, Sous-groupe de Tin Bessais","Sandstone","MDA 975 ; dep. 975 Ma","2012 LAICPMS",0],["DB07RIM59a",21.16323,-11.3894,"U-Pb dz","Gr. d'Assabet el Hassiane, unit AhTb","Sandstone near Guelb er Richat","MDA 1036 ; dep. 975 Ma","2012 LAICPMS",0],["CT07RIM70-1",16.44493,-9.237,"U-Pb dz","Gr. d'Aioun, Fm. de Freidi","Coarse-grained sandstone","MDA 878 ; dep. 878 Ma","2012 LAICPMS",0],["CT07RIM71-1",16.6429,-9.63002,"U-Pb dz","Gr. d'Aioun, Fm. de Seyal","Coarse-grained dune cross-bedded sandstone","MDA 909 ; dep. 909 Ma","2012 LAICPMS",0],["CT07RIM72-1",16.55001,-11.17997,"U-Pb dz","Gr. de Khang Naam, Fm. de Lehbilé","Fine-grained sandstone","MDA 1128 ; dep. 870 Ma","2012 LAICPMS",0],["DB07RIM29c",20.4971,-12.87567,"U-Pb dz","Gr. de Jbéliat","Tillite near Atar","MDA 1006 ; dep. 635 Ma","2012 LAICPMS",0],["CT07RIM73-1",16.58967,-11.29394,"U-Pb dz","Gr. de Jbéliat","Coarse-grained arkosic red sandstone (Kiffa area)","MDA 994* ; dep. 635 Ma","2012 LAICPMS",0],["DB07RIM80a",14.835259,-11.925647,"U-Pb dz","Gr. de Jbéliat (?)","Tillite with tuffaceous matrix, near Senegal River","MDA 648 ; dep. 635 or younger","2012 LAICPMS",0],["DB07RIM77a",15.13696,-12.17747,"U-Pb dz","Gr. de Téniagouri, Sous-groupe de Koumba Ndao","Tuffaceous sandstone turbidites near Sélibabi","MDA 601 ; dep. 601 Ma","2012 LAICPMS",0],["DB07RIM28a",20.502785,-12.854843,"U-Pb dz","Gr. de Nouatil","Sandstone","MDA 540 ; dep. ~535 Ma","2012 LAICPMS",0],["DB07RIM26a",20.505436,-12.842389,"U-Pb dz","Gr. d'Oujeft, Fm. de Chinguetti","Sandstone (Atar–Ouadane roadcut)","MDA 524 ; dep. 524 Ma","2012 LAICPMS",0],["DB07RIM61a",20.92858,-11.5921,"U-Pb dz","Gr. d'Oujeft, Fm. de Chinguetti","Sandstone near Ouadane","MDA 552 ; dep. 525 Ma","2012 LAICPMS",0],["DB07RIM75a",16.34693,-11.97703,"U-Pb dz","Gr. d'Oujeft, Sous-groupe d'Aghaoujeft","Sandstone in Mauritanide foreland basin","MDA 524 ; dep. 510 Ma","2012 LAICPMS",0],["CT07RIM60-1",15.91161,-11.86834,"U-Pb dz","Gr. d'Oujeft, Fm. de Moudjeria","Quartzofeldspathic sandstone","MDA 543 ; dep. ~525 Ma","2012 LAICPMS",0],["DB07RIM74a",16.29167,-12.08789,"U-Pb dz","Gr. d'Oujeft, supposedly Fm. de Moudjeria (mismapped; likely Assabet/Djonaba)","Sandstone near Mauritanide deformation front","MDA 903 ; dep. 903 Ma","2012 LAICPMS",0],["CT07RIM59-1",15.93484,-12.00753,"U-Pb dz","Gr. de Tichit, Fm. de Tabarit El Kbir","Mature well-sorted cross-bedded quartz sandstone","MDA 548* ; dep. 444 Ma","2012 LAICPMS",0],["CT07RIM62-1",16.66927,-7.24465,"U-Pb dz","Gr. de Néma, Fm. d'Adeile (Saïlé)","Brown blocky thick-bedded fine–medium quartzofeldspathic sandstone","MDA 525 ; dep. ~150 Ma","2012 LAICPMS",0],["DB07RIM76a",16.27028,-12.16705,"U-Pb dz","Gr. de Djonaba","Graywacke near Mauritanide thrust front","MDA 982 ; dep. ~980 Ma","2012 LAICPMS",0],["DB07RIM65a",16.88596,-12.72495,"U-Pb dz","Gr. de Gadel","Metaconglomerate","MDA 999 ; dep. ~995 Ma","2012 LAICPMS",0],["DB07RIM69a",16.98177,-12.63972,"U-Pb dz","Gr. de Gueneiba","Quartzite interbedded with dolostone","MDA 551 ; dep. ~550 Ma","2012 LAICPMS",0],["CT07RIM55-1",16.84567,-12.75303,"U-Pb dz","Gr. d'El Mseigguem, Fm. d'Ouechkech","Metasandstone","MDA 567 ; dep. ~560 Ma","2012 LAICPMS",0],["GB07RIM63A",17.08795,-12.9394,"U-Pb dz","Gr. d'El Ghabra, Fm. d'Oued Erdi","Tuffaceous sandstone (deformed volcanic conglomerate)","MDA 594 ; dep. 594 Ma","2012 SIMS & LAICPMS",0],["DB07RIM73a",16.33721,-12.62448,"U-Pb dz","Gr. d'El Ghabra, Fm. d'Ould Moïlîd","Metagraywacke","MDA 606 ; dep. 606 Ma","2012 LAICPMS",0],["DB07RIM62a",17.41983,-13.1377,"U-Pb dz","Gr. d'El Fadra, unit FrKc (Fm. d'Oued Kav)","Metasandstone","MDA 553 ; dep. ~550 Ma","2012 LAICPMS",0],["DB07RIM01a",19.8079,-14.38875,"U-Pb dz","Gr. d'Oumachoueima, Fm. de St. Barbe","Chloritic metasandstone","MDA 573 ; dep. ~570 Ma","2012 LAICPMS",0],["CT07RIM02-01",19.83974,-14.41061,"U-Pb dz","Gr. d'Oumachoueima, Fm. de St. Barbe","Chloritic semischist above pod of iron-carbonate","MDA 538 ; dep. ~535 Ma","2012 LAICPMS",0],["CT21",19.819333,-14.298833,"U-Pb dz","Gr. d'Oumachoueima, undivided","Platy thin-bedded sandstone/tuff near top of unit","MDA 558 ; dep. ~555 Ma","2007 & 2012 SIMS",0],["DB07RIM02a",19.84547,-14.4313,"U-Pb dz","Gr. d'Oumachoueima, Fm. d'Irarchene El Hamra (Atilis quartzite)","Quartzite","MDA 974 ; dep. ~970 Ma","2012 LAICPMS",0],["DB07RIM03a",19.8935,-14.43958,"U-Pb dz","Gr. d'Eizzene, Fm. de Raoui","Quartzite","MDA 986 ; dep. ~980 Ma","2012 LAICPMS",0],["DB07RIM17a",19.68005,-14.77687,"U-Pb dz","Complexe d'Inchiri, Gr. de Hajar Dekhen – Kleouat","Quartzite","MDA 538 ; dep. ~535 Ma","2012 LAICPMS",0],["GB07RIM80A",20.535261,-15.554685,"U-Pb dz","Gr. de Lebzenia, Fm. d'Aouéoua","Hematized and sericitized quartzite, Vararate West occurrence","MDA 576 (problematic – supposedly Archean)","2012 LAICPMS",1],["DB07RIM25c",20.68434,-13.19708,"U-Pb dz","Complexe d'Amsaga","Quartzite (Mennerat Iguilid W occurrence)","MDA 582 (problematic – supposedly Archean)","2012 LAICPMS",1],["DB07RIM46a",22.67848,-12.46013,"U-Pb dz","Complexe d'Idjil, Fm. de Tazadit, lower member","Quartzite","MDA 2988 ; dep. ~2100 Ma","2012 LAICPMS",0],["DB07RIM36a",22.68599,-12.54027,"U-Pb dz","Complexe d'Idjil, Fm. de Seyala","Conglomerate","MDA 2851 ; dep. ~2060 Ma","2012 SIMS; 2012 LAICPMS",0],["DB07RIM55a",24.49981,-7.42639,"U-Pb dz","Gr. de Blekhzaymat, unit BZam2, southern outcrop belt","Sandstone / conglomerate","MDA 2043 ; dep. ~2040 Ma","2012 LAICPMS",0],["DB07RIM54a",26.51881,-8.46481,"U-Pb dz","Gr. de Blekhzaymat, northern outcrop belt","Metasandstone","MDA 2141 ; dep. ~2000 Ma","2012 LAICPMS",0],["DB07RIM53a",25.363297,-9.91157,"U-Pb dz","Complexe du Ghallamane, unit GLsc","Metasandstone","MDA 2083 ; dep. ~2080 Ma","2012 LAICPMS",0],["DB07RIM52a",25.15799,-10.12549,"U-Pb dz","Complexe de Tsalabia el Khadra, unit Khep","Quartz arenite","MDA 581 ; dep. ~545 Ma (Neoproterozoic inlier)","2012 LAICPMS",0],["DB07RIM66a (1)",16.87144,-12.70554,"ArAr","Gr. de Gadel","Schistose metaconglomerate — 'Mélange' unit, qtz-mica schist matrix, fine white-mica fraction","572±3 Ma (integrated); no plateau","Poor-looking spectra",0],["DB07RIM66a (2)",16.87144,-12.70554,"ArAr","Gr. de Gadel","Schistose metaconglomerate — Coarse white-mica fraction, single grain","593±3 Ma (integrated); 594±7 Ma (plateau)","Good spectra, ~90% Ar",0],["GB07RIM52A",17.49381,-12.91467,"ArAr","(vein, Central Mauritanides)","Quartz-sericite vein — Mineral occurrence Iguerj","356.8±1.8 Ma (integrated)","Spectra OK",1],["GB07RIM61A",17.28512,-12.91928,"ArAr","(vein, Central Mauritanides)","Quartz-sericite vein — Mineral occurrence Chlakh Lhemir","298.6±1.5 (integrated); 298.6±1.7 Ma (plateau)","Good, ~65% Ar",1],["GB07RIM62C",17.26708,-12.9162,"ArAr","(vein, Central Mauritanides)","Quartz-sericite vein — Mineral occurrence Chlakh Lhemir","294.8±1.5 Ma (integrated)","Spectra OK",1],["GB07RIM69A",16.71545,-12.77247,"ArAr","(vein, Central Mauritanides)","Quartz-sericite vein — Mineral occurrence Vararate Nord","648±4 Ma (integrated)","Poor-looking spectra",1],["GB07RIM82D",20.568767,-15.505248,"ArAr","(vein cutting Fm. d'Aouéoua)","Quartz-sericite vein — Mineral occurrence Tasiast","2533±8 Ma (integrated)","Poor-looking spectra",1],["DB07RIM25a",20.68434,-13.19708,"ArAr","Complexe d'Amsaga","Granite with white mica — Tungsten occurrence (Mennerat Iguilid)","1753±6 Ma (integrated)","Spectra OK",1],["DB07RIM45b",22.69307,-12.4593,"ArAr","Complexe de Tiris","Micaceous mylonite — Thrust contact Kediat Idjil over Tiris, near Zouérate","2496±8 Ma (integrated)","Poor-looking spectra",0],["DB07RIM46b",22.67848,-12.46013,"ArAr","Complexe d'Idjil, Fm. de Tazadit, lower member","Muscovite schist — Mica schist, roadcuts","1950±7 Ma (integrated)","Spectra OK",0],["GB07RIM40B",26.51736,-8.46409,"ArAr","Vein cuts Gr. de Blekhzaymat","Quartz-sericite vein — Mineral occurrence BIA601","2179±11 Ma (integrated)","Spectra OK",1],["GB07RIM42B",26.46834,-8.46793,"ArAr","Vein cuts Gr. de Blekhzaymat","Quartz-sericite vein — Mineral occurrence BIA611","2061±7 (integrated); 2063±7 Ma (plateau)","Good, ~85% Ar",1],["DB07RIM53c",25.36297,-9.91157,"ArAr","Complexe du Ghallamane, unit GLsc","Hornfels metaturbidites — Metasandstone","1981±7 (integrated); 2014±12 Ma (plateau)","Spectra OK",0],["CT07RIM47-1",17.42013,-13.13654,"ArAr","Gr. d'El Fadra, Fm. d'Oued Kav","Quartz-ankerite vein — 2-inch vein cutting greenschist & muscovite schist","Undatable","No separable mica",0],["CT07RIM49-2",17.36106,-12.81517,"ArAr","Gr. de Gueneiba, Fm. d'Oued Amour","Sericite-quartz veined goethite — Goethite ridge cut by quartz-malachite veins, occurrence El Aouidja","Undatable","Not mica (pyrophyllite?)",1],["DB07RIM25b",20.68434,-13.19708,"ArAr","Complexe d'Amsaga","Quartzite with metamorphic white mica — Tungsten occurrence","Undatable","No separable mica",1],["DB07RIM63b",17.49605,-12.97836,"ArAr","Gr. d'El Fadra, Fm. d'El Hneikat","Quartz-muscovite schist — Magkta Lahjar area, near mineral occurrence","Undatable","Not analyzed",1],["DB07RIM71a",16.67589,-12.70435,"ArAr","Gr. d'El Ghabra","Muscovite schist — Au occurrence, mica schist in shear zone","Undatable","Not mica (pyrophyllite?)",1],["GB07RIM41A",26.47964,-8.45411,"ArAr","Vein cuts Gr. de Blekhzaymat","Quartz-sericite vein — Occurrence BIA621, possible oxidized sulfides","Undatable","No separable mica",1],["CT07RIM27-1 (lab 952-02)",22.92158,-12.01114,"AFT","Complexe de Tiris / Mhaoudât #4 iron mine","Calcrete breccia from weathered carapace of BIF","AFT pooled age 170.18 Ma (~160 Ma); apatite U-Pb ~2000–2100 & 600 Ma","Apatite fission track + U-Pb",1]];
+var GOLD_TYPE = { 'U-Pb ig': { ar: 'زركون ناري U-Pb', fr: 'Zircon igné U-Pb' }, 'U-Pb dz': { ar: 'زركون فتاتي U-Pb', fr: 'Zircon détritique U-Pb' }, 'ArAr': { ar: '⁴⁰Ar/³⁹Ar ميكا بيضاء', fr: '⁴⁰Ar/³⁹Ar mica blanc' }, 'AFT': { ar: 'انشطار الأباتيت', fr: 'Traces de fission apatite' } };
+var goldLayer = null;
+function goldIcon(occ) {
+  var ring = occ ? '#b91c1c' : '#5a3d05', w = occ ? 2.6 : 1.4;
+  return L.divIcon({ className: 'goldmk', iconSize: [26, 30], iconAnchor: [13, 29],
+    html: '<svg width="26" height="30" viewBox="0 0 26 30"><defs><radialGradient id="gg" cx="38%" cy="30%" r="75%"><stop offset="0" stop-color="#fff6c8"/><stop offset=".45" stop-color="#f5c542"/><stop offset="1" stop-color="#a8740c"/></radialGradient></defs>' +
+      '<path d="M13 29c-1-2.6-10-9.2-10-16a10 10 0 0 1 20 0c0 6.8-9 13.4-10 16z" fill="url(#gg)" stroke="' + ring + '" stroke-width="' + w + '"/>' +
+      '<text x="13" y="16.5" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8.5" font-weight="700" fill="#4a3105">Au</text></svg>' });
+}
+function setGold(on) {
+  S.goldOn = !!on; saveSettings();
+  if (on && !goldLayer) {
+    if (!map.getPane('goldPane')) map.createPane('goldPane').style.zIndex = 620;
+    goldLayer = L.layerGroup();
+    var icN = goldIcon(0), icO = goldIcon(1);
+    GOLD.forEach(function (g) {
+      var mk = L.marker([g[1], g[2]], { icon: g[8] ? icO : icN, pane: 'goldPane', title: g[0], zIndexOffset: g[8] ? 200 : 0 });
+      mk.on('add', function () { var el = mk.getElement(); if (el && !el.querySelector('span')) { var sp = document.createElement('span'); sp.textContent = g[0]; el.appendChild(sp); } });
+      mk.on('click', function () {
+        lastFeatClick = Date.now();
+        var p = {}; p[t('goldCat')] = "occurrence d'or" + ' — ' + (g[8] ? t('goldOcc') : t('goldSample'));
+        p[t('goldUnit')] = g[4]; p[t('goldDesc')] = g[5]; p[t('goldAge')] = g[6]; p[t('goldType')] = (GOLD_TYPE[g[3]] || {})[S.lang] || g[3]; p[t('goldMeth')] = g[7];
+        p[t('goldSrc')] = 'USGS OFR 2013-1280-A (PRISM-II, D53)';
+        featureDetail({ name: '🟡 ' + g[0], layer: t('ovGold'), lat: g[1], lon: g[2], props: p });
+      });
+      goldLayer.addLayer(mk);
+    });
+    goldLayer.addTo(map); goldZoomCls();
+  } else if (!on && goldLayer) { map.removeLayer(goldLayer); goldLayer = null; }
+}
+function goldZoomCls() { map.getContainer().classList.toggle('goldlbl', map.getZoom() >= 9); }
+map.on('zoomend', goldZoomCls);
 /* ---------------- overlay catalogue ---------------- */
 function gibsDate() { return new Date(Date.now() - 864e5).toISOString().slice(0, 10); }
 var OVC = [
+  { id: 'gold', key: 'ovGold', hint: 'ovGoldHint', fn: true },
   { id: 'roads', g: 'roads', key: 'unpaved', hint: 'roadsHint', fn: true },
   { id: 'trans', key: 'ovTrans', tile: ESRI + 'Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', max: 19, op: 1 },
   { id: 'labels', key: 'ovLabels', tile: ESRI + 'Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', max: 19, op: 1 },
@@ -2966,12 +3060,12 @@ var OVC = [
 var ovObj = {};
 function ovState(id) { S.ovs = S.ovs || {}; return S.ovs[id] || (S.ovs[id] = { on: false, op: (OVC.filter(function (o) { return o.id === id; })[0] || {}).op || 1 }); }
 function ovIsOn(o) {
-  if (o.id === 'roads') return !!S.roadsOn; if (o.id === 'hill') return !!S.hillOn; if (o.id === 'geology') return !!S.geoOn; if (o.id === 'mines') return !!S.minesOn;
+  if (o.id === 'roads') return !!S.roadsOn; if (o.id === 'hill') return !!S.hillOn; if (o.id === 'geology') return !!S.geoOn; if (o.id === 'mines') return !!S.minesOn; if (o.id === 'gold') return S.goldOn !== false;
   return !!ovState(o.id).on;
 }
 function ovSet(o, on) {
   if (o.id === 'roads') return setRoads(on); if (o.id === 'hill') { setHill(on); if (on && hillLayer) hillLayer.setOpacity(ovState('hill').op); return; }
-  if (o.id === 'geology') return setGeology(on); if (o.id === 'mines') return setMines(on);
+  if (o.id === 'geology') return setGeology(on); if (o.id === 'mines') return setMines(on); if (o.id === 'gold') return setGold(on);
   ovState(o.id).on = !!on; saveSettings();
   if (o.id === 'utm') return setUtm(on);
   if (o.id === 'units') return setUnits(on);
@@ -3009,7 +3103,7 @@ function layersSheet(body, title) {
   });
   h += '<h3 class="sech">' + t('ovTitle') + '</h3><div class="ovlist">' + OVC.map(function (o) {
     var on = ovIsOn(o), hasOp = o.op != null;
-    return '<div class="ovrow' + (on ? ' on' : '') + '"><label class="ovmain"><span class="ovtxt"><b>' + esc(t(o.key)) + (o.id === 'mines' ? ' (' + MINES.length + ')' : '') + '</b>' + (on && o.hint ? '<small>' + esc(t(o.hint)) + '</small>' : '') + '</span><input type="checkbox" class="tgl" data-ov="' + o.id + '"' + (on ? ' checked' : '') + '></label>' +
+    return '<div class="ovrow' + (on ? ' on' : '') + '"><label class="ovmain"><span class="ovtxt"><b>' + esc(t(o.key)) + (o.id === 'mines' ? ' (' + MINES.length + ')' : o.id === 'gold' ? ' (' + GOLD.length + ')' : '') + '</b>' + (on && o.hint ? '<small>' + esc(t(o.hint)) + '</small>' : '') + '</span><input type="checkbox" class="tgl" data-ov="' + o.id + '"' + (on ? ' checked' : '') + '></label>' +
       (on && o.id === 'roads' ? '<div class="note"><span class="rdleg"><i style="border-top:3px dashed ' + RD_COL.unpaved + '"></i>' + t('unpaved') + '</span><span class="rdleg"><i style="border-top:3px dotted ' + RD_COL.unknown + '"></i>' + t('unknownSurf') + '</span><span class="rdleg"><i style="border-top:3px solid ' + RD_COL.paved + '"></i>' + t('paved') + '</span></div>' : '') +
       (on && o.id === 'mines' ? '<div class="note">' + Object.keys(MINE_TYPE_COLOR).map(function (k) { return '<span class="rdleg"><i style="width:10px;height:10px;transform:rotate(45deg);background:' + MINE_TYPE_COLOR[k] + '"></i>' + esc(mineType(k)) + '</span>'; }).join('') + '</div>' : '') +
       (on && hasOp ? '<input type="range" class="ovop" data-op="' + o.id + '" min="0.15" max="1" step="0.05" value="' + ovOpVal(o) + '">' : '') + '</div>';
@@ -3019,7 +3113,7 @@ function layersSheet(body, title) {
     '<div class="switch sec"><span>' + t('crosshair') + '</span><input type="checkbox" class="tgl" id="lCross" ' + (S.cross ? 'checked' : '') + '></div>';
   body.innerHTML = h;
   $$('[data-layer]', body).forEach(function (el) { el.onclick = function () { setLayer(el.dataset.layer); $$('.lcard', body).forEach(function (x) { x.classList.toggle('act', x === el); }); }; });
-  $$('[data-ov]', body).forEach(function (el) { el.onchange = function () { var o = OVC.filter(function (x) { return x.id === el.dataset.ov; })[0]; ovSet(o, el.checked); if (o.id === 'mines' && el.checked) map.fitBounds(L.latLngBounds(MINES.map(function (m) { return [m.lat, m.lon]; })).pad(0.1)); var sc = $('#sheetBody').scrollTop; renderSheet(); $('#sheetBody').scrollTop = sc; }; });
+  $$('[data-ov]', body).forEach(function (el) { el.onchange = function () { var o = OVC.filter(function (x) { return x.id === el.dataset.ov; })[0]; ovSet(o, el.checked); if (o.id === 'mines' && el.checked) map.fitBounds(L.latLngBounds(MINES.map(function (m) { return [m.lat, m.lon]; })).pad(0.1)); if (o.id === 'gold' && el.checked) map.fitBounds(L.latLngBounds(GOLD.map(function (g) { return [g[1], g[2]]; })).pad(0.08)); var sc = $('#sheetBody').scrollTop; renderSheet(); $('#sheetBody').scrollTop = sc; }; });
   $$('[data-op]', body).forEach(function (el) { el.oninput = function () { ovOpacity(OVC.filter(function (x) { return x.id === el.dataset.op; })[0], +el.value); }; });
   $('#lImp').onclick = function () { $('#ovIn').click(); };
   $$('[data-ovv]', body).forEach(function (el) { el.onclick = function () { var o = OV.filter(function (x) { return x.id === el.dataset.ovv; })[0]; o.visible = !o.visible; saveOV(); renderOverlay(o); renderSheet(); }; });
@@ -3534,6 +3628,20 @@ renderSheet = function () {
     var box = document.createElement('div'); box.className = 'sec';
     box.innerHTML = '<div class="badge-int">🛡️ ' + t('internal') + '</div>';
     body.insertBefore(box, body.firstChild);
+    var eb = document.createElement('div'); eb.className = 'sec'; var cur = null; try { cur = localStorage.getItem('laagab_emblem'); } catch (e) {}
+    eb.innerHTML = '<h3>' + t('emblem') + '</h3><div class="embrow"><img id="embPrev" alt="" src="' + esc(cur || 'garde-emblem.png') + '" onerror="this.style.visibility=\'hidden\'"><button class="btn grow" type="button" id="embPick">' + t('emblemPick') + '</button>' + (cur ? '<button class="btn" type="button" id="embDel">' + t('emblemDel') + '</button>' : '') + '</div><div class="note" style="margin-top:6px">' + t('emblemHint') + '</div><input type="file" id="embIn" accept="image/*" hidden>';
+    body.insertBefore(eb, box.nextSibling);
+    $('#embPick').onclick = function () { $('#embIn').click(); };
+    if ($('#embDel')) $('#embDel').onclick = function () { try { localStorage.removeItem('laagab_emblem'); } catch (e) {} renderSheet(); };
+    $('#embIn').onchange = function () {
+      var f = this.files && this.files[0]; if (!f) return; var rd = new FileReader();
+      rd.onload = function () { var im = new Image(); im.onload = function () {
+        var k = Math.min(1, 512 / Math.max(im.width, im.height)), cv = document.createElement('canvas'); cv.width = Math.round(im.width * k); cv.height = Math.round(im.height * k);
+        cv.getContext('2d').drawImage(im, 0, 0, cv.width, cv.height);
+        try { localStorage.setItem('laagab_emblem', cv.toDataURL('image/png')); toast('✓'); } catch (e) { toast('✕'); }
+        renderSheet(); }; im.src = rd.result; };
+      rd.readAsDataURL(f);
+    };
   }
 };
 var _closeSheet = closeSheet;
@@ -3571,7 +3679,7 @@ Promise.all([DB.get('settings'), DB.get('wp'), DB.get('tr'), DB.get('rec'), DB.g
   if (r[3] && r[3].pts) { REC = r[3]; if (!REC.paused) { REC.paused = true; REC.pauseAt = Date.now(); } recLine = L.polyline(REC.pts.map(function (p) { return [p[0], p[1]]; }), { color: '#e5484d', weight: 4, interactive: false }).addTo(map); }
   if (S.view) map.setView([S.view[0], S.view[1]], S.view[2]);
   setLayer(S.layer); document.body.classList.toggle('nocross', !S.cross);
-  renderWaypoints(); renderTracks(); renderAllOverlays(); if (S.geoOn) setGeology(true); if (S.minesOn) setMines(true); if (S.hillOn) setHill(true); if (S.roadsOn) setRoads(true); restoreOverlays(); chatInit();
+  renderWaypoints(); renderTracks(); renderAllOverlays(); if (S.geoOn) setGeology(true); if (S.minesOn) setMines(true); if (S.goldOn !== false) setGold(true); if (S.hillOn) setHill(true); if (S.roadsOn) setRoads(true); restoreOverlays(); chatInit();
   applyLang(); updateRecUI(); startGPS();
 });
 

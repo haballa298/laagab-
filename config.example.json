@@ -1,7 +1,7 @@
 {
   "port": 8443,
   "host": "0.0.0.0",
-  "name": "لعگاب — الحرس الوطني",
+  "name": "لعگابْ 🦅 — الحرس الوطني",
   "tls": { "key": "certs/server.key", "cert": "certs/server.crt" },
   "corsOrigins": [],
   "sessionDays": 30,
