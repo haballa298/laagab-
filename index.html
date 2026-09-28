@@ -812,6 +812,25 @@ textarea{min-height:64px;resize:vertical}
 .wp span{position:absolute;top:30px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:11px;font-weight:600;color:#fff;text-shadow:0 0 3px #000,0 0 3px #000}
 .mpt{width:12px;height:12px;border-radius:50%;background:var(--amber);border:2px solid #fff}
 
+/* 3D view */
+#v3d{position:fixed;inset:0;z-index:1500;background:#0e1113}
+#map3d{position:absolute;inset:0}
+#v3dTop{position:absolute;top:calc(8px + var(--safe-t));inset-inline:10px;display:flex;gap:8px;align-items:center;padding:6px;z-index:2}
+#v3dTop .seg{flex:1;min-width:0;overflow-x:auto}
+#v3dTop .seg button{white-space:nowrap;flex:none;padding:7px 9px}
+#v3dCtl{position:absolute;inset-inline:10px;bottom:calc(12px + var(--safe-b));padding:10px 12px;display:flex;flex-direction:column;gap:6px;z-index:2}
+#v3dCtl input[type=range]{width:100%;accent-color:var(--amber)}
+#v3dCtl .f>span{display:flex;justify-content:space-between}
+#v3dLoad{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(27,32,35,.94);padding:12px 16px;border-radius:12px;z-index:3;text-align:center;max-width:80vw}
+#v3dLoad:empty{display:none}
+.maplibregl-ctrl-attrib{font-size:10px!important;background:rgba(18,21,23,.7)!important;color:#9ba5a2!important}
+.maplibregl-ctrl-attrib a{color:var(--sand)!important}
+.maplibregl-ctrl-bottom-right,.maplibregl-ctrl-bottom-left{bottom:calc(150px + var(--safe-b))!important}
+.m3wp{width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #000}
+.m3wp span{position:absolute;left:18px;top:-3px;white-space:nowrap;font-size:11px;font-weight:600;color:#fff;text-shadow:0 0 3px #000,0 0 3px #000;font-family:var(--font)}
+.rdleg{display:inline-flex;align-items:center;gap:5px;margin-inline-end:12px}
+.rdleg i{display:inline-block;width:22px;height:0}
+
 /* compass view */
 #bigCompass{width:230px;height:230px;margin:6px auto;display:block}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
@@ -837,6 +856,7 @@ textarea{min-height:64px;resize:vertical}
   <button class="fb" id="layerBtn" type="button" data-t="layers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3 2 8l10 5 10-5-10-5z"/><path d="m2 13 10 5 10-5"/></svg></button>
   <button class="fb" id="addWpBtn" type="button" data-t="addPoint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><path d="M12 7v5M9.5 9.5h5"/></svg></button>
   <button class="fb" id="measureBtn" type="button" data-t="measure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17 17 3l4 4L7 21z"/><path d="m7 13 2 2M10 10l2 2M13 7l2 2"/></svg></button>
+  <button class="fb" id="d3Btn" type="button" aria-label="3D"><b style="font-family:var(--mono);font-size:14px">3D</b></button>
   <button class="fb" id="compassBtn" type="button" data-t="compass"><svg viewBox="0 0 24 24"><path d="M12 2 16 12h-8z" fill="#e5484d"/><path d="M12 22 8 12h8z" fill="currentColor"/></svg></button>
 </div>
 
@@ -868,6 +888,17 @@ textarea{min-height:64px;resize:vertical}
   <button type="button" data-tab="tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg><span data-i="tools"></span></button>
   <button type="button" data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span data-i="settings"></span></button>
 </nav>
+
+<div id="v3d" hidden>
+  <div id="map3d" dir="ltr"></div>
+  <div id="v3dTop" class="chip"><button class="btn sm" id="v3dBack" type="button"></button><div class="seg" id="v3dBase"></div></div>
+  <div id="v3dCtl" class="chip">
+    <label class="f"><span><span id="v3dExL"></span><b class="num" id="v3dExV"></b></span><input type="range" id="v3dEx" min="1" max="4" step="0.1"></label>
+    <label class="f"><span><span id="v3dPiL"></span><b class="num" id="v3dPiV"></b></span><input type="range" id="v3dPi" min="0" max="85" step="1"></label>
+    <div class="note" id="v3dElev"></div>
+  </div>
+  <div id="v3dLoad" class="note"></div>
+</div>
 
 <div id="modal" hidden><div id="modalBox"></div></div>
 <div id="toast" hidden></div>
@@ -1111,17 +1142,23 @@ textarea{min-height:64px;resize:vertical}
 'use strict';
 
 /* ================= CONFIG ================= */
-var APP = { name: 'لعگاب — Laagab', version: '1.1.0', author: 'Abderrahmane Haballa' };
+var APP = { name: 'لعگاب — Laagab', version: '1.2.0', author: 'Abderrahmane Haballa' };
 function LAYERS() {
   var k = S.maptilerKey && S.maptilerKey.trim();
   var L1 = [
     { id: 'topo', name: { ar: 'طبوغرافية', fr: 'Topographique' }, url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', sub: 'abc', max: 17,
       attr: '© OpenStreetMap, SRTM | © OpenTopoMap (CC-BY-SA)', dl: true },
     { id: 'sat', name: { ar: 'قمر صناعي', fr: 'Satellite' }, url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', max: 19,
-      attr: 'Imagery © Esri, Maxar, Earthstar Geographics', dl: true },
+      attr: 'Imagery © Esri, Maxar, Earthstar Geographics', dl: true, d3: true },
     { id: 'hyb', name: { ar: 'قمر صناعي + أسماء', fr: 'Satellite + noms' }, url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', max: 19,
       over: 'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',
-      attr: 'Imagery © Esri, Maxar, Earthstar Geographics', dl: true },
+      attr: 'Imagery © Esri, Maxar, Earthstar Geographics', dl: true, d3: true },
+    { id: 'clar', name: { ar: 'قمر صناعي عالي الدقة (Clarity)', fr: 'Satellite haute précision (Clarity)' }, url: 'https://clarity.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', max: 19,
+      attr: 'Imagery © Esri, Maxar — Clarity', dl: true, d3: true },
+    { id: 'esri-topo', name: { ar: 'طبوغرافية مفصّلة (Esri)', fr: 'Topographique détaillée (Esri)' }, url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', max: 19,
+      attr: '© Esri, HERE, Garmin, USGS, OpenStreetMap', dl: true, d3: true },
+    { id: 'cyclosm', name: { ar: 'مسالك وطرق ترابية (CyclOSM)', fr: 'Pistes et chemins (CyclOSM)' }, url: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', sub: 'abc', max: 19,
+      attr: '© OpenStreetMap contributors | CyclOSM', dl: true },
     { id: 'osm', name: { ar: 'طرق (OSM)', fr: 'Routes (OSM)' }, url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', max: 19,
       attr: '© OpenStreetMap contributors', dl: false }
   ];
@@ -1169,7 +1206,10 @@ var T = {
     install: 'تثبيت التطبيق على الهاتف', installed: 'التطبيق مثبّت', declNote: 'السمت المعروض سمت حقيقي (جغرافي). البوصلة المغناطيسية في موريتانيا تنحرف نحو 1.5°–4.5° غربًا.',
     distTo: 'المسافة', recSaved: 'تم حفظ المسار', recEmpty: 'المسار قصير جدًا ولم يُحفظ', resume: 'استئناف', min: 'د', h: 'س', layersTitle: 'طبقات الخريطة', gridUtm: 'شبكة UTM',
     followOn: 'تتبّع الموقع مفعّل', allFormats: 'كل الصيغ', created: 'أُنشئ', pointsCount: 'عدد النقاط', duration: 'المدة', maxSpeed: 'أقصى سرعة', avgSpeed: 'متوسط السرعة',
-    zoomTo: 'إلى تكبير', fitTrack: 'عرض المسار' },
+    zoomTo: 'إلى تكبير', fitTrack: 'عرض المسار',
+    roads: 'الطرق والمسالك', unpaved: 'الطرق غير المعبّدة (المسالك)', paved: 'طرق معبّدة', unknownSurf: 'طريق غير محدّد النوع', roadsHint: 'تظهر عند التكبير (مستوى 11 فأكثر). المصدر: OpenStreetMap — تحتاج إنترنت أول مرة ثم تُحفظ للاستعمال دون شبكة.', roadsZoom: 'كبّر الخريطة لإظهار الطرق', roadsErr: 'تعذّر تحميل الطرق — تحقّق من الإنترنت', roadsLoading: 'جاري تحميل الطرق…',
+    hillshade: 'تظليل التضاريس', hillHint: 'يُبرز الجبال والصدوع والأودية فوق أي خريطة.',
+    exag: 'تضخيم الارتفاع', pitch: 'الإمالة', back2d: 'رجوع ‎2D', loading3d: 'جاري تحميل العرض ثلاثي الأبعاد…', err3d: 'تعذّر تحميل العرض ثلاثي الأبعاد — يحتاج إنترنت عند أول استعمال', hint3d: 'حرّك إصبعين للأعلى أو الأسفل لإمالة الخريطة، وأدرها بإصبعين.', surface: 'السطح', roadType: 'نوع الطريق' },
   fr: {
     overlays: 'Couches géologiques et minières', geology: 'Carte géologique', geoHint: 'Touchez la carte pour identifier la roche et son âge (Internet requis).', opacity: 'Opacité',
     mines: 'Mines et projets miniers', minesNote: 'Positions issues de rapports de sociétés et sources publiques ; précision indiquée pour chaque site.', importLayer: 'Importer une couche (Shapefile / GeoJSON / KML / CSV)',
@@ -1200,7 +1240,10 @@ var T = {
     install: 'Installer l’application', installed: 'Application installée', declNote: 'L’azimut affiché est vrai (géographique). En Mauritanie la boussole magnétique dévie d’environ 1,5° à 4,5° vers l’ouest.',
     distTo: 'Distance', recSaved: 'Trace enregistrée', recEmpty: 'Trace trop courte, non enregistrée', resume: 'Reprendre', min: 'min', h: 'h', layersTitle: 'Couches de carte', gridUtm: 'Grille UTM',
     followOn: 'Suivi de position activé', allFormats: 'Tous les formats', created: 'Créé', pointsCount: 'Nombre de points', duration: 'Durée', maxSpeed: 'Vitesse max', avgSpeed: 'Vitesse moyenne',
-    fitTrack: 'Voir la trace' }
+    fitTrack: 'Voir la trace',
+    roads: 'Routes et pistes', unpaved: 'Routes non goudronnées (pistes)', paved: 'Routes goudronnées', unknownSurf: 'Route de type inconnu', roadsHint: 'Visibles à partir du zoom 11. Source : OpenStreetMap — Internet requis la première fois, puis conservé hors ligne.', roadsZoom: 'Zoomez pour afficher les routes', roadsErr: 'Impossible de charger les routes — vérifiez Internet', roadsLoading: 'Chargement des routes…',
+    hillshade: 'Ombrage du relief', hillHint: 'Fait ressortir montagnes, failles et oueds sur n’importe quel fond.',
+    exag: 'Exagération du relief', pitch: 'Inclinaison', back2d: 'Retour 2D', loading3d: 'Chargement de la vue 3D…', err3d: 'Impossible de charger la vue 3D — Internet requis au premier usage', hint3d: 'Glissez à deux doigts vers le haut/bas pour incliner, tournez à deux doigts.', surface: 'Surface', roadType: 'Type de route' }
 };
 function t(k) { return (T[S.lang] && T[S.lang][k]) || T.ar[k] || k; }
 
@@ -1275,15 +1318,15 @@ var ICON = {
 };
 
 /* ================= MAP ================= */
-var map = L.map('map', { zoomControl: false, attributionControl: true, worldCopyJump: true, tap: true, preferCanvas: false })
+var map = L.map('map', { maxZoom: 21, zoomControl: false, attributionControl: true, worldCopyJump: true, tap: true, preferCanvas: false })
   .setView([20.3, -10.4], 6);
 L.control.scale({ metric: true, imperial: false, position: 'bottomleft' }).addTo(map);
 var baseLayer = null, overLayer = null;
 function setLayer(id) {
   var list = LAYERS(), def = list.filter(function (l) { return l.id === id; })[0] || list[0];
   if (baseLayer) map.removeLayer(baseLayer); if (overLayer) { map.removeLayer(overLayer); overLayer = null; }
-  baseLayer = L.tileLayer(def.url, { maxZoom: 20, maxNativeZoom: def.max, subdomains: def.sub || 'abc', attribution: def.attr }).addTo(map);
-  if (def.over) overLayer = L.tileLayer(def.over, { maxZoom: 20, maxNativeZoom: def.max, pane: 'overlayPane' }).addTo(map);
+  baseLayer = L.tileLayer(def.url, { maxZoom: 21, maxNativeZoom: def.max, subdomains: def.sub || 'abc', attribution: def.attr }).addTo(map);
+  if (def.over) overLayer = L.tileLayer(def.over, { maxZoom: 21, maxNativeZoom: def.max, pane: 'overlayPane' }).addTo(map);
   S.layer = def.id; saveSettings();
 }
 function currentLayer() { var l = LAYERS().filter(function (x) { return x.id === S.layer; })[0]; return l || LAYERS()[0]; }
@@ -1903,6 +1946,11 @@ function renderSheet() {
     case 'layers':
       title.textContent = t('layersTitle');
       h += '<div class="list">' + LAYERS().map(function (l) { return '<button class="item" type="button" data-layer="' + l.id + '" style="border:0;text-align:start;color:' + (l.id === S.layer ? 'var(--amber)' : 'var(--text)') + '"><span class="pin" style="background:' + (l.id === S.layer ? 'var(--amber)' : 'var(--line)') + '"></span><span class="main"><span class="nm">' + esc(l.name[S.lang]) + '</span><span class="sub" style="display:block">' + esc(l.attr) + '</span></span></button>'; }).join('') + '</div>' +
+        '<div class="sec"><h3>' + t('roads') + '</h3>' +
+        '<div class="switch"><span>' + t('unpaved') + '</span><input type="checkbox" id="lRoads" ' + (S.roadsOn ? 'checked' : '') + '></div>' +
+        (S.roadsOn ? '<div class="note" style="margin-top:6px"><span class="rdleg"><i style="border-top:3px dashed ' + RD_COL.unpaved + '"></i>' + t('unpaved') + '</span><span class="rdleg"><i style="border-top:3px dotted ' + RD_COL.unknown + '"></i>' + t('unknownSurf') + '</span><span class="rdleg"><i style="border-top:3px solid ' + RD_COL.paved + '"></i>' + t('paved') + '</span><br>' + t('roadsHint') + '</div>' : '') +
+        '<div class="switch" style="margin-top:8px"><span>' + t('hillshade') + '</span><input type="checkbox" id="lHill" ' + (S.hillOn ? 'checked' : '') + '></div>' +
+        (S.hillOn ? '<div class="note" style="margin-top:6px">' + t('hillHint') + '</div>' : '') + '</div>' +
         '<div class="sec"><h3>' + t('overlays') + '</h3>' +
         '<div class="switch"><span>' + t('geology') + '</span><input type="checkbox" id="lGeo" ' + (S.geoOn ? 'checked' : '') + '></div>' +
         (S.geoOn ? '<label class="f" style="margin-top:6px">' + t('opacity') + '<input type="range" id="lGeoOp" min="0.2" max="1" step="0.05" value="' + (S.geoOpacity || 0.6) + '" style="accent-color:var(--amber)"></label><div class="note">' + t('geoHint') + '</div>' : '') +
@@ -1914,6 +1962,8 @@ function renderSheet() {
       body.innerHTML = h;
       $$('[data-layer]', body).forEach(function (el) { el.onclick = function () { setLayer(el.dataset.layer); renderSheet(); }; });
       $('#lGeo').onchange = function () { setGeology(this.checked); renderSheet(); };
+      $('#lRoads').onchange = function () { setRoads(this.checked); renderSheet(); };
+      $('#lHill').onchange = function () { setHill(this.checked); renderSheet(); };
       if ($('#lGeoOp')) $('#lGeoOp').oninput = function () { setGeoOpacity(+this.value); };
       $('#lMines').onchange = function () { setMines(this.checked); renderSheet(); if (this.checked) map.fitBounds(L.latLngBounds(MINES.map(function (m) { return [m.lat, m.lon]; })).pad(0.1)); };
       $('#lImp').onclick = function () { $('#ovIn').click(); };
@@ -2289,6 +2339,252 @@ function csvToFC(text) {
   return { type: 'FeatureCollection', features: feats };
 }
 
+/* ================= ROADS: paved / unpaved tracks (OpenStreetMap via Overpass) ================= */
+var RD_COL = { unpaved: '#ff8a3d', unknown: '#f2d49b', paved: '#ffe066' };
+var RD_Z = 12, RD_MINZ = 11, RD_MAXT = 12;
+var OVERPASS = ['https://overpass-api.de/api/interpreter', 'https://overpass.private.coffee/api/interpreter', 'https://overpass.kumi.systems/api/interpreter'];
+var RD_UNPAVED = /^(unpaved|dirt|sand|gravel|fine_gravel|ground|earth|compacted|mud|pebblestone|rock|grass|salt|clay|shells)/;
+var RD_PAVED = /^(paved|asphalt|concrete|chipseal|paving_stones|sett|metal|cobblestone)/;
+var rdLayer = null, rdRenderer = null, rdTiles = {}, rdSeen = {}, rdFeats = [], rdQueue = [], rdActive = 0, rdLastErr = 0, rdLastHint = 0;
+function rdClass(tg) {
+  var s = String(tg.surface || '').toLowerCase(), h = tg.highway || '';
+  if (RD_UNPAVED.test(s)) return 'unpaved';
+  if (RD_PAVED.test(s)) return 'paved';
+  if (h === 'track' || h === 'path' || h === 'bridleway') return 'unpaved';
+  if (/^(motorway|trunk|primary|secondary)/.test(h)) return 'paved';
+  return 'unknown';
+}
+function rdStyle(c) {
+  if (c === 'unpaved') return { color: RD_COL.unpaved, weight: 3, dashArray: '7 5', opacity: 0.95 };
+  if (c === 'paved') return { color: RD_COL.paved, weight: 3.5, opacity: 0.95 };
+  return { color: RD_COL.unknown, weight: 2.5, dashArray: '2 5', opacity: 0.95 };
+}
+function lon2tile(lon, z) { return Math.floor((lon + 180) / 360 * Math.pow(2, z)); }
+function lat2tile(lat, z) { var r = lat * Math.PI / 180; return Math.floor((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * Math.pow(2, z)); }
+function tile2lon(x, z) { return x / Math.pow(2, z) * 360 - 180; }
+function tile2lat(y, z) { var n = Math.PI - 2 * Math.PI * y / Math.pow(2, z); return 180 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n))); }
+function rdLabel(c) { return c === 'unpaved' ? t('unpaved') : c === 'paved' ? t('paved') : t('unknownSurf'); }
+
+function rdDraw(f) {
+  if (!rdLayer) return;
+  var pr = f.properties, c = pr.c, st = rdStyle(c); st.renderer = rdRenderer;
+  var pl = L.polyline(f.geometry.coordinates.map(function (q) { return [q[1], q[0]]; }), st);
+  pl.on('click', function (e) {
+    lastFeatClick = Date.now(); L.DomEvent.stop(e);
+    var o = {}; o[t('roadType')] = rdLabel(c); o.highway = pr.hw; o[t('surface')] = pr.sf || '—'; if (pr.ref) o.ref = pr.ref;
+    featureDetail({ name: pr.name || rdLabel(c), lat: e.latlng.lat, lon: e.latlng.lng, props: o });
+  });
+  rdLayer.addLayer(pl);
+}
+function rdAddWays(ways) {
+  ways.forEach(function (w) {
+    if (rdSeen[w.id] || !w.g || w.g.length < 2) return;
+    rdSeen[w.id] = 1;
+    var tg = w.tg, f = { type: 'Feature', properties: { c: rdClass(tg), name: tg.name || tg['name:ar'] || tg['name:fr'] || '', hw: tg.highway || '', sf: tg.surface || '', ref: tg.ref || '' }, geometry: { type: 'LineString', coordinates: w.g.map(function (p) { return [p[1], p[0]]; }) } };
+    rdFeats.push(f); rdDraw(f);
+  });
+  if (M3.map && M3.map.getSource('roads')) M3.map.getSource('roads').setData({ type: 'FeatureCollection', features: rdFeats });
+}
+function rdParse(j) {
+  return (j.elements || []).filter(function (e) { return e.type === 'way' && e.geometry; }).map(function (e) {
+    var tg = e.tags || {}, keep = {};
+    ['highway', 'surface', 'name', 'name:ar', 'name:fr', 'ref', 'tracktype'].forEach(function (k) { if (tg[k]) keep[k] = tg[k]; });
+    return { id: e.id, tg: keep, g: e.geometry.map(function (p) { return [Math.round(p.lat * 1e6) / 1e6, Math.round(p.lon * 1e6) / 1e6]; }) };
+  });
+}
+function rdFetch(key, x, y) {
+  var s = tile2lat(y + 1, RD_Z), n = tile2lat(y, RD_Z), w = tile2lon(x, RD_Z), e = tile2lon(x + 1, RD_Z);
+  var bb = [s, w, n, e].map(function (v) { return v.toFixed(5); }).join(',');
+  var q = '[out:json][timeout:60];way["highway"~"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|track|path|service|road|bridleway|living_street)(_link)?$"](' + bb + ');out tags geom;';
+  function attempt(i) {
+    if (i >= OVERPASS.length) return Promise.reject(new Error('overpass'));
+    return fetch(OVERPASS[i] + '?data=' + encodeURIComponent(q)).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.json();
+    }).then(function (j) {
+      if (j.remark && /error|timed out|runtime/i.test(j.remark)) throw new Error(j.remark);
+      return j;
+    }).catch(function () { return attempt(i + 1); });
+  }
+  return attempt(0).then(rdParse);
+}
+function rdPump() {
+  while (rdActive < 2 && rdQueue.length) {
+    (function (job) {
+      rdActive++;
+      rdFetch(job.key, job.x, job.y).then(function (ways) {
+        rdTiles[job.key] = 'ok'; DB.set('rd:' + job.key, { ts: Date.now(), ways: ways });
+        if (S.roadsOn) rdAddWays(ways);
+      }).catch(function () {
+        delete rdTiles[job.key];
+        if (S.roadsOn && Date.now() - rdLastErr > 15000) { rdLastErr = Date.now(); toast(t('roadsErr')); }
+      }).then(function () { rdActive--; rdPump(); });
+    })(rdQueue.shift());
+  }
+}
+function rdTilesFor(b, limit) {
+  var x0 = lon2tile(b.getWest(), RD_Z), x1 = lon2tile(b.getEast(), RD_Z), y0 = lat2tile(b.getNorth(), RD_Z), y1 = lat2tile(b.getSouth(), RD_Z);
+  var c = b.getCenter(), cx = lon2tile(c.lng, RD_Z), cy = lat2tile(c.lat, RD_Z), out = [];
+  for (var x = x0; x <= x1; x++) for (var y = y0; y <= y1; y++) out.push({ key: RD_Z + '/' + x + '/' + y, x: x, y: y, d: Math.abs(x - cx) + Math.abs(y - cy) });
+  out.sort(function (a, b2) { return a.d - b2.d; });
+  return out.slice(0, limit);
+}
+function rdRefresh() {
+  if (!S.roadsOn) return;
+  if (map.getZoom() < RD_MINZ) { if (Date.now() - rdLastHint > 20000) { rdLastHint = Date.now(); toast(t('roadsZoom')); } return; }
+  var need = rdTilesFor(map.getBounds(), RD_MAXT).filter(function (tl) { return !rdTiles[tl.key]; });
+  need.forEach(function (tl) {
+    rdTiles[tl.key] = 'pending';
+    DB.get('rd:' + tl.key).then(function (hit) {
+      if (hit && hit.ways && Date.now() - hit.ts < 90 * 864e5) { rdTiles[tl.key] = 'ok'; if (S.roadsOn) rdAddWays(hit.ways); return; }
+      if (!navigator.onLine && hit && hit.ways) { rdTiles[tl.key] = 'ok'; if (S.roadsOn) rdAddWays(hit.ways); return; }
+      rdQueue.push(tl); rdPump();
+    });
+  });
+}
+function setRoads(on) {
+  S.roadsOn = !!on; saveSettings();
+  if (on && !rdLayer) {
+    if (!map.getPane('roadPane')) { map.createPane('roadPane'); map.getPane('roadPane').style.zIndex = 390; }
+    rdRenderer = L.canvas({ padding: 0.3, tolerance: 8, pane: 'roadPane' });
+    rdLayer = L.layerGroup().addTo(map);
+    rdFeats.forEach(rdDraw);
+    if (map.getZoom() < RD_MINZ) toast(t('roadsZoom')); else toast(t('roadsLoading'));
+    rdRefresh();
+  } else if (!on && rdLayer) { map.removeLayer(rdLayer); rdLayer = null; rdQueue = []; }
+}
+map.on('moveend', function () { rdRefresh(); });
+
+/* ================= HILLSHADE overlay ================= */
+var hillLayer = null;
+function setHill(on) {
+  S.hillOn = !!on; saveSettings();
+  if (on && !hillLayer) {
+    if (!map.getPane('hillPane')) { var p = map.createPane('hillPane'); p.style.zIndex = 250; p.style.mixBlendMode = 'multiply'; p.style.pointerEvents = 'none'; }
+    hillLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}', { pane: 'hillPane', maxZoom: 21, maxNativeZoom: 16, opacity: 0.75, attribution: 'Hillshade © Esri' }).addTo(map);
+  } else if (!on && hillLayer) { map.removeLayer(hillLayer); hillLayer = null; }
+}
+
+/* ================= 3D VIEW (MapLibre GL + terrain) ================= */
+var ML_BASE = 'https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/';
+var DEM_URL = 'https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png';
+var M3 = { map: null, loading: null, base: null, markers: [] };
+function loadMapLibre() {
+  if (window.maplibregl) return Promise.resolve();
+  if (M3.loading) return M3.loading;
+  M3.loading = new Promise(function (res, rej) {
+    var css = document.createElement('link'); css.rel = 'stylesheet'; css.href = ML_BASE + 'maplibre-gl.css'; document.head.appendChild(css);
+    var sc = document.createElement('script'); sc.src = ML_BASE + 'maplibre-gl.js';
+    sc.onload = function () { if (window.maplibregl) res(); else { M3.loading = null; rej(); } };
+    sc.onerror = function () { M3.loading = null; sc.remove(); rej(); };
+    document.head.appendChild(sc);
+  });
+  return M3.loading;
+}
+function bases3d() { return LAYERS().filter(function (l) { return l.d3 || /^mt-/.test(l.id); }); }
+function tilesOf(def) { var u = def.url; if (u.indexOf('{s}') < 0) return [u]; return (def.sub || 'abc').split('').map(function (c) { return u.replace('{s}', c); }); }
+function base3dDef() {
+  var list = bases3d(), id = M3.base || S.base3d || (currentLayer().d3 ? currentLayer().id : 'sat');
+  return list.filter(function (l) { return l.id === id; })[0] || list[0];
+}
+function setBase3d(def) {
+  var m = M3.map; M3.base = S.base3d = def.id; saveSettings();
+  if (m.getLayer('base')) m.removeLayer('base');
+  if (m.getSource('base')) m.removeSource('base');
+  m.addSource('base', { type: 'raster', tiles: tilesOf(def), tileSize: 256, maxzoom: def.max || 19, attribution: def.attr });
+  m.addLayer({ id: 'base', type: 'raster', source: 'base', paint: { 'raster-fade-duration': 150 } }, m.getLayer('hs') ? 'hs' : undefined);
+  if (def.over && !m.getSource('labels')) {
+    m.addSource('labels', { type: 'raster', tiles: [def.over], tileSize: 256, maxzoom: def.max || 19 });
+    m.addLayer({ id: 'labels', type: 'raster', source: 'labels' });
+  } else if (!def.over && m.getSource('labels')) { m.removeLayer('labels'); m.removeSource('labels'); }
+  renderBase3dSeg();
+}
+function renderBase3dSeg() {
+  var cur = base3dDef();
+  $('#v3dBase').innerHTML = bases3d().map(function (l) { return '<button type="button" data-b3="' + l.id + '" class="' + (l.id === cur.id ? 'act' : '') + '">' + esc(l.name[S.lang].replace(/\s*\(.*\)$/, '')) + '</button>'; }).join('');
+  $$('[data-b3]', $('#v3dBase')).forEach(function (bt) { bt.onclick = function () { setBase3d(bases3d().filter(function (l) { return l.id === bt.dataset.b3; })[0]); }; });
+}
+function data3d() {
+  var tr = TR.filter(function (x) { return x.visible !== false && x.pts && x.pts.length > 1; }).map(function (x) {
+    return { type: 'Feature', properties: { c: x.color || '#5b8def' }, geometry: { type: 'LineString', coordinates: x.pts.map(function (p) { return [p[1], p[0]]; }) } };
+  });
+  if (REC && REC.pts && REC.pts.length > 1) tr.push({ type: 'Feature', properties: { c: '#e5484d' }, geometry: { type: 'LineString', coordinates: REC.pts.map(function (p) { return [p[1], p[0]]; }) } });
+  var ov = [];
+  OV.forEach(function (o) { if (!o.visible || !o.fc) return; (o.fc.features || []).forEach(function (f) { if (!f || !f.geometry) return; var g = JSON.parse(JSON.stringify(f)); g.properties = { c: o.color }; ov.push(g); }); });
+  return { tracks: { type: 'FeatureCollection', features: tr }, ov: { type: 'FeatureCollection', features: ov } };
+}
+function addData3d() {
+  var m = M3.map, d = data3d();
+  m.addSource('ov', { type: 'geojson', data: d.ov });
+  m.addLayer({ id: 'ov-fill', type: 'fill', source: 'ov', filter: ['==', ['geometry-type'], 'Polygon'], paint: { 'fill-color': ['get', 'c'], 'fill-opacity': 0.15 } });
+  m.addLayer({ id: 'ov-line', type: 'line', source: 'ov', filter: ['!=', ['geometry-type'], 'Point'], paint: { 'line-color': ['get', 'c'], 'line-width': 2 } });
+  m.addLayer({ id: 'ov-pt', type: 'circle', source: 'ov', filter: ['==', ['geometry-type'], 'Point'], paint: { 'circle-color': ['get', 'c'], 'circle-radius': 5, 'circle-stroke-color': '#fff', 'circle-stroke-width': 1.5 } });
+  m.addSource('roads', { type: 'geojson', data: { type: 'FeatureCollection', features: S.roadsOn ? rdFeats : [] } });
+  m.addLayer({ id: 'rd-paved', type: 'line', source: 'roads', filter: ['==', ['get', 'c'], 'paved'], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': RD_COL.paved, 'line-width': 3.5 } });
+  m.addLayer({ id: 'rd-unk', type: 'line', source: 'roads', filter: ['==', ['get', 'c'], 'unknown'], paint: { 'line-color': RD_COL.unknown, 'line-width': 2.5, 'line-dasharray': [1, 2] } });
+  m.addLayer({ id: 'rd-unp', type: 'line', source: 'roads', filter: ['==', ['get', 'c'], 'unpaved'], paint: { 'line-color': RD_COL.unpaved, 'line-width': 3, 'line-dasharray': [2.5, 1.6] } });
+  m.addSource('tracks', { type: 'geojson', data: d.tracks });
+  m.addLayer({ id: 'tracks', type: 'line', source: 'tracks', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ['get', 'c'], 'line-width': 4 } });
+  M3.markers.forEach(function (mk) { mk.remove(); }); M3.markers = [];
+  WP.forEach(function (w) {
+    var el = document.createElement('div'); el.className = 'm3wp'; el.style.background = w.color || COLORS[0];
+    var sp = document.createElement('span'); sp.textContent = w.name || ''; el.appendChild(sp);
+    M3.markers.push(new maplibregl.Marker({ element: el }).setLngLat([w.lon, w.lat]).addTo(m));
+  });
+  if (pos) {
+    var me = document.createElement('div'); me.className = 'm3wp'; me.style.background = 'var(--amber)'; me.style.width = me.style.height = '18px';
+    M3.markers.push(new maplibregl.Marker({ element: me }).setLngLat([pos.lon, pos.lat]).addTo(m));
+  }
+}
+function upd3dReadout() {
+  var m = M3.map; if (!m) return;
+  $('#v3dExV').textContent = (+$('#v3dEx').value).toFixed(1) + '×';
+  $('#v3dPiV').textContent = Math.round(m.getPitch()) + '°'; $('#v3dPi').value = Math.round(m.getPitch());
+  var c = m.getCenter();
+  $('#v3dElev').innerHTML = '<span class="num">' + esc(Geo.format(c.lat, c.lng, S.fmt)) + '</span>';
+}
+function open3d() {
+  closeSheet();
+  var box = $('#v3d'); box.hidden = false;
+  $('#v3dBack').textContent = t('back2d'); $('#v3dExL').textContent = t('exag'); $('#v3dPiL').textContent = t('pitch');
+  $('#v3dEx').value = S.exag3d || 1.6; $('#v3dPi').value = 65;
+  $('#v3dLoad').textContent = t('loading3d');
+  loadMapLibre().then(function () {
+    $('#v3dLoad').textContent = '';
+    var c = map.getCenter(), z = Math.max(1, map.getZoom() - 1);
+    if (M3.map) { M3.map.remove(); M3.map = null; }
+    var def = base3dDef();
+    var m = M3.map = new maplibregl.Map({
+      container: 'map3d', center: [c.lng, c.lat], zoom: z, pitch: 65, bearing: 0, maxPitch: 85, maxZoom: 19.5, attributionControl: { compact: true },
+      style: {
+        version: 8,
+        sources: {
+          dem: { type: 'raster-dem', tiles: [DEM_URL], encoding: 'terrarium', tileSize: 256, maxzoom: 15, attribution: 'Terrain: Mapzen / AWS Terrain Tiles (SRTM, NASA)' },
+          hsdem: { type: 'raster-dem', tiles: [DEM_URL], encoding: 'terrarium', tileSize: 256, maxzoom: 15 }
+        },
+        layers: [
+          { id: 'bg', type: 'background', paint: { 'background-color': '#1b2023' } },
+          { id: 'hs', type: 'hillshade', source: 'hsdem', paint: { 'hillshade-exaggeration': 0.3, 'hillshade-shadow-color': '#000000', 'hillshade-highlight-color': 'rgba(255,255,255,0.15)' } }
+        ],
+        terrain: { source: 'dem', exaggeration: +$('#v3dEx').value }
+      }
+    });
+    m.addControl(new maplibregl.NavigationControl({ visualizePitch: true, showZoom: false }), 'bottom-right');
+    m.on('load', function () { setBase3d(def); addData3d(); upd3dReadout(); toast(t('hint3d')); });
+    m.on('move', upd3dReadout);
+    m.on('error', function () {});
+  }).catch(function () { $('#v3dLoad').textContent = ''; box.hidden = true; toast(t('err3d')); });
+}
+function close3d() {
+  var m = M3.map;
+  if (m) { var c = m.getCenter(); map.setView([c.lat, c.lng], Math.min(21, Math.round(m.getZoom() + 1))); M3.markers.forEach(function (mk) { mk.remove(); }); M3.markers = []; m.remove(); M3.map = null; }
+  $('#v3d').hidden = true;
+}
+$('#d3Btn').addEventListener('click', open3d);
+$('#v3dBack').addEventListener('click', close3d);
+$('#v3dEx').addEventListener('input', function () { S.exag3d = +this.value; saveSettings(); if (M3.map) M3.map.setTerrain({ source: 'dem', exaggeration: +this.value }); upd3dReadout(); });
+$('#v3dPi').addEventListener('input', function () { if (M3.map) M3.map.setPitch(+this.value); });
+
 /* ================= BOOT ================= */
 Promise.all([DB.get('settings'), DB.get('wp'), DB.get('tr'), DB.get('rec'), DB.get('ov')]).then(function (r) {
   OV = r[4] || [];
@@ -2298,7 +2594,7 @@ Promise.all([DB.get('settings'), DB.get('wp'), DB.get('tr'), DB.get('rec'), DB.g
   if (r[3] && r[3].pts) { REC = r[3]; if (!REC.paused) { REC.paused = true; REC.pauseAt = Date.now(); } recLine = L.polyline(REC.pts.map(function (p) { return [p[0], p[1]]; }), { color: '#e5484d', weight: 4, interactive: false }).addTo(map); }
   if (S.view) map.setView([S.view[0], S.view[1]], S.view[2]);
   setLayer(S.layer); document.body.classList.toggle('nocross', !S.cross);
-  renderWaypoints(); renderTracks(); renderAllOverlays(); if (S.geoOn) setGeology(true); if (S.minesOn) setMines(true);
+  renderWaypoints(); renderTracks(); renderAllOverlays(); if (S.geoOn) setGeology(true); if (S.minesOn) setMines(true); if (S.hillOn) setHill(true); if (S.roadsOn) setRoads(true);
   applyLang(); updateRecUI(); startGPS();
 });
 
