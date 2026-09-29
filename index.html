@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-<title>لعگابْ 🦅 — الحرس الوطني</title>
+<title>لعگابْ 🦅</title>
 <meta name="apple-mobile-web-app-title" content="لعگابْ 🦅">
 <meta name="application-name" content="لعگابْ 🦅">
 <meta name="theme-color" content="#121517">
@@ -14,7 +14,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
 <style>/* required styles */
 
 .leaflet-pane,
@@ -927,62 +927,45 @@ input.tgl:checked::after{transform:translateX(18px)}
 /* compass view */
 #bigCompass{width:230px;height:230px;margin:6px auto;display:block}
 
-/* ===== Laagab 2.1 — splash + gold layer ===== */
-#splash{position:fixed;inset:0;z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:max(24px,env(safe-area-inset-top)) 22px max(24px,env(safe-area-inset-bottom));text-align:center;color:#f3ead7;
-  background:radial-gradient(120% 80% at 50% 38%,#1f3a2b 0%,#122219 55%,#0a130e 100%);transition:opacity .7s ease,visibility .7s;font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;overflow:hidden}
-#splash::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.018) 0 2px,transparent 2px 9px);pointer-events:none}
+/* ===== Laagab 2.2 — splash ===== */
+#splash{position:fixed;inset:0;z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:max(24px,env(safe-area-inset-top)) 22px max(24px,env(safe-area-inset-bottom));text-align:center;color:#f3ead7;
+  background:radial-gradient(110% 75% at 50% 42%,#173326 0%,#0e1f17 55%,#070f0b 100%);transition:opacity .7s ease,visibility .7s;font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;overflow:hidden}
+#splash::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.016) 0 2px,transparent 2px 10px);pointer-events:none}
 #splash.out{opacity:0;visibility:hidden}
-#splash .sp-top{position:absolute;top:max(14px,env(safe-area-inset-top));left:0;right:0;height:6px;display:flex}
-#splash .sp-top i{flex:1}
-#splash .sp-emb{width:132px;height:132px;object-fit:contain;filter:drop-shadow(0 6px 18px rgba(0,0,0,.55));opacity:0;transform:scale(.9);animation:spIn .8s .1s ease forwards}
-#splash .sp-emb[hidden]{display:none}
-#splash .sp-flag{width:78px;height:52px;margin-top:16px;border-radius:3px;box-shadow:0 3px 12px rgba(0,0,0,.5);opacity:0;animation:spIn .8s .35s ease forwards}
-#splash h1{margin:18px 0 0;font-size:46px;line-height:1.15;font-weight:700;letter-spacing:.01em;color:#e9c46a;text-shadow:0 2px 14px rgba(0,0,0,.5);opacity:0;animation:spIn .8s .55s ease forwards}
-#splash .sp-sub{font:500 12px/1 'IBM Plex Mono',monospace;letter-spacing:.32em;color:#b9a77f;margin-top:6px;opacity:0;animation:spIn .8s .65s ease forwards}
-#splash .sp-rule{width:180px;height:1px;margin:20px auto 16px;background:linear-gradient(90deg,transparent,#c9a24a,transparent);opacity:0;animation:spIn .8s .8s ease forwards}
-#splash .sp-who{opacity:0;animation:spIn .8s .9s ease forwards}
-#splash .sp-rank{font-size:21px;font-weight:700;color:#fff}
-#splash .sp-fr{font-size:13px;color:#cdbf9f;margin-top:3px;letter-spacing:.02em}
-#splash .sp-unit{font-size:14px;color:#e6dcc4;margin-top:12px;line-height:1.7}
-#splash .sp-org{margin-top:14px;display:inline-block;padding:6px 14px;border:1px solid rgba(201,162,74,.55);border-radius:20px;font-size:13.5px;font-weight:600;color:#e9c46a;background:rgba(0,0,0,.18)}
-#splash .sp-foot{position:absolute;bottom:max(16px,env(safe-area-inset-bottom));left:0;right:0;font-size:11px;color:#8f9a8f;letter-spacing:.04em}
-#splash .sp-bar{width:120px;height:2px;margin:10px auto 0;background:rgba(255,255,255,.12);border-radius:2px;overflow:hidden}
-#splash .sp-bar i{display:block;height:100%;width:0;background:#e9c46a;animation:spBar 2.6s linear forwards}
-@keyframes spIn{to{opacity:1;transform:none}}
+#splash .sp-glow{position:absolute;width:420px;height:420px;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-62%);background:radial-gradient(circle,rgba(233,196,106,.16),transparent 65%);pointer-events:none}
+#splash .sp-flagwrap{perspective:600px;opacity:0;animation:spIn .9s .1s cubic-bezier(.2,.8,.2,1) forwards}
+#splash .sp-flag{display:block;width:176px;height:117px;border-radius:6px;box-shadow:0 14px 34px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.08);animation:spWave 3.2s ease-in-out infinite;transform-origin:left center}
+#splash .sp-shine{animation:spShine 2.4s .6s ease-in-out forwards}
+#splash h1{margin:30px 0 0;font-size:54px;line-height:1.1;font-weight:700;color:#e9c46a;text-shadow:0 3px 18px rgba(0,0,0,.55);opacity:0;animation:spIn .9s .45s ease forwards}
+#splash .sp-eagle{display:inline-block;font-size:.82em;vertical-align:.06em}
+#splash .sp-rule{width:150px;height:1px;margin:22px auto 18px;background:linear-gradient(90deg,transparent,#c9a24a,transparent);opacity:0;animation:spIn .9s .7s ease forwards}
+#splash .sp-name{font-family:'Cinzel','Times New Roman',serif;font-weight:600;font-size:25px;letter-spacing:.42em;padding-inline-start:.42em;color:#f7efe0;opacity:0;animation:spIn 1s .85s ease forwards}
+#splash .sp-bar{position:absolute;bottom:max(34px,calc(env(safe-area-inset-bottom) + 18px));left:50%;transform:translateX(-50%);width:110px;height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
+#splash .sp-bar i{display:block;height:100%;width:0;background:#e9c46a;animation:spBar 2.7s linear forwards}
+@keyframes spIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes spWave{0%,100%{transform:rotateY(0) skewY(0)}50%{transform:rotateY(-9deg) skewY(-1.2deg)}}
+@keyframes spShine{to{transform:translateX(560px)}}
 @keyframes spBar{to{width:100%}}
-@media (max-height:640px){#splash .sp-emb{width:100px;height:100px}#splash h1{font-size:38px}}
+@media (max-height:640px){#splash .sp-flag{width:140px;height:93px}#splash h1{font-size:44px}}
 .goldmk{position:relative}
 .goldmk span{position:absolute;top:30px;left:50%;transform:translateX(-50%);white-space:nowrap;font:600 10.5px var(--mono);color:#ffe7a3;text-shadow:0 0 3px #000,0 0 3px #000;display:none}
 .goldlbl .goldmk span{display:block}
-.embrow{display:flex;align-items:center;gap:12px}
-.embrow img{width:52px;height:52px;object-fit:contain;border-radius:10px;background:var(--ink);border:1px solid var(--line)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
 <div id="splash" role="dialog" aria-label="لعگابْ">
-  <div class="sp-top"><i style="background:#D01C1F"></i><i style="background:#00A95C"></i><i style="background:#FFD700"></i><i style="background:#00A95C"></i><i style="background:#D01C1F"></i></div>
-  <img class="sp-emb" id="spEmb" alt="شعار الحرس الوطني" hidden>
-  <svg class="sp-flag" viewBox="0 0 300 200" role="img" aria-label="علم موريتانيا"><rect width="300" height="200" fill="#D01C1F"/><rect y="40" width="300" height="120" fill="#00A95C"/><mask id="spCres"><rect width="300" height="200" fill="#fff"/><circle cx="150" cy="78" r="50" fill="#000"/></mask><circle cx="150" cy="96" r="50" fill="#FFD700" mask="url(#spCres)"/><polygon fill="#FFD700" points="150,62 154.9,77.2 170.9,77.2 158,86.6 162.9,101.8 150,92.4 137.1,101.8 142,86.6 129.1,77.2 145.1,77.2"/></svg>
-  <h1>لعگابْ 🦅</h1>
-  <div class="sp-sub">LAAGAB</div>
+  <div class="sp-glow"></div>
+  <div class="sp-flagwrap"><svg class="sp-flag" viewBox="0 0 300 200" role="img" aria-label="علم الجمهورية الإسلامية الموريتانية"><defs><linearGradient id="spSh" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".28"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><clipPath id="spClip"><rect width="300" height="200" rx="6"/></clipPath><mask id="spCres"><rect width="300" height="200" fill="#fff"/><circle cx="150" cy="78" r="50" fill="#000"/></mask></defs><g clip-path="url(#spClip)"><rect width="300" height="200" fill="#D01C1F"/><rect y="40" width="300" height="120" fill="#00A95C"/><circle cx="150" cy="96" r="50" fill="#FFD700" mask="url(#spCres)"/><polygon fill="#FFD700" points="150,62 154.9,77.2 170.9,77.2 158,86.6 162.9,101.8 150,92.4 137.1,101.8 142,86.6 129.1,77.2 145.1,77.2"/><rect class="sp-shine" x="-120" y="0" width="90" height="200" fill="url(#spSh)"/></g></svg></div>
+  <h1>لعگابْ <span class="sp-eagle">🦅</span></h1>
   <div class="sp-rule"></div>
-  <div class="sp-who">
-    <div class="sp-rank">الملازم عبد الرحمن حب الله</div>
-    <div class="sp-fr">Lieutenant Abderrahmane Haballa</div>
-    <div class="sp-unit">قائد الفصيلة الأولى — السرية الأولى<br>تجمع حفظ النظام رقم 1</div>
-    <div class="sp-org">الحرس الوطني الموريتاني</div>
-  </div>
-  <div class="sp-foot">للاستعمال الداخلي — Usage interne<div class="sp-bar"><i></i></div></div>
+  <div class="sp-name">HABALLA</div>
+  <div class="sp-bar"><i></i></div>
 </div>
 <script>/* Laagab — splash */(function(){
-  var sp=document.getElementById('splash'),im=document.getElementById('spEmb'),src=null;
-  try{src=localStorage.getItem('laagab_emblem');}catch(e){}
-  im.onload=function(){im.hidden=false;};
-  im.onerror=function(){ if(src&&im.src.indexOf('data:')===0){src=null;im.src='garde-emblem.png';} else im.hidden=true; };
-  im.src=src||'garde-emblem.png';
-  var done=false;function hide(){if(done)return;done=true;sp.classList.add('out');setTimeout(function(){sp.remove();},800);}
-  setTimeout(hide,2700);sp.addEventListener('click',hide);
+  var sp=document.getElementById('splash'),done=false;
+  function hide(){if(done)return;done=true;sp.classList.add('out');setTimeout(function(){sp.remove();},800);}
+  setTimeout(hide,2800);sp.addEventListener('click',hide);
 })();</script>
 <div id="map" dir="ltr" role="application" aria-label="Map"></div>
 <div id="cross" aria-hidden="true"></div>
@@ -1291,7 +1274,7 @@ input.tgl:checked::after{transform:translateX(18px)}
 'use strict';
 
 /* ================= CONFIG ================= */
-var APP = { name: 'لعگابْ 🦅 — Laagab', version: '2.1.0', author: 'Abderrahmane Haballa' };
+var APP = { name: 'لعگابْ 🦅', version: '2.2.0', author: 'Abderrahmane Haballa' };
 function LAYERS() {
   var k = S.maptilerKey && S.maptilerKey.trim();
   var L1 = [
@@ -1467,15 +1450,15 @@ var ICON = {
 };
 
 /* ================= MAP ================= */
-var map = L.map('map', { maxZoom: 21, zoomControl: false, attributionControl: true, worldCopyJump: true, tap: true, preferCanvas: false })
+var map = L.map('map', { maxZoom: 22, zoomControl: false, attributionControl: true, worldCopyJump: true, tap: true, preferCanvas: false })
   .setView([20.3, -10.4], 6);
 L.control.scale({ metric: true, imperial: false, position: 'bottomleft' }).addTo(map);
 var baseLayer = null, overLayer = null;
 function setLayer(id) {
   var list = LAYERS(), def = list.filter(function (l) { return l.id === id; })[0] || list[0];
   if (baseLayer) map.removeLayer(baseLayer); if (overLayer) { map.removeLayer(overLayer); overLayer = null; }
-  baseLayer = L.tileLayer(def.url, { maxZoom: 21, maxNativeZoom: def.max, subdomains: def.sub || 'abc', attribution: def.attr }).addTo(map);
-  if (def.over) overLayer = L.tileLayer(def.over, { maxZoom: 21, maxNativeZoom: def.max, pane: 'overlayPane' }).addTo(map);
+  baseLayer = L.tileLayer(def.url, { maxZoom: 22, maxNativeZoom: def.max, subdomains: def.sub || 'abc', attribution: def.attr }).addTo(map);
+  if (def.over) overLayer = L.tileLayer(def.over, { maxZoom: 22, maxNativeZoom: def.max, pane: 'overlayPane' }).addTo(map);
   S.layer = def.id; saveSettings();
 }
 function currentLayer() { var l = LAYERS().filter(function (x) { return x.id === S.layer; })[0]; return l || LAYERS()[0]; }
@@ -2139,6 +2122,10 @@ function renderSheet() {
       $('#sAcc').onchange = function () { S.accMax = Math.max(5, Math.min(500, +this.value || 40)); saveSettings(); };
       $('#sAwake').onchange = function () { S.awake = this.checked; saveSettings(); keepAwake(false); };
       $('#sKey').onchange = function () { S.maptilerKey = this.value.trim(); saveSettings(); setLayer(S.maptilerKey ? 'mt-out' : 'topo'); toast(t('saved')); };
+      var kl = $('#sKey').closest('label'), mbl = document.createElement('label'); mbl.className = 'f sec';
+      mbl.innerHTML = t('mbKey') + '<input type="text" id="sMb" class="num" value="' + esc(S.mapboxKey || '') + '" autocomplete="off" spellcheck="false"><span class="note" style="display:block;margin-top:4px">' + t('mbHint') + '</span>';
+      kl.parentNode.insertBefore(mbl, kl.nextSibling);
+      $('#sMb').onchange = function () { S.mapboxKey = this.value.trim(); saveSettings(); setLayer(S.mapboxKey ? 'mb-sat' : 'sat'); toast(t('saved')); };
       if ($('#sInstall')) $('#sInstall').onclick = function () { installEvt.prompt(); installEvt.userChoice.then(function () { installEvt = null; renderSheet(); }); };
       $('#sReset').onclick = function () { confirmBox(t('resetConfirm'), function () { WP = []; TR = []; saveWP(); saveTR(); renderWaypoints(); renderTracks(); stopNav(); renderSheet(); toast(t('deleted')); }); };
       break;
@@ -2743,7 +2730,7 @@ Object.assign(T.ar, { mtKey: 'مفتاح MapTiler (اختياري)' });
 Object.assign(T.fr, { mtKey: 'Clé MapTiler (optionnelle)' });
 Object.assign(T.ar, { elevS: 'الأرض' }); Object.assign(T.fr, { elevS: 'Terrain' });
 Object.assign(T.ar, {
-  baseMaps: 'خريطة الأساس', grpSat: 'أقمار صناعية', grpTopo: 'طبوغرافية', grpRoad: 'طرق وشوارع', grpOther: 'أخرى',
+  baseMaps: 'خريطة الأساس', grpSat: 'صور فضائية', grpTopo: 'طبوغرافية', grpRoad: 'طرق وشوارع', grpOther: 'أخرى',
   ovTitle: 'الطبقات الفوقية', ovTrans: 'الطرق والأسماء فوق القمر الصناعي', ovLabels: 'الحدود وأسماء الأماكن', ovSlope: 'تظليل زوايا الانحدار', ovSlopeHint: 'أصفر 27–29° · برتقالي 30–34° · أحمر 35–45° · بنفسجي 46–50° · أسود فوق 50° (من التكبير 10).',
   ovContours: 'خطوط الكنتور', ovContHint: 'محسوبة من نموذج الارتفاع SRTM (من التكبير 10). الخط السميك كل 5 فواصل.', ovUtm: 'شبكة UTM / MGRS', ovUtmHint: 'مربعات 1 كم أو 10 كم أو 100 كم حسب التكبير.',
   ovModis: 'صورة الأقمار الصناعية لليوم (سحب وغبار)', ovModisHint: 'NASA MODIS — صورة يومية بدقة منخفضة، مفيدة لمتابعة العواصف الرملية.', ovUnits: 'مواقع الوحدات', ovUnitsHint: 'مواقع العناصر الذين فعّلوا مشاركة الموقع في المحادثة.',
@@ -2768,30 +2755,90 @@ Object.assign(T.fr, {
 });
 
 /* ---------------- base maps (Gaia-style catalogue) ---------------- */
+/* ---------------- LAAGAB 2.2 — Esri Wayback archive + real imagery resolution ---------------- */
+var WB_URL = 'https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/';
+var WB_LIST = [[26334,'2026-08-05'],[32246,'2026-06-30'],[10842,'2026-05-28'],[49059,'2026-04-30'],[22869,'2026-03-26'],[64001,'2026-02-26'],[22252,'2026-01-29'],[13192,'2025-12-18'],[51127,'2025-11-20'],[20512,'2025-10-23'],[58924,'2025-09-25'],[52304,'2025-09-04']];
+try { var _wbc = JSON.parse(localStorage.getItem('laagab_wb') || 'null'); if (_wbc && _wbc.length > 5) WB_LIST = _wbc; } catch (e) {}
+function WB_LATEST() { return WB_LIST[0][0]; }
+function WB_REL() { return (S.wbRel && WB_LIST.some(function (w) { return w[0] === S.wbRel; })) ? S.wbRel : WB_LATEST(); }
+function wbRefresh() {
+  fetch('https://s3-us-west-2.amazonaws.com/config.maptiles.arcgis.com/waybackconfig.json').then(function (r) { return r.json(); }).then(function (j) {
+    var a = Object.keys(j).map(function (k) { var m = /(\d{4}-\d{2}-\d{2})/.exec(j[k].itemTitle || ''); return m ? [+k, m[1]] : null; }).filter(Boolean)
+      .sort(function (x, y) { return x[1] < y[1] ? 1 : -1; });
+    if (a.length > 5) { WB_LIST = a; try { localStorage.setItem('laagab_wb', JSON.stringify(a)); } catch (e) {} }
+  }).catch(function () {});
+}
+setTimeout(wbRefresh, 4000);
+/* Highest zoom level at which imagery really exists at the map centre (Esri tilemap service).
+   Above it Esri serves a grey "Map data not yet available" tile, so we stretch the best real tile instead. */
+var IMGQ = { key: '', z: null, lat: 0, busy: false }, _tmCache = {};
+function tmUrl(def, z, y, x) {
+  return def.tm === 'wb' ? 'https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tilemap/' + def.rel + '/' + z + '/' + y + '/' + x
+    : 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tilemap/' + z + '/' + y + '/' + x + '/1/1?f=json';
+}
+function tmHas(def, z, lat, lon) {
+  var x = lon2tile(lon, z), y = lat2tile(lat, z), k = (def.tm === 'wb' ? def.rel : 'e') + '/' + z + '/' + y + '/' + x;
+  if (k in _tmCache) return Promise.resolve(_tmCache[k]);
+  return fetch(tmUrl(def, z, y, x)).then(function (r) { return r.json(); }).then(function (j) { var v = !!(j && j.data && j.data[0]); _tmCache[k] = v; return v; }).catch(function () { return null; });
+}
+function probeImagery() {
+  var def = LAYERS().filter(function (l) { return l.id === S.layer; })[0];
+  if (!def || !def.tm || !baseLayer || map.getZoom() < 13) return;
+  var c = map.getCenter(), lon = ((c.lng + 540) % 360) - 180, key = def.id + (def.rel || '') + '/' + lon2tile(lon, 14) + '/' + lat2tile(c.lat, 14);
+  if (key === IMGQ.key || IMGQ.busy) return; IMGQ.busy = true;
+  var zs = [21, 20, 19, 18, 17, 16, 15, 14], i = 0;
+  (function next() {
+    if (i >= zs.length) { IMGQ.busy = false; return; }
+    var z = zs[i++];
+    tmHas(def, z, c.lat, lon).then(function (v) {
+      if (v === null) { IMGQ.busy = false; return; }           // offline: keep the default
+      if (!v) return next();
+      IMGQ = { key: key, z: z, lat: c.lat, busy: false };
+      var nz = Math.max(14, Math.min(z, 21));
+      if (baseLayer.options.maxNativeZoom !== nz) {
+        baseLayer.options.maxNativeZoom = nz; baseLayer.redraw();
+        baseOvers.forEach(function (l) { l.options.maxNativeZoom = Math.min(nz, 19); l.redraw(); });
+      }
+      if (sheetTab === 'layers' && $('#imgq')) $('#imgq').innerHTML = imgqText();
+    });
+  })();
+}
+function imgqText() {
+  if (IMGQ.z == null) return t('imgqNA');
+  var mpp = 156543.03 * Math.cos(IMGQ.lat * Math.PI / 180) / Math.pow(2, IMGQ.z);
+  return t('imgqHere') + ' <b class="num" style="color:var(--text)">' + (mpp < 1 ? mpp.toFixed(2) : mpp.toFixed(1)) + ' ' + t('mpp') + '</b> <span class="num">(z' + IMGQ.z + ')</span>';
+}
+var _probeT = null;
+map.on('moveend', function () { clearTimeout(_probeT); _probeT = setTimeout(probeImagery, 450); });
+
 var ESRI = 'https://server.arcgisonline.com/ArcGIS/rest/services/';
 var ESRI_IMG_ATTR = 'Imagery © Esri, Maxar, Earthstar Geographics';
 LAYERS = function () {
   var k = S.maptilerKey && S.maptilerKey.trim();
   var L1 = [
-    { id: 'sat', g: 'sat', name: { ar: 'قمر صناعي', fr: 'Satellite' }, url: ESRI + 'World_Imagery/MapServer/tile/{z}/{y}/{x}', max: 19, attr: ESRI_IMG_ATTR, dl: true, d3: true },
-    { id: 'clar', g: 'sat', name: { ar: 'قمر صناعي عالي الدقة', fr: 'Satellite haute précision' }, url: 'https://clarity.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', max: 19, attr: 'Imagery © Esri, Maxar — Clarity', dl: true, d3: true },
-    { id: 'hyb', g: 'sat', name: { ar: 'قمر صناعي + أسماء', fr: 'Satellite + noms' }, url: ESRI + 'World_Imagery/MapServer/tile/{z}/{y}/{x}', max: 19, over: [ESRI + 'Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}'], attr: ESRI_IMG_ATTR, dl: true, d3: true },
-    { id: 'satroads', g: 'sat', name: { ar: 'قمر صناعي + طرق', fr: 'Satellite + routes' }, url: ESRI + 'World_Imagery/MapServer/tile/{z}/{y}/{x}', max: 19, over: [ESRI + 'Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', ESRI + 'Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}'], attr: ESRI_IMG_ATTR, dl: true, d3: true },
-    { id: 's2', g: 'sat', name: { ar: 'Sentinel-2 بدون سحب', fr: 'Sentinel-2 sans nuages' }, url: 'https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2023_3857/default/g/{z}/{y}/{x}.jpg', max: 15, attr: 'Sentinel-2 cloudless 2023 © EOX IT Services (CC BY-NC-SA 4.0), Copernicus', dl: true, d3: true },
-    { id: 'topo', g: 'topo', name: { ar: 'طبوغرافية (OpenTopoMap)', fr: 'Topo (OpenTopoMap)' }, url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', sub: 'abc', max: 17, attr: '© OpenStreetMap, SRTM | © OpenTopoMap (CC-BY-SA)', dl: true },
-    { id: 'esri-topo', g: 'topo', name: { ar: 'طبوغرافية مفصّلة', fr: 'Topo détaillée' }, url: ESRI + 'World_Topo_Map/MapServer/tile/{z}/{y}/{x}', max: 19, attr: '© Esri, HERE, Garmin, USGS, OpenStreetMap', dl: true, d3: true },
+    { id: 'sat', g: 'sat', name: { ar: 'صور فضائية (Esri)', fr: 'Esri — Imagerie satellite' }, url: ESRI + 'World_Imagery/MapServer/tile/{z}/{y}/{x}', max: 19, attr: ESRI_IMG_ATTR, dl: true, d3: true, tm: 'esri' },
+    { id: 'clar', g: 'sat', name: { ar: 'صور عالية الدقة (Clarity)', fr: 'Esri Clarity — haute précision' }, url: 'https://clarity.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', max: 19, attr: 'Imagery © Esri, Maxar, Earthstar Geographics', dl: true, d3: true, tm: 'esri' },
+    { id: 'wbnew', g: 'sat', name: { ar: 'أحدث الصور (Wayback)', fr: 'Esri Wayback — dernière version' }, url: WB_URL + WB_LATEST() + '/{z}/{y}/{x}', max: 19, attr: 'Imagery © Esri World Imagery Wayback, Maxar', dl: true, tm: 'wb', rel: WB_LATEST() },
+    { id: 'wb', g: 'sat', name: { ar: 'أرشيف الصور حسب التاريخ', fr: 'Archive d’images par date' }, url: WB_URL + WB_REL() + '/{z}/{y}/{x}', max: 19, attr: 'Imagery © Esri World Imagery Wayback, Maxar', dl: true, tm: 'wb', rel: WB_REL() },
+    { id: 'hyb', g: 'sat', name: { ar: 'صور فضائية مع الأسماء', fr: 'Satellite avec noms' }, url: ESRI + 'World_Imagery/MapServer/tile/{z}/{y}/{x}', max: 19, over: [ESRI + 'Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}'], attr: ESRI_IMG_ATTR, dl: true, d3: true, tm: 'esri' },
+    { id: 'satroads', g: 'sat', name: { ar: 'صور فضائية مع الطرق', fr: 'Satellite avec routes' }, url: ESRI + 'World_Imagery/MapServer/tile/{z}/{y}/{x}', max: 19, over: [ESRI + 'Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', ESRI + 'Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}'], attr: ESRI_IMG_ATTR, dl: true, d3: true, tm: 'esri' },
+    { id: 's2', g: 'sat', name: { ar: 'صور بلا سحب (Sentinel-2)', fr: 'Sentinel-2 sans nuages (10 m)' }, url: 'https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2023_3857/default/g/{z}/{y}/{x}.jpg', max: 15, attr: 'Sentinel-2 cloudless 2023 © EOX IT Services (CC BY-NC-SA 4.0), Copernicus', dl: true },
+    { id: 'topo', g: 'topo', name: { ar: 'طبوغرافية (OpenTopoMap)', fr: 'OpenTopoMap — topographique' }, url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', sub: 'abc', max: 17, attr: '© OpenStreetMap, SRTM | © OpenTopoMap (CC-BY-SA)', dl: true },
+    { id: 'esri-topo', g: 'topo', name: { ar: 'طبوغرافية مفصّلة (Esri)', fr: 'Esri — topographique détaillée' }, url: ESRI + 'World_Topo_Map/MapServer/tile/{z}/{y}/{x}', max: 19, attr: '© Esri, HERE, Garmin, USGS, OpenStreetMap', dl: true, d3: true },
     { id: 'natgeo', g: 'topo', name: { ar: 'ناشيونال جيوغرافيك', fr: 'National Geographic' }, url: ESRI + 'NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', max: 16, attr: '© National Geographic, Esri', dl: true, d3: true },
-    { id: 'cyclosm', g: 'road', name: { ar: 'مسالك وطرق ترابية', fr: 'Pistes et chemins' }, url: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', sub: 'abc', max: 19, attr: '© OpenStreetMap contributors | CyclOSM', dl: true },
-    { id: 'hot', g: 'road', name: { ar: 'OSM الإنسانية (قرى وآبار)', fr: 'OSM humanitaire (villages, puits)' }, url: 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', sub: 'ab', max: 19, attr: '© OpenStreetMap contributors | HOT', dl: true },
+    { id: 'cyclosm', g: 'road', name: { ar: 'المسالك والطرق الترابية', fr: 'CyclOSM — pistes et chemins' }, url: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', sub: 'abc', max: 19, attr: '© OpenStreetMap contributors | CyclOSM', dl: true },
+    { id: 'hot', g: 'road', name: { ar: 'القرى والآبار (OSM)', fr: 'OSM humanitaire — villages et puits' }, url: 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', sub: 'ab', max: 19, attr: '© OpenStreetMap contributors | HOT', dl: true },
     { id: 'osm', g: 'road', name: { ar: 'OpenStreetMap', fr: 'OpenStreetMap' }, url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', max: 19, attr: '© OpenStreetMap contributors', dl: false },
-    { id: 'streets', g: 'road', name: { ar: 'شوارع (Esri)', fr: 'Rues (Esri)' }, url: ESRI + 'World_Street_Map/MapServer/tile/{z}/{y}/{x}', max: 19, attr: '© Esri, HERE, Garmin, OpenStreetMap', dl: true, d3: true },
-    { id: 'dark', g: 'other', name: { ar: 'ليلي داكن', fr: 'Nuit (sombre)' }, url: ESRI + 'Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', max: 16, over: [ESRI + 'Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}'], attr: '© Esri, HERE, Garmin', dl: true },
-    { id: 'light', g: 'other', name: { ar: 'فاتح بسيط', fr: 'Clair simple' }, url: ESRI + 'Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', max: 16, over: [ESRI + 'Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}'], attr: '© Esri, HERE, Garmin', dl: true }
+    { id: 'streets', g: 'road', name: { ar: 'الشوارع (Esri)', fr: 'Esri — rues' }, url: ESRI + 'World_Street_Map/MapServer/tile/{z}/{y}/{x}', max: 19, attr: '© Esri, HERE, Garmin, OpenStreetMap', dl: true, d3: true },
+    { id: 'dark', g: 'other', name: { ar: 'داكن (للاستعمال الليلي)', fr: 'Sombre (usage nocturne)' }, url: ESRI + 'Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', max: 16, over: [ESRI + 'Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}'], attr: '© Esri, HERE, Garmin', dl: true },
+    { id: 'light', g: 'other', name: { ar: 'فاتح مبسّط', fr: 'Clair simplifié' }, url: ESRI + 'Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', max: 16, over: [ESRI + 'Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}'], attr: '© Esri, HERE, Garmin', dl: true }
   ];
   if (k) L1.push(
-    { id: 'mt-out', g: 'topo', name: { ar: 'MapTiler خارجية', fr: 'MapTiler Outdoor' }, url: 'https://api.maptiler.com/maps/outdoor-v2/256/{z}/{x}/{y}.png?key=' + k, max: 20, attr: '© MapTiler © OpenStreetMap', dl: true, d3: true },
-    { id: 'mt-sat', g: 'sat', name: { ar: 'MapTiler قمر صناعي', fr: 'MapTiler Satellite' }, url: 'https://api.maptiler.com/maps/satellite/256/{z}/{x}/{y}.jpg?key=' + k, max: 20, attr: '© MapTiler © Maxar', dl: true, d3: true }
+    { id: 'mt-out', g: 'topo', name: { ar: 'خريطة ميدانية (MapTiler)', fr: 'MapTiler — Outdoor' }, url: 'https://api.maptiler.com/maps/outdoor-v2/256/{z}/{x}/{y}.png?key=' + k, max: 20, attr: '© MapTiler © OpenStreetMap', dl: true, d3: true },
+    { id: 'mt-sat', g: 'sat', name: { ar: 'صور فضائية (MapTiler)', fr: 'MapTiler — Satellite' }, url: 'https://api.maptiler.com/maps/satellite/256/{z}/{x}/{y}.jpg?key=' + k, max: 20, attr: '© MapTiler © Maxar', dl: true, d3: true }
   );
+  var mbk = S.mapboxKey && S.mapboxKey.trim();
+  if (mbk) L1.splice(2, 0, { id: 'mb-sat', g: 'sat', name: { ar: 'صور عالية الدقة (Mapbox)', fr: 'Mapbox — Satellite haute précision' }, url: 'https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}@2x.jpg90?access_token=' + mbk, max: 20, attr: '© Mapbox © Maxar', dl: true, d3: true });
   L1.forEach(function (l) { if (typeof l.over === 'string') l.over = [l.over]; });
   return L1;
 };
@@ -2800,9 +2847,9 @@ setLayer = function (id) {
   var list = LAYERS(), def = list.filter(function (l) { return l.id === id; })[0] || list[0];
   if (baseLayer) map.removeLayer(baseLayer); if (overLayer) { map.removeLayer(overLayer); overLayer = null; }
   baseOvers.forEach(function (l) { map.removeLayer(l); }); baseOvers = [];
-  baseLayer = L.tileLayer(def.url, { maxZoom: 21, maxNativeZoom: def.max, subdomains: def.sub || 'abc', attribution: def.attr }).addTo(map);
-  (def.over || []).forEach(function (u) { if (!map.getPane('baseOverPane')) { map.createPane('baseOverPane').style.zIndex = 240; } baseOvers.push(L.tileLayer(u, { maxZoom: 21, maxNativeZoom: def.max, pane: 'baseOverPane' }).addTo(map)); });
-  S.layer = def.id; saveSettings();
+  baseLayer = L.tileLayer(def.url, { maxZoom: 22, maxNativeZoom: def.max, subdomains: def.sub || 'abc', attribution: def.attr }).addTo(map);
+  (def.over || []).forEach(function (u) { if (!map.getPane('baseOverPane')) { map.createPane('baseOverPane').style.zIndex = 240; } baseOvers.push(L.tileLayer(u, { maxZoom: 22, maxNativeZoom: def.max, pane: 'baseOverPane' }).addTo(map)); });
+  S.layer = def.id; saveSettings(); IMGQ.key = ''; IMGQ.z = null; setTimeout(probeImagery, 300);
 };
 function tileUrl(tpl, z, x, y, sub) { return tpl.replace('{s}', (sub || 'abc').charAt(0)).replace('{z}', z).replace('{x}', x).replace('{y}', y); }
 var _tileList = tileList;
@@ -3006,8 +3053,11 @@ map.on('moveend', function () { if (utmLayer) drawUtm(); });
 
 
 /* ---------------- LAAGAB 2.1 — gold points (USGS PRISM-II, Deliverable 53) ---------------- */
-Object.assign(T.ar, { ovGold: 'نقاط الذهب — عينات USGS', ovGoldHint: '72 نقطة من تقرير USGS PRISM-II (Deliverable 53). الإطار الأحمر = مؤشر معدني فعلي. المس أي نقطة لمعرفة طبيعتها. الأسماء تظهر من التكبير 9.', goldOcc: 'مؤشر معدني', goldSample: 'موقع عينة', goldCat: 'التصنيف', goldUnit: 'الوحدة الجيولوجية', goldDesc: 'الوصف', goldAge: 'العمر / النتيجة', goldMeth: 'الطريقة', goldSrc: 'المصدر', goldType: 'نوع التحليل', emblem: 'شعار شاشة الافتتاح', emblemPick: 'اختيار صورة', emblemDel: 'إزالة', emblemHint: 'صورة PNG بخلفية شفافة تعطي أفضل نتيجة. تُحفظ في الهاتف.' });
-Object.assign(T.fr, { ovGold: "Points or — échantillons USGS", ovGoldHint: "72 points du rapport USGS PRISM-II (Livrable 53). Cadre rouge = indice minéral réel. Touchez un point pour sa nature. Noms visibles dès le zoom 9.", goldOcc: 'Indice minéral', goldSample: "Site d'échantillon", goldCat: 'Catégorie', goldUnit: 'Unité géologique', goldDesc: 'Description', goldAge: 'Âge / résultat', goldMeth: 'Méthode', goldSrc: 'Source', goldType: "Type d'analyse", emblem: "Emblème de l'écran d'accueil", emblemPick: 'Choisir une image', emblemDel: 'Retirer', emblemHint: "Un PNG à fond transparent donne le meilleur rendu. Enregistré sur le téléphone." });
+Object.assign(T.ar, { ovGold: 'نقاط الذهب — عينات USGS', ovGoldHint: '72 نقطة من تقرير USGS PRISM-II (Deliverable 53). الإطار الأحمر = مؤشر معدني فعلي. المس أي نقطة لمعرفة طبيعتها. الأسماء تظهر من التكبير 9.', goldOcc: 'مؤشر معدني', goldSample: 'موقع عينة', goldCat: 'التصنيف', goldUnit: 'الوحدة الجيولوجية', goldDesc: 'الوصف', goldAge: 'العمر / النتيجة', goldMeth: 'الطريقة', goldSrc: 'المصدر', goldType: 'نوع التحليل' });
+Object.assign(T.fr, { ovGold: "Points or — échantillons USGS", ovGoldHint: "72 points du rapport USGS PRISM-II (Livrable 53). Cadre rouge = indice minéral réel. Touchez un point pour sa nature. Noms visibles dès le zoom 9.", goldOcc: 'Indice minéral', goldSample: "Site d'échantillon", goldCat: 'Catégorie', goldUnit: 'Unité géologique', goldDesc: 'Description', goldAge: 'Âge / résultat', goldMeth: 'Méthode', goldSrc: 'Source', goldType: "Type d'analyse" });
+/* ---------------- LAAGAB 2.2 — text review ---------------- */
+Object.assign(T.ar, {lith: 'نوع الصخر', eta: 'موعد الوصول', gain: 'الصعود (م)', coords: 'الإحداثيات', tools: 'الأدوات', zoomFrom: 'من مستوى التكبير', zoomTo: 'إلى مستوى التكبير', tooMany: 'عدد المربعات كبير جدًا؛ صغّر المنطقة أو قلّل مستويات التكبير', offHint: 'حمّل المنطقة الظاهرة على الشاشة بطبقة الخريطة الحالية، لاستعمالها في الصحراء دون شبكة.', accFilter: 'تجاهُل القراءات التي تتجاوز دقتها (م)', roadsLoading: 'جارٍ تحميل الطرق…', loading3d: 'جارٍ تحميل العرض ثلاثي الأبعاد…', hint3d: 'اسحب بإصبعين إلى الأعلى أو الأسفل لإمالة الخريطة، وأدِرها بإصبعين.', importedLayers: 'الطبقات المستوردة', ovContHint: 'محسوبة من نموذج الارتفاع SRTM، وتظهر من مستوى التكبير 10. الخط السميك خط رئيسي كل خمسة خطوط.', ovSlopeHint: 'أصفر 27–29° · برتقالي 30–34° · أحمر 35–45° · بنفسجي 46–50° · أسود فوق 50°. تظهر من مستوى التكبير 10.', ovUtmHint: 'مربعات بضلع 1 كم أو 10 كم أو 100 كم حسب مستوى التكبير.', roadsHint: 'تظهر من مستوى التكبير 11. المصدر: OpenStreetMap. تحتاج إنترنت أول مرة، ثم تُحفظ للاستعمال دون شبكة.', onRoads: 'عبر الطرق', wRain: 'الأمطار', searchNone: 'لا توجد نتائج', noMsgs: 'لا توجد رسائل بعد', userExists: 'اسم المستخدم مستعمل من قبل', throttled: 'محاولات كثيرة. أعد المحاولة بعد 15 دقيقة', weakPw: 'يجب ألا تقل كلمة المرور عن 8 أحرف', noFix: 'لم تُلتقط إشارة GPS بعد', gpsDenied: 'رُفض الوصول إلى الموقع. فعّله من إعدادات الخصوصية في الهاتف.', noPoints: 'لا توجد نقاط بعد. اضغط مطوّلًا على الخريطة أو استعمل زرّ الإضافة.', noTracks: 'لا توجد مسارات بعد. اضغط «تسجيل مسار» للبدء.', enterCoord: 'أدخل الإحداثيات بأي صيغة', invalid: 'صيغة الإحداثيات غير مفهومة', measHint: 'المس الخريطة لإضافة الرؤوس. يُحسب الطول والمساحة (مثلًا لحدود رخصة).', recEmpty: 'المسار قصير جدًا، فلم يُحفظ', chOffline: 'غير متصل. ستُرسل الرسائل عند عودة الشبكة', elevNA: 'تعذّر حساب الارتفاع (يلزم الاتصال بالإنترنت)', wErr: 'تعذّر جلب حالة الطقس (يلزم الاتصال بالإنترنت)', geoHint: 'المس الخريطة لمعرفة نوع الصخور وعمرها (يلزم الاتصال بالإنترنت).', ovGold: 'نقاط الذهب — عينات USGS', ovGoldHint: '72 نقطة من تقرير USGS ‏(PRISM-II، الإصدار 53). الإطار الأحمر يدل على مؤشر معدني فعلي. المس أي نقطة لعرض تفاصيلها. تظهر أرقام العينات من مستوى التكبير 9.', mtKey: 'مفتاح MapTiler (اختياري)', imgqHere: 'دقة الصور عند مركز الخريطة:', imgqNA: 'جارٍ فحص دقة الصور المتاحة هنا…', mpp: 'م/بكسل', wbDate: 'تاريخ الصورة', wbHint: 'أرشيف Esri: الإصدار نفسه قد يكون أوضح أو بلا سحب في تاريخ دون آخر. جرّب عدة تواريخ للمنطقة نفسها.', mbKey: 'مفتاح Mapbox (اختياري)', mbHint: 'يضيف صور Mapbox الفضائية عالية الدقة. المفتاح مجاني من mapbox.com (حدّ شهري).'});
+Object.assign(T.fr, {center: 'Centre de la carte', mapPos: 'Centre de la carte', gain: 'D+ (m)', record: 'Enregistrer une trace', noPoints: 'Aucun point pour l’instant. Faites un appui long sur la carte ou utilisez le bouton d’ajout.', noTracks: 'Aucune trace pour l’instant. Touchez « Enregistrer une trace » pour commencer.', eta: 'Heure d’arrivée', sos: 'SOS', userExists: 'Cet identifiant existe déjà', throttled: 'Trop de tentatives. Réessayez dans 15 minutes', weakPw: 'Le mot de passe doit comporter au moins 8 caractères', ovGold: 'Points d’or — échantillons USGS', ovGoldHint: '72 points du rapport USGS (PRISM-II, livrable 53). Un cadre rouge signale un indice minéral réel. Touchez un point pour afficher ses détails. Numéros d’échantillon visibles à partir du zoom 9.', goldSample: 'Site d’échantillonnage', goldType: 'Type d’analyse', zoomFrom: 'Du niveau de zoom', zoomTo: 'Au niveau de zoom', tooMany: 'Trop de tuiles : réduisez la zone ou le nombre de niveaux', ovContHint: 'Calculées depuis le MNT SRTM, visibles à partir du zoom 10. Courbe maîtresse toutes les cinq courbes.', hint3d: 'Glissez à deux doigts vers le haut ou le bas pour incliner la carte ; tournez à deux doigts pour la faire pivoter.', noFix: 'Aucun signal GPS pour l’instant', importedLayers: 'Couches importées', onRoads: 'Par la route', imgqHere: 'Résolution de l’imagerie au centre :', imgqNA: 'Vérification de la résolution disponible…', mpp: 'm/pixel', wbDate: 'Date de l’image', wbHint: 'Archive Esri : une même zone peut être plus nette ou sans nuages à certaines dates. Essayez plusieurs dates.', mbKey: 'Clé Mapbox (optionnelle)', mbHint: 'Ajoute l’imagerie satellite haute précision de Mapbox. Clé gratuite sur mapbox.com (quota mensuel).'});
 var GOLD = [["DB07RIM29a",20.4971,-12.87567,"U-Pb ig","Gr. de Téniagouri, Fm. de Bouly","Tuff interbedded with siltstone, near Atar","623.5 or 569.4±0.4 Ma","2009 SIMS; 2012 CA-TIMS",0],["DB07RIM64a",17.47236,-12.96754,"U-Pb ig","Cortège de Kelbé","Foliated granitoid","Undatable (Paleoproterozoic xenocrysts)","2012 SIMS; 2012 LAICPMS",0],["CT07RIM10-01",19.64872,-14.13991,"U-Pb ig","Gr. d'Oumachoueima, Fm. de St. Barbe","Banded quartz-kspar-amphibole (meta-rhyolite?) host to quartz-wolframite-malachite veins","2839±14 Ma","2012 SIMS; 2012 LAICPMS",1],["DB07RIM25a",20.68434,-13.19708,"U-Pb ig","Complexe d'Amsaga","Deformed granitoid","Undatable (metamict zircon)","2012 SIMS",0],["CT07RIM25-1",21.25933,-13.15357,"U-Pb ig","Complexe d'Amsaga, unit Amlb","Anorthosite, coarse crystalline 'black granite' from quarry","2930±33 Ma","2012 SIMS; 2012 LAICPMS",0],["DB07RIM32-1a",21.08348,-13.16768,"U-Pb ig","Complexe d'Amsaga, anorthosite","Anorthosite, coarse-grained phase","2718±7 Ma (concordia)","2010 SIMS",0],["CT07RIM22-1",21.083334,-13.166667,"U-Pb ig","Complexe d'Amsaga, unit Amlb","Dark, fine-grained anorthosite","2743±4 Ma (concordia)","2012 SIMS",0],["DB07RIM51a",24.7835,-10.45706,"U-Pb ig","Cortège de Gleibat Tenebdar","Red alkali granite","2068±21 Ma (upper intercept)","2011 SIMS",0],["CT07RIM37-1",26.33772,-8.53738,"U-Pb ig","Gr. de Blekhzaymat, Fm. d'Aguelt Nebkha","Quartz-veined pyritic metatuff","2113±17 Ma","2012 SIMS; 2012 LAICPMS",0],["DB07RIM47a",22.7055,-12.51691,"U-Pb ig","Complexe d'Idjil","Contorted clay zone in BIF (possible tephra)","Undatable","2009 SIMS",0],["DB07RIM22b",20.259537,-13.216916,"U-Pb ig","Complexe d'Amsaga","Paleosol weathered on granitoid","Undatable","2012 SIMS",0],["CT07RIM54-5",16.84516,-12.75505,"U-Pb ig","Gr. d'El Mseigguem, Fm. d'Ouechkech","Felsic metatuff","Undatable","2012 SIMS; 2012 LAICPMS",0],["CT22",20.259361,-13.215861,"U-Pb dz","Gr. de Char","Tan fine-grained sandstone, roadcut, 10 m above unconformity with Amsaga basement","MDA 2054 ; dep. ~1125 Ma","2007 SIMS",0],["DB07RIM23a",20.29909,-13.17002,"U-Pb dz","Gr. d'Atar, Fm. de Foum Chor","Sandstone","MDA 2031 ; dep. ~1107 Ma","2012 LAICPMS",0],["DB07RIM31a",20.717,-12.73111,"U-Pb dz","Gr. d'Assabet el Hassiane, Sous-groupe de Tin Bessais","Sandstone","MDA 975 ; dep. 975 Ma","2012 LAICPMS",0],["DB07RIM59a",21.16323,-11.3894,"U-Pb dz","Gr. d'Assabet el Hassiane, unit AhTb","Sandstone near Guelb er Richat","MDA 1036 ; dep. 975 Ma","2012 LAICPMS",0],["CT07RIM70-1",16.44493,-9.237,"U-Pb dz","Gr. d'Aioun, Fm. de Freidi","Coarse-grained sandstone","MDA 878 ; dep. 878 Ma","2012 LAICPMS",0],["CT07RIM71-1",16.6429,-9.63002,"U-Pb dz","Gr. d'Aioun, Fm. de Seyal","Coarse-grained dune cross-bedded sandstone","MDA 909 ; dep. 909 Ma","2012 LAICPMS",0],["CT07RIM72-1",16.55001,-11.17997,"U-Pb dz","Gr. de Khang Naam, Fm. de Lehbilé","Fine-grained sandstone","MDA 1128 ; dep. 870 Ma","2012 LAICPMS",0],["DB07RIM29c",20.4971,-12.87567,"U-Pb dz","Gr. de Jbéliat","Tillite near Atar","MDA 1006 ; dep. 635 Ma","2012 LAICPMS",0],["CT07RIM73-1",16.58967,-11.29394,"U-Pb dz","Gr. de Jbéliat","Coarse-grained arkosic red sandstone (Kiffa area)","MDA 994* ; dep. 635 Ma","2012 LAICPMS",0],["DB07RIM80a",14.835259,-11.925647,"U-Pb dz","Gr. de Jbéliat (?)","Tillite with tuffaceous matrix, near Senegal River","MDA 648 ; dep. 635 or younger","2012 LAICPMS",0],["DB07RIM77a",15.13696,-12.17747,"U-Pb dz","Gr. de Téniagouri, Sous-groupe de Koumba Ndao","Tuffaceous sandstone turbidites near Sélibabi","MDA 601 ; dep. 601 Ma","2012 LAICPMS",0],["DB07RIM28a",20.502785,-12.854843,"U-Pb dz","Gr. de Nouatil","Sandstone","MDA 540 ; dep. ~535 Ma","2012 LAICPMS",0],["DB07RIM26a",20.505436,-12.842389,"U-Pb dz","Gr. d'Oujeft, Fm. de Chinguetti","Sandstone (Atar–Ouadane roadcut)","MDA 524 ; dep. 524 Ma","2012 LAICPMS",0],["DB07RIM61a",20.92858,-11.5921,"U-Pb dz","Gr. d'Oujeft, Fm. de Chinguetti","Sandstone near Ouadane","MDA 552 ; dep. 525 Ma","2012 LAICPMS",0],["DB07RIM75a",16.34693,-11.97703,"U-Pb dz","Gr. d'Oujeft, Sous-groupe d'Aghaoujeft","Sandstone in Mauritanide foreland basin","MDA 524 ; dep. 510 Ma","2012 LAICPMS",0],["CT07RIM60-1",15.91161,-11.86834,"U-Pb dz","Gr. d'Oujeft, Fm. de Moudjeria","Quartzofeldspathic sandstone","MDA 543 ; dep. ~525 Ma","2012 LAICPMS",0],["DB07RIM74a",16.29167,-12.08789,"U-Pb dz","Gr. d'Oujeft, supposedly Fm. de Moudjeria (mismapped; likely Assabet/Djonaba)","Sandstone near Mauritanide deformation front","MDA 903 ; dep. 903 Ma","2012 LAICPMS",0],["CT07RIM59-1",15.93484,-12.00753,"U-Pb dz","Gr. de Tichit, Fm. de Tabarit El Kbir","Mature well-sorted cross-bedded quartz sandstone","MDA 548* ; dep. 444 Ma","2012 LAICPMS",0],["CT07RIM62-1",16.66927,-7.24465,"U-Pb dz","Gr. de Néma, Fm. d'Adeile (Saïlé)","Brown blocky thick-bedded fine–medium quartzofeldspathic sandstone","MDA 525 ; dep. ~150 Ma","2012 LAICPMS",0],["DB07RIM76a",16.27028,-12.16705,"U-Pb dz","Gr. de Djonaba","Graywacke near Mauritanide thrust front","MDA 982 ; dep. ~980 Ma","2012 LAICPMS",0],["DB07RIM65a",16.88596,-12.72495,"U-Pb dz","Gr. de Gadel","Metaconglomerate","MDA 999 ; dep. ~995 Ma","2012 LAICPMS",0],["DB07RIM69a",16.98177,-12.63972,"U-Pb dz","Gr. de Gueneiba","Quartzite interbedded with dolostone","MDA 551 ; dep. ~550 Ma","2012 LAICPMS",0],["CT07RIM55-1",16.84567,-12.75303,"U-Pb dz","Gr. d'El Mseigguem, Fm. d'Ouechkech","Metasandstone","MDA 567 ; dep. ~560 Ma","2012 LAICPMS",0],["GB07RIM63A",17.08795,-12.9394,"U-Pb dz","Gr. d'El Ghabra, Fm. d'Oued Erdi","Tuffaceous sandstone (deformed volcanic conglomerate)","MDA 594 ; dep. 594 Ma","2012 SIMS & LAICPMS",0],["DB07RIM73a",16.33721,-12.62448,"U-Pb dz","Gr. d'El Ghabra, Fm. d'Ould Moïlîd","Metagraywacke","MDA 606 ; dep. 606 Ma","2012 LAICPMS",0],["DB07RIM62a",17.41983,-13.1377,"U-Pb dz","Gr. d'El Fadra, unit FrKc (Fm. d'Oued Kav)","Metasandstone","MDA 553 ; dep. ~550 Ma","2012 LAICPMS",0],["DB07RIM01a",19.8079,-14.38875,"U-Pb dz","Gr. d'Oumachoueima, Fm. de St. Barbe","Chloritic metasandstone","MDA 573 ; dep. ~570 Ma","2012 LAICPMS",0],["CT07RIM02-01",19.83974,-14.41061,"U-Pb dz","Gr. d'Oumachoueima, Fm. de St. Barbe","Chloritic semischist above pod of iron-carbonate","MDA 538 ; dep. ~535 Ma","2012 LAICPMS",0],["CT21",19.819333,-14.298833,"U-Pb dz","Gr. d'Oumachoueima, undivided","Platy thin-bedded sandstone/tuff near top of unit","MDA 558 ; dep. ~555 Ma","2007 & 2012 SIMS",0],["DB07RIM02a",19.84547,-14.4313,"U-Pb dz","Gr. d'Oumachoueima, Fm. d'Irarchene El Hamra (Atilis quartzite)","Quartzite","MDA 974 ; dep. ~970 Ma","2012 LAICPMS",0],["DB07RIM03a",19.8935,-14.43958,"U-Pb dz","Gr. d'Eizzene, Fm. de Raoui","Quartzite","MDA 986 ; dep. ~980 Ma","2012 LAICPMS",0],["DB07RIM17a",19.68005,-14.77687,"U-Pb dz","Complexe d'Inchiri, Gr. de Hajar Dekhen – Kleouat","Quartzite","MDA 538 ; dep. ~535 Ma","2012 LAICPMS",0],["GB07RIM80A",20.535261,-15.554685,"U-Pb dz","Gr. de Lebzenia, Fm. d'Aouéoua","Hematized and sericitized quartzite, Vararate West occurrence","MDA 576 (problematic – supposedly Archean)","2012 LAICPMS",1],["DB07RIM25c",20.68434,-13.19708,"U-Pb dz","Complexe d'Amsaga","Quartzite (Mennerat Iguilid W occurrence)","MDA 582 (problematic – supposedly Archean)","2012 LAICPMS",1],["DB07RIM46a",22.67848,-12.46013,"U-Pb dz","Complexe d'Idjil, Fm. de Tazadit, lower member","Quartzite","MDA 2988 ; dep. ~2100 Ma","2012 LAICPMS",0],["DB07RIM36a",22.68599,-12.54027,"U-Pb dz","Complexe d'Idjil, Fm. de Seyala","Conglomerate","MDA 2851 ; dep. ~2060 Ma","2012 SIMS; 2012 LAICPMS",0],["DB07RIM55a",24.49981,-7.42639,"U-Pb dz","Gr. de Blekhzaymat, unit BZam2, southern outcrop belt","Sandstone / conglomerate","MDA 2043 ; dep. ~2040 Ma","2012 LAICPMS",0],["DB07RIM54a",26.51881,-8.46481,"U-Pb dz","Gr. de Blekhzaymat, northern outcrop belt","Metasandstone","MDA 2141 ; dep. ~2000 Ma","2012 LAICPMS",0],["DB07RIM53a",25.363297,-9.91157,"U-Pb dz","Complexe du Ghallamane, unit GLsc","Metasandstone","MDA 2083 ; dep. ~2080 Ma","2012 LAICPMS",0],["DB07RIM52a",25.15799,-10.12549,"U-Pb dz","Complexe de Tsalabia el Khadra, unit Khep","Quartz arenite","MDA 581 ; dep. ~545 Ma (Neoproterozoic inlier)","2012 LAICPMS",0],["DB07RIM66a (1)",16.87144,-12.70554,"ArAr","Gr. de Gadel","Schistose metaconglomerate — 'Mélange' unit, qtz-mica schist matrix, fine white-mica fraction","572±3 Ma (integrated); no plateau","Poor-looking spectra",0],["DB07RIM66a (2)",16.87144,-12.70554,"ArAr","Gr. de Gadel","Schistose metaconglomerate — Coarse white-mica fraction, single grain","593±3 Ma (integrated); 594±7 Ma (plateau)","Good spectra, ~90% Ar",0],["GB07RIM52A",17.49381,-12.91467,"ArAr","(vein, Central Mauritanides)","Quartz-sericite vein — Mineral occurrence Iguerj","356.8±1.8 Ma (integrated)","Spectra OK",1],["GB07RIM61A",17.28512,-12.91928,"ArAr","(vein, Central Mauritanides)","Quartz-sericite vein — Mineral occurrence Chlakh Lhemir","298.6±1.5 (integrated); 298.6±1.7 Ma (plateau)","Good, ~65% Ar",1],["GB07RIM62C",17.26708,-12.9162,"ArAr","(vein, Central Mauritanides)","Quartz-sericite vein — Mineral occurrence Chlakh Lhemir","294.8±1.5 Ma (integrated)","Spectra OK",1],["GB07RIM69A",16.71545,-12.77247,"ArAr","(vein, Central Mauritanides)","Quartz-sericite vein — Mineral occurrence Vararate Nord","648±4 Ma (integrated)","Poor-looking spectra",1],["GB07RIM82D",20.568767,-15.505248,"ArAr","(vein cutting Fm. d'Aouéoua)","Quartz-sericite vein — Mineral occurrence Tasiast","2533±8 Ma (integrated)","Poor-looking spectra",1],["DB07RIM25a",20.68434,-13.19708,"ArAr","Complexe d'Amsaga","Granite with white mica — Tungsten occurrence (Mennerat Iguilid)","1753±6 Ma (integrated)","Spectra OK",1],["DB07RIM45b",22.69307,-12.4593,"ArAr","Complexe de Tiris","Micaceous mylonite — Thrust contact Kediat Idjil over Tiris, near Zouérate","2496±8 Ma (integrated)","Poor-looking spectra",0],["DB07RIM46b",22.67848,-12.46013,"ArAr","Complexe d'Idjil, Fm. de Tazadit, lower member","Muscovite schist — Mica schist, roadcuts","1950±7 Ma (integrated)","Spectra OK",0],["GB07RIM40B",26.51736,-8.46409,"ArAr","Vein cuts Gr. de Blekhzaymat","Quartz-sericite vein — Mineral occurrence BIA601","2179±11 Ma (integrated)","Spectra OK",1],["GB07RIM42B",26.46834,-8.46793,"ArAr","Vein cuts Gr. de Blekhzaymat","Quartz-sericite vein — Mineral occurrence BIA611","2061±7 (integrated); 2063±7 Ma (plateau)","Good, ~85% Ar",1],["DB07RIM53c",25.36297,-9.91157,"ArAr","Complexe du Ghallamane, unit GLsc","Hornfels metaturbidites — Metasandstone","1981±7 (integrated); 2014±12 Ma (plateau)","Spectra OK",0],["CT07RIM47-1",17.42013,-13.13654,"ArAr","Gr. d'El Fadra, Fm. d'Oued Kav","Quartz-ankerite vein — 2-inch vein cutting greenschist & muscovite schist","Undatable","No separable mica",0],["CT07RIM49-2",17.36106,-12.81517,"ArAr","Gr. de Gueneiba, Fm. d'Oued Amour","Sericite-quartz veined goethite — Goethite ridge cut by quartz-malachite veins, occurrence El Aouidja","Undatable","Not mica (pyrophyllite?)",1],["DB07RIM25b",20.68434,-13.19708,"ArAr","Complexe d'Amsaga","Quartzite with metamorphic white mica — Tungsten occurrence","Undatable","No separable mica",1],["DB07RIM63b",17.49605,-12.97836,"ArAr","Gr. d'El Fadra, Fm. d'El Hneikat","Quartz-muscovite schist — Magkta Lahjar area, near mineral occurrence","Undatable","Not analyzed",1],["DB07RIM71a",16.67589,-12.70435,"ArAr","Gr. d'El Ghabra","Muscovite schist — Au occurrence, mica schist in shear zone","Undatable","Not mica (pyrophyllite?)",1],["GB07RIM41A",26.47964,-8.45411,"ArAr","Vein cuts Gr. de Blekhzaymat","Quartz-sericite vein — Occurrence BIA621, possible oxidized sulfides","Undatable","No separable mica",1],["CT07RIM27-1 (lab 952-02)",22.92158,-12.01114,"AFT","Complexe de Tiris / Mhaoudât #4 iron mine","Calcrete breccia from weathered carapace of BIF","AFT pooled age 170.18 Ma (~160 Ma); apatite U-Pb ~2000–2100 & 600 Ma","Apatite fission track + U-Pb",1]];
 var GOLD_TYPE = { 'U-Pb ig': { ar: 'زركون ناري U-Pb', fr: 'Zircon igné U-Pb' }, 'U-Pb dz': { ar: 'زركون فتاتي U-Pb', fr: 'Zircon détritique U-Pb' }, 'ArAr': { ar: '⁴⁰Ar/³⁹Ar ميكا بيضاء', fr: '⁴⁰Ar/³⁹Ar mica blanc' }, 'AFT': { ar: 'انشطار الأباتيت', fr: 'Traces de fission apatite' } };
 var goldLayer = null;
@@ -3101,6 +3151,9 @@ function layersSheet(body, title) {
       return '<button type="button" class="lcard' + (l.id === S.layer ? ' act' : '') + '" data-layer="' + l.id + '"><img loading="lazy" alt="" src="' + esc(thumbFor(l)) + '" onerror="this.style.visibility=\'hidden\'"><span>' + esc(l.name[S.lang]) + '</span></button>';
     }).join('') + '</div>';
   });
+  var cur = list.filter(function (l) { return l.id === S.layer; })[0] || {};
+  if (cur.tm) h += '<div class="note" id="imgq" style="margin-top:10px">' + imgqText() + '</div>';
+  if (cur.id === 'wb') h += '<label class="f sec">' + t('wbDate') + '<select id="wbSel">' + WB_LIST.map(function (w) { return '<option value="' + w[0] + '"' + (w[0] === WB_REL() ? ' selected' : '') + '>' + w[1] + '</option>'; }).join('') + '</select></label><div class="note">' + t('wbHint') + '</div>';
   h += '<h3 class="sech">' + t('ovTitle') + '</h3><div class="ovlist">' + OVC.map(function (o) {
     var on = ovIsOn(o), hasOp = o.op != null;
     return '<div class="ovrow' + (on ? ' on' : '') + '"><label class="ovmain"><span class="ovtxt"><b>' + esc(t(o.key)) + (o.id === 'mines' ? ' (' + MINES.length + ')' : o.id === 'gold' ? ' (' + GOLD.length + ')' : '') + '</b>' + (on && o.hint ? '<small>' + esc(t(o.hint)) + '</small>' : '') + '</span><input type="checkbox" class="tgl" data-ov="' + o.id + '"' + (on ? ' checked' : '') + '></label>' +
@@ -3112,7 +3165,8 @@ function layersSheet(body, title) {
     '<div class="row" style="margin-top:8px"><button class="btn grow" id="lImp" type="button">' + t('importLayer') + '</button></div><div class="note" style="margin-top:6px">' + t('shpHint') + '</div>' +
     '<div class="switch sec"><span>' + t('crosshair') + '</span><input type="checkbox" class="tgl" id="lCross" ' + (S.cross ? 'checked' : '') + '></div>';
   body.innerHTML = h;
-  $$('[data-layer]', body).forEach(function (el) { el.onclick = function () { setLayer(el.dataset.layer); $$('.lcard', body).forEach(function (x) { x.classList.toggle('act', x === el); }); }; });
+  $$('[data-layer]', body).forEach(function (el) { el.onclick = function () { var st = $('#sheetBody').scrollTop; setLayer(el.dataset.layer); renderSheet(); $('#sheetBody').scrollTop = st; }; });
+  if ($('#wbSel')) $('#wbSel').onchange = function () { S.wbRel = +this.value; saveSettings(); setLayer('wb'); renderSheet(); };
   $$('[data-ov]', body).forEach(function (el) { el.onchange = function () { var o = OVC.filter(function (x) { return x.id === el.dataset.ov; })[0]; ovSet(o, el.checked); if (o.id === 'mines' && el.checked) map.fitBounds(L.latLngBounds(MINES.map(function (m) { return [m.lat, m.lon]; })).pad(0.1)); if (o.id === 'gold' && el.checked) map.fitBounds(L.latLngBounds(GOLD.map(function (g) { return [g[1], g[2]]; })).pad(0.08)); var sc = $('#sheetBody').scrollTop; renderSheet(); $('#sheetBody').scrollTop = sc; }; });
   $$('[data-op]', body).forEach(function (el) { el.oninput = function () { ovOpacity(OVC.filter(function (x) { return x.id === el.dataset.op; })[0], +el.value); }; });
   $('#lImp').onclick = function () { $('#ovIn').click(); };
@@ -3628,20 +3682,6 @@ renderSheet = function () {
     var box = document.createElement('div'); box.className = 'sec';
     box.innerHTML = '<div class="badge-int">🛡️ ' + t('internal') + '</div>';
     body.insertBefore(box, body.firstChild);
-    var eb = document.createElement('div'); eb.className = 'sec'; var cur = null; try { cur = localStorage.getItem('laagab_emblem'); } catch (e) {}
-    eb.innerHTML = '<h3>' + t('emblem') + '</h3><div class="embrow"><img id="embPrev" alt="" src="' + esc(cur || 'garde-emblem.png') + '" onerror="this.style.visibility=\'hidden\'"><button class="btn grow" type="button" id="embPick">' + t('emblemPick') + '</button>' + (cur ? '<button class="btn" type="button" id="embDel">' + t('emblemDel') + '</button>' : '') + '</div><div class="note" style="margin-top:6px">' + t('emblemHint') + '</div><input type="file" id="embIn" accept="image/*" hidden>';
-    body.insertBefore(eb, box.nextSibling);
-    $('#embPick').onclick = function () { $('#embIn').click(); };
-    if ($('#embDel')) $('#embDel').onclick = function () { try { localStorage.removeItem('laagab_emblem'); } catch (e) {} renderSheet(); };
-    $('#embIn').onchange = function () {
-      var f = this.files && this.files[0]; if (!f) return; var rd = new FileReader();
-      rd.onload = function () { var im = new Image(); im.onload = function () {
-        var k = Math.min(1, 512 / Math.max(im.width, im.height)), cv = document.createElement('canvas'); cv.width = Math.round(im.width * k); cv.height = Math.round(im.height * k);
-        cv.getContext('2d').drawImage(im, 0, 0, cv.width, cv.height);
-        try { localStorage.setItem('laagab_emblem', cv.toDataURL('image/png')); toast('✓'); } catch (e) { toast('✕'); }
-        renderSheet(); }; im.src = rd.result; };
-      rd.readAsDataURL(f);
-    };
   }
 };
 var _closeSheet = closeSheet;
