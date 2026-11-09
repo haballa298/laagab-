@@ -9,6 +9,8 @@
  *   node server.js passwd <user>
  *   node server.js deluser <user>
  *   node server.js users
+ *
+ * 2.3: first-run setup and full server control from the phone (command panel).
  */
 'use strict';
 const http = require('http');
@@ -17,6 +19,8 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const readline = require('readline');
+const os = require('os');
+const VERSION = '2.3.0', STARTED = Date.now();
 
 const ROOT = __dirname;
 const DATA = path.join(ROOT, 'data');
@@ -64,6 +68,26 @@ function trimHistory() {
 }
 trimHistory();
 
+/* first-run setup code: printed on the server console, asked once in the app */
+let SETUP_CODE = null;
+function ensureSetupCode() {
+  if (Object.keys(USERS).length) { SETUP_CODE = null; try { fs.unlinkSync(path.join(DATA, 'setup-code.txt')); } catch (e) {} return; }
+  if (!SETUP_CODE) SETUP_CODE = String(crypto.randomInt(100000, 1000000));
+  try { fs.writeFileSync(path.join(DATA, 'setup-code.txt'), SETUP_CODE + '\n'); } catch (e) {}
+}
+function lanUrls(proto) {
+  const out = [];
+  Object.values(os.networkInterfaces()).forEach(list => (list || []).forEach(n => { if (n.family === 'IPv4' && !n.internal) out.push(proto + '://' + n.address + ':' + CFG.port); }));
+  return out;
+}
+function rewriteMessages() { const tmp = MSG_FILE + '.tmp'; fs.writeFileSync(tmp, MSGS.map(m => JSON.stringify(m)).join('\n') + (MSGS.length ? '\n' : '')); fs.renameSync(tmp, MSG_FILE); }
+function dirSize(d) { let n = 0; try { fs.readdirSync(d).forEach(f => { try { n += fs.statSync(path.join(d, f)).size; } catch (e) {} }); } catch (e) {} return n; }
+function saveConfig() {
+  const keep = {}; ['port', 'host', 'name', 'tls', 'corsOrigins', 'sessionDays', 'historyPerChannel', 'positionMaxAgeHours'].forEach(k => keep[k] = CFG[k]);
+  const tmp = CFG_FILE + '.tmp'; fs.writeFileSync(tmp, JSON.stringify(keep, null, 2)); fs.renameSync(tmp, CFG_FILE);
+}
+let PROTO = 'http';
+
 /* ---------------- passwords & sessions ---------------- */
 function hashPw(pw, salt) { return crypto.scryptSync(String(pw), salt, 64, { N: 16384 }).toString('hex'); }
 function checkPw(user, pw) {
@@ -73,6 +97,9 @@ function checkPw(user, pw) {
 function setPw(user, pw) { user.salt = crypto.randomBytes(16).toString('hex'); user.hash = hashPw(pw, user.salt); }
 function validUser(u) { return /^[a-z0-9._-]{2,32}$/.test(u); }
 function publicUser(x) { return { u: x.u, name: x.name, unit: x.unit, role: x.role }; }
+function adminUser(x) { return { u: x.u, name: x.name, unit: x.unit, role: x.role, created: x.created || null, seen: x.seen || null, disabled: !!x.disabled, online: isOnline(x.u) }; }
+function isOnline(u) { for (const s of STREAMS) if (s.user.u === u) return true; return false; }
+function adminCount() { return Object.values(USERS).filter(x => x.role === 'admin' && !x.disabled).length; }
 function newSession(u) {
   const tok = crypto.randomBytes(32).toString('base64url');
   SESS[tok] = { u, exp: Date.now() + CFG.sessionDays * 864e5 }; save('sessions.json', SESS);
@@ -82,8 +109,10 @@ function auth(req, url) {
   let tok = (req.headers.authorization || '').replace(/^Bearer\s+/i, '');
   if (!tok && url) tok = url.searchParams.get('token') || '';
   const s = tok && SESS[tok];
-  if (!s || s.exp < Date.now() || !USERS[s.u]) return null;
-  return { tok, user: USERS[s.u] };
+  if (!s || s.exp < Date.now() || !USERS[s.u] || USERS[s.u].disabled) return null;
+  const user = USERS[s.u], now = Date.now();
+  if (!user.seen || now - user.seen > 60000) { user.seen = now; save('users.json', USERS); }
+  return { tok, user };
 }
 setInterval(() => { let ch = false; for (const k in SESS) if (SESS[k].exp < Date.now()) { delete SESS[k]; ch = true; } if (ch) save('sessions.json', SESS); }, 3600e3);
 
@@ -126,10 +155,11 @@ function send(res, code, obj, extra) {
   res.writeHead(code, Object.assign({ 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }, extra || {}));
   res.end(body);
 }
-function readBody(req) {
+function readBody(req, max) {
+  max = max || 64 * 1024;
   return new Promise((resolve, reject) => {
     let n = 0; const chunks = [];
-    req.on('data', c => { n += c.length; if (n > 64 * 1024) { reject(new Error('too large')); req.destroy(); } else chunks.push(c); });
+    req.on('data', c => { n += c.length; if (n > max) { reject(new Error('too large')); req.destroy(); } else chunks.push(c); });
     req.on('end', () => { try { resolve(chunks.length ? JSON.parse(Buffer.concat(chunks).toString('utf8')) : {}); } catch (e) { reject(e); } });
     req.on('error', reject);
   });
@@ -156,14 +186,30 @@ async function api(req, res, url) {
   const p = url.pathname, M = req.method;
   const ip = req.socket.remoteAddress || '';
 
-  if (p === '/api/ping') return send(res, 200, { ok: true, name: CFG.name, time: Date.now() });
+  if (p === '/api/ping') return send(res, 200, { ok: true, name: CFG.name, time: Date.now(), version: VERSION, setup: !Object.keys(USERS).length });
+
+  /* first-run: create the commander account from the phone (needs the code shown on the server console) */
+  if (p === '/api/setup' && M === 'POST') {
+    if (Object.keys(USERS).length) return send(res, 409, { error: 'done' });
+    const b = await readBody(req), key = ip + '|setup';
+    if (throttled(key)) return send(res, 429, { error: 'throttled' });
+    if (!SETUP_CODE || String(b.code || '').trim() !== SETUP_CODE) { fail(key); return send(res, 403, { error: 'bad_code' }); }
+    const u = clean(b.u, 40).toLowerCase().trim();
+    if (!validUser(u)) return send(res, 400, { error: 'bad_user' });
+    if (String(b.p || '').length < 8) return send(res, 400, { error: 'weak' });
+    const x = { u, name: clean(b.name, 60) || u, unit: clean(b.unit, 60) || 'QG', role: 'admin', created: Date.now() };
+    setPw(x, b.p); USERS[u] = x; saveNow('users.json', USERS); ensureSetupCode();
+    console.log('Setup done from the app — admin account:', u);
+    return send(res, 200, { token: newSession(u), user: publicUser(x) });
+  }
 
   if (p === '/api/login' && M === 'POST') {
     const b = await readBody(req), u = clean(b.u, 40).toLowerCase().trim(), key = ip + '|' + u;
     if (throttled(key)) return send(res, 429, { error: 'throttled' });
     const user = USERS[u];
     if (!user || !checkPw(user, b.p || '')) { fail(key); return send(res, 401, { error: 'bad_login' }); }
-    delete FAILS[key];
+    if (user.disabled) return send(res, 403, { error: 'disabled' });
+    delete FAILS[key]; user.seen = Date.now(); save('users.json', USERS);
     return send(res, 200, { token: newSession(u), user: publicUser(user) });
   }
 
@@ -193,7 +239,8 @@ async function api(req, res, url) {
   if (p === '/api/send' && M === 'POST') {
     const b = await readBody(req), ch = clean(b.ch, 120);
     if (!canAccess(me, ch)) return send(res, 403, { error: 'forbidden' });
-    const type = ['text', 'loc', 'alert'].includes(b.type) ? b.type : 'text';
+    let type = ['text', 'loc', 'alert', 'notice'].includes(b.type) ? b.type : 'text';
+    if (type === 'notice' && me.role !== 'admin') type = 'text';
     const cid = clean(b.cid, 40);
     if (cid) { const dup = MSGS.find(m => m.cid === cid && m.from === me.u); if (dup) return send(res, 200, { message: dup }); }
     const m = { id: ++SEQ, ch, from: me.u, fromName: me.name, unit: me.unit, type, text: clean(b.text, 2000), t: Date.now() };
@@ -233,31 +280,111 @@ async function api(req, res, url) {
     return;
   }
 
-  /* ---- admin ---- */
+  /* ---- admin (command panel) ---- */
   if (p.startsWith('/api/admin/')) {
     if (me.role !== 'admin') return send(res, 403, { error: 'forbidden' });
-    const parts = p.split('/').filter(Boolean); // api admin users [u] [password]
-    if (parts[2] === 'users' && !parts[3] && M === 'GET') return send(res, 200, { users: Object.values(USERS).map(publicUser) });
-    if (parts[2] === 'users' && !parts[3] && M === 'POST') {
+    const parts = p.split('/').filter(Boolean); // api admin <what> [id] [action]
+    const what = parts[2];
+
+    if (what === 'status' && M === 'GET') {
+      const lim = Date.now() - CFG.positionMaxAgeHours * 3600e3, online = new Set();
+      STREAMS.forEach(s => online.add(s.user.u));
+      return send(res, 200, {
+        version: VERSION, started: STARTED, uptime: Date.now() - STARTED, now: Date.now(),
+        users: Object.keys(USERS).length, online: online.size, onlineUsers: [...online],
+        messages: MSGS.length, positions: Object.values(POS).filter(x => x.t > lim).length,
+        dataBytes: dirSize(DATA), node: process.version, host: os.hostname(), platform: os.platform(),
+        urls: lanUrls(PROTO), https: PROTO === 'https',
+        config: { name: CFG.name, sessionDays: CFG.sessionDays, positionMaxAgeHours: CFG.positionMaxAgeHours, historyPerChannel: CFG.historyPerChannel, port: CFG.port }
+      });
+    }
+
+    if (what === 'config' && M === 'POST') {
+      const b = await readBody(req);
+      if (b.name != null) CFG.name = clean(b.name, 80) || CFG.name;
+      const sd = num(b.sessionDays, 1, 365); if (sd != null) CFG.sessionDays = Math.round(sd);
+      const pa = num(b.positionMaxAgeHours, 1, 168); if (pa != null) CFG.positionMaxAgeHours = Math.round(pa);
+      const hp = num(b.historyPerChannel, 100, 20000); if (hp != null) { CFG.historyPerChannel = Math.round(hp); trimHistory(); rewriteMessages(); }
+      saveConfig(); return send(res, 200, { ok: true });
+    }
+
+    if (what === 'broadcast' && M === 'POST') {
+      const b = await readBody(req), text = clean(b.text, 2000).trim();
+      if (!text) return send(res, 400, { error: 'empty' });
+      const m = { id: ++SEQ, ch: 'all', from: me.u, fromName: me.name, unit: me.unit, type: 'notice', text, t: Date.now() };
+      MSGS.push(m); fs.appendFile(MSG_FILE, JSON.stringify(m) + '\n', () => {}); broadcastMsg(m);
+      return send(res, 200, { message: m });
+    }
+
+    if (what === 'positions' && parts[3] === 'clear' && M === 'POST') {
+      Object.keys(POS).forEach(u => broadcastPos({ u, off: true })); POS = {}; saveNow('positions.json', POS);
+      return send(res, 200, { ok: true });
+    }
+
+    if (what === 'history' && parts[3] === 'clear' && M === 'POST') {
+      const b = await readBody(req), ch = b.ch ? clean(b.ch, 120) : null;
+      MSGS = ch ? MSGS.filter(m => m.ch !== ch) : []; rewriteMessages();
+      return send(res, 200, { ok: true, left: MSGS.length });
+    }
+
+    if (what === 'backup' && M === 'GET') {
+      const body = JSON.stringify({ app: 'laagab-server', version: VERSION, exported: Date.now(), config: CFG, users: USERS, positions: POS, messages: MSGS });
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'Content-Disposition': 'attachment; filename="laagab-server-' + new Date().toISOString().slice(0, 10) + '.json"' });
+      return res.end(body);
+    }
+
+    if (what === 'restore' && M === 'POST') {
+      const b = await readBody(req, 64 * 1024 * 1024);
+      if (b.app !== 'laagab-server' || !b.users || typeof b.users !== 'object') return send(res, 400, { error: 'bad_backup' });
+      const users = {};
+      Object.values(b.users).forEach(x => { if (x && validUser(x.u) && x.salt && x.hash) users[x.u] = x; });
+      if (!Object.values(users).some(x => x.role === 'admin')) return send(res, 400, { error: 'no_admin' });
+      USERS = users; saveNow('users.json', USERS);
+      POS = b.positions && typeof b.positions === 'object' ? b.positions : {}; saveNow('positions.json', POS);
+      MSGS = Array.isArray(b.messages) ? b.messages.filter(m => m && m.id && m.ch) : []; SEQ = MSGS.reduce((a, m) => Math.max(a, m.id), SEQ); trimHistory(); rewriteMessages();
+      SESS = {}; SESS[a.tok] = { u: me.u, exp: Date.now() + CFG.sessionDays * 864e5 }; if (!USERS[me.u]) SESS = {}; saveNow('sessions.json', SESS);
+      return send(res, 200, { ok: true, users: Object.keys(USERS).length, messages: MSGS.length });
+    }
+
+    if (what !== 'users') return send(res, 404, { error: 'not_found' });
+    if (!parts[3] && M === 'GET') return send(res, 200, { users: Object.values(USERS).map(adminUser) });
+    if (!parts[3] && M === 'POST') {
       const b = await readBody(req), u = clean(b.u, 40).toLowerCase().trim();
       if (!validUser(u)) return send(res, 400, { error: 'bad_user' });
       if (USERS[u]) return send(res, 409, { error: 'exists' });
       if (String(b.p || '').length < 8) return send(res, 400, { error: 'weak' });
       const x = { u, name: clean(b.name, 60) || u, unit: clean(b.unit, 60), role: b.role === 'admin' ? 'admin' : 'member', created: Date.now() };
       setPw(x, b.p); USERS[u] = x; save('users.json', USERS);
-      return send(res, 200, { user: publicUser(x) });
+      return send(res, 200, { user: adminUser(x) });
     }
     const target = parts[3] && USERS[parts[3]];
     if (!target) return send(res, 404, { error: 'not_found' });
+    const dropSessions = () => { for (const k in SESS) if (SESS[k].u === target.u) delete SESS[k]; STREAMS.forEach(s => { if (s.user.u === target.u) { try { s.res.end(); } catch (e) {} STREAMS.delete(s); } }); save('sessions.json', SESS); };
     if (parts[4] === 'password' && M === 'POST') {
       const b = await readBody(req); if (String(b.p || '').length < 8) return send(res, 400, { error: 'weak' });
-      setPw(target, b.p); for (const k in SESS) if (SESS[k].u === target.u) delete SESS[k];
-      save('users.json', USERS); save('sessions.json', SESS); return send(res, 200, { ok: true });
+      setPw(target, b.p); save('users.json', USERS); if (target.u !== me.u) dropSessions();
+      return send(res, 200, { ok: true });
+    }
+    if (parts[4] === 'kick' && M === 'POST') {
+      if (target.u === me.u) return send(res, 400, { error: 'self' });
+      dropSessions(); return send(res, 200, { ok: true });
+    }
+    if (!parts[4] && M === 'POST') {   // edit name / unit / role / disabled
+      const b = await readBody(req);
+      const losesAdmin = target.role === 'admin' && !target.disabled && ((b.role && b.role !== 'admin') || b.disabled === true);
+      if (losesAdmin && adminCount() <= 1) return send(res, 400, { error: 'last_admin' });
+      if (target.u === me.u && b.disabled === true) return send(res, 400, { error: 'self' });
+      if (b.name != null) target.name = clean(b.name, 60) || target.name;
+      if (b.unit != null) target.unit = clean(b.unit, 60);
+      if (b.role) target.role = b.role === 'admin' ? 'admin' : 'member';
+      if (b.disabled != null) { target.disabled = !!b.disabled; if (target.disabled) dropSessions(); }
+      save('users.json', USERS); return send(res, 200, { user: adminUser(target) });
     }
     if (!parts[4] && M === 'DELETE') {
       if (target.u === me.u) return send(res, 400, { error: 'self' });
-      delete USERS[target.u]; delete POS[target.u]; for (const k in SESS) if (SESS[k].u === target.u) delete SESS[k];
-      save('users.json', USERS); save('sessions.json', SESS); save('positions.json', POS);
+      if (target.role === 'admin' && adminCount() <= 1 && !target.disabled) return send(res, 400, { error: 'last_admin' });
+      dropSessions(); delete USERS[target.u]; delete POS[target.u];
+      save('users.json', USERS); save('positions.json', POS); broadcastPos({ u: target.u, off: true });
       return send(res, 200, { ok: true });
     }
   }
@@ -306,7 +433,7 @@ async function cli(args) {
     if (!validUser(u)) { console.error('Usage: node server.js adduser <user> "<name>" "<unit>" [admin]   (user: a-z 0-9 . _ -)'); process.exit(1); }
     if (USERS[u]) { console.error('User exists.'); process.exit(1); }
     const x = { u, name: name || u, unit: unit || '', role: role === 'admin' ? 'admin' : 'member', created: Date.now() };
-    setPw(x, await askPw()); USERS[u] = x; saveNow('users.json', USERS);
+    setPw(x, await askPw()); USERS[u] = x; saveNow('users.json', USERS); ensureSetupCode();
     console.log('User created:', u, '(' + x.role + ')');
   } else if (cmd === 'passwd') {
     const x = USERS[String(args[1] || '').toLowerCase()]; if (!x) { console.error('No such user.'); process.exit(1); }
@@ -314,6 +441,8 @@ async function cli(args) {
   } else if (cmd === 'deluser') {
     const u = String(args[1] || '').toLowerCase(); if (!USERS[u]) { console.error('No such user.'); process.exit(1); }
     delete USERS[u]; saveNow('users.json', USERS); console.log('Deleted', u);
+  } else if (cmd === 'code') {
+    ensureSetupCode(); console.log(SETUP_CODE ? 'Setup code: ' + SETUP_CODE : 'Setup already done (users exist).');
   } else if (cmd === 'users') {
     Object.values(USERS).forEach(x => console.log(x.u.padEnd(20), x.role.padEnd(7), x.unit.padEnd(24), x.name));
   } else { console.error('Unknown command.'); process.exit(1); }
@@ -331,9 +460,21 @@ else {
     server = http.createServer(handler); proto = 'http';
     console.warn('⚠ No TLS certificate found — running plain HTTP. Use HTTPS (certificate or reverse proxy) before real use.');
   }
+  PROTO = proto; ensureSetupCode();
   server.keepAliveTimeout = 65000;
   server.listen(CFG.port, CFG.host, () => {
-    console.log('Laagab server on ' + proto + '://' + CFG.host + ':' + CFG.port + '  ·  users: ' + Object.keys(USERS).length + '  ·  messages: ' + MSGS.length);
-    if (!Object.keys(USERS).length) console.log('No users yet. Create an admin:  node server.js adduser admin "Admin" "QG" admin');
+    console.log('');
+    console.log('  لعگابْ 🦅  Laagab server ' + VERSION + '  ·  users: ' + Object.keys(USERS).length + '  ·  messages: ' + MSGS.length);
+    const urls = lanUrls(proto);
+    console.log('  Open on the phones:  ' + (urls.length ? urls.join('   ') : proto + '://<server-address>:' + CFG.port));
+    if (SETUP_CODE) {
+      console.log('');
+      console.log('  ┌──────────────────────────────────────────────┐');
+      console.log('  │  FIRST SETUP — open the app on your phone,   │');
+      console.log('  │  then enter this code:      ' + SETUP_CODE + '            │');
+      console.log('  └──────────────────────────────────────────────┘');
+      console.log('  (also saved in data/setup-code.txt)');
+    }
+    console.log('');
   });
 }
